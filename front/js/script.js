@@ -14,15 +14,24 @@
 
         /*parcourir la fonction pour insérer chaque produit dans la page d'accueil*/
         .then(function (data) {
-            for(product in data) {
+            console.log(data)
+            /*for(product in data) {*/
+
+            data.forEach(product => {
+                
+                console.log(product)
+
+                
+                /*
+                create
                 vignette.innerHTML += `<a href="./product.html?id=42">
                 <article>
-                  <img src="${data[product].imageUrl}" alt="${data[product].altTxt}">
-                  <h3 class="productName">${data[product].name}</h3>
-                  <p class="productDescription">${data[product].description}</p>
+                  <img src="${product.imageUrl}" alt="${product.altTxt}">
+                  <h3 class="productName">${product.name}</h3>
+                  <p class="productDescription">${product.description}</p>
                 </article>
-              </a>`
-            }
+              </a>`*/
+            })
         })
  }
 

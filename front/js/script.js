@@ -35,11 +35,17 @@ async function getArticles () {
   article.appendChild(h3)
   h3.setAttribute ("class", "productName")
 
-  //const h3 = document.createElement ('h3 class="productName"')
+    //const h3 = document.createElement ('h3 class="productName"')
   //const h3Content = document.createTexteNode('canape.name')
   //h3.appendChild(h3Content)
   //article.appendChild(h3)
   
+  const p = document.createElement ("p")
+  const pContent = document.createTextNode(canape.description)
+  p.appendChild(pContent)
+  document.body.appendChild(p)
+  article.appendChild(p)
+  p.setAttribute ("class", "productDescription")
 
   console.log (canape)
  }

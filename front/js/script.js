@@ -10,13 +10,37 @@ async function getArticles () {
 
  for (let canape of data) {
   const container = document.getElementById("items")
+  
   const a = document.createElement ("a")
   container.appendChild(a)
+  
   const article = document.createElement ("article")
   a.appendChild(article)
+  
   const img = document.createElement ("img")
   article.appendChild(img)
   img.setAttribute ("src", canape.imageUrl)
+  
+  img.setAttribute ("alt", canape.altTxt)
+  
+ // const productName = document.createElement ("productName")
+  //article.appendChild(productName)
+  //productName.setAttribute ("h3", canape.name)
+  
+  //const h3 = document.createElement ('h3 class="productName"')
+  const h3 = document.createElement ("h3")
+  const h3Content = document.createTextNode(canape.name)
+  h3.appendChild(h3Content)
+  document.body.appendChild(h3)
+  article.appendChild(h3)
+  h3.setAttribute ("class", "productName")
+
+  //const h3 = document.createElement ('h3 class="productName"')
+  //const h3Content = document.createTexteNode('canape.name')
+  //h3.appendChild(h3Content)
+  //article.appendChild(h3)
+  
+
   console.log (canape)
  }
 

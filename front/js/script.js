@@ -1,45 +1,44 @@
 
 const urlInventory = "http://localhost:3000/api/products"
 
+//creation fonction pour afficher dynamiquement les produits
 async function getArticles () {
 
+  //recupération données API
   const res = await fetch(urlInventory)
   const data = await res.json()
 
   console.log(data)
 
+//pour chaque objet du tableau
  for (let canape of data) {
+
+  //endroit intégration dans index.html
   const container = document.getElementById("items")
   
+  //creation a et rattachement à index.html
   const a = document.createElement ("a")
   container.appendChild(a)
   
+  //creation article et rattachement à index.html
   const article = document.createElement ("article")
   a.appendChild(article)
   
+  //creation img, rattachement à index.html et ajout des attributs src et alt
   const img = document.createElement ("img")
   article.appendChild(img)
   img.setAttribute ("src", canape.imageUrl)
-  
   img.setAttribute ("alt", canape.altTxt)
   
- // const productName = document.createElement ("productName")
-  //article.appendChild(productName)
-  //productName.setAttribute ("h3", canape.name)
-  
-  //const h3 = document.createElement ('h3 class="productName"')
+ //creation titre h3, création contenu titre, rattachement contenu à h3 puis à index.html, ajout de l'attribut class
   const h3 = document.createElement ("h3")
   const h3Content = document.createTextNode(canape.name)
   h3.appendChild(h3Content)
   document.body.appendChild(h3)
   article.appendChild(h3)
   h3.setAttribute ("class", "productName")
-
-    //const h3 = document.createElement ('h3 class="productName"')
-  //const h3Content = document.createTexteNode('canape.name')
-  //h3.appendChild(h3Content)
-  //article.appendChild(h3)
   
+  //creation paragraphe p, création contenu p, rattachement contenu à p puis à index.html, ajout de l'attribut class
   const p = document.createElement ("p")
   const pContent = document.createTextNode(canape.description)
   p.appendChild(pContent)
@@ -50,90 +49,7 @@ async function getArticles () {
   console.log (canape)
  }
 
- /*
-          <a href="./product.html?id=42">
-            <article>
-              <img src=".../product01.jpg" alt="Lorem ipsum dolor sit amet, Kanap name1">
-              <h3 class="productName">Kanap name1</h3>
-              <p class="productDescription">Dis enim malesuada risus sapien gravida nulla nisl arcu. Dis enim malesuada risus sapien gravida nulla nisl arcu.</p>
-            </article>
-          </a>
- */
-
-
- 
-//  for (let i=0; i<data.length; i=i+1) {
-//console.log(data[i])
-//}
 }
 
 getArticles()
 
-// /* definitions des constantes*/
-//  const urlInventory = "http://localhost:3000/api/products"
-//  /*const vignette = document.getElementById("items")*/
-
-//  /* fonction pour récupérer les articles*/
-//  const getArticles = function () {
-//     /*pour requêter l'API*/
-//         fetch(urlInventory)
-
-//         /*récupérer la réponse émise*/
-//         .then(function (answer) {
-//             return answer.json()
-//         })
-
-//         /*parcourir la fonction pour insérer chaque produit dans la page d'accueil*/
-//         .then(function (data) {
-//             console.log(data)
-//             /*for(product in data) {*/
-
-//             // data.forEach(function (product) {
-//             // data.forEach(product => {
-//               data.forEach((product) => {
-                
-//                 console.log(product)
-
-                
-//                 /*
-//                 vignette.innerHTML += `<a href="./product.html?id=42">
-//                 document.getElementById("items").innerHTML += `<a href="./product.html?id=42">
-//                 <article>
-//                   <img src="${product.imageUrl}" alt="${product.altTxt}">
-//                   <h3 class="productName">${product.name}</h3>
-//                   <p class="productDescription">${product.description}</p>
-//                 </article>
-//               </a>`*/
-//             })
-//         })
-//  }
-
-//  async function getArticles2() {
-//   /*pour requêter l'API*/
-//       const answer = await fetch(urlInventory);
-//       const data = await answer.json();
-
-//       // console.log(data)
-
-//       for (id in data) {
-//         console.log(`ID: ${id}`);
-//       }
-//       for (product of data) {
-//       // data.forEach(product => {
-          
-//           console.log(`Product: ${product.name}`);
-
-          
-//           /*
-//           vignette.innerHTML += `<a href="./product.html?id=42">
-//           document.getElementById("items").innerHTML += `<a href="./product.html?id=42">
-//           <article>
-//             <img src="${product.imageUrl}" alt="${product.altTxt}">
-//             <h3 class="productName">${product.name}</h3>
-//             <p class="productDescription">${product.description}</p>
-//           </article>
-//         </a>`*/
-//       }
-// }
-
-//  getArticles2()

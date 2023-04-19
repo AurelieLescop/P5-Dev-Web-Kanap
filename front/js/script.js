@@ -16,10 +16,10 @@ async function getArticles () {
   //endroit intégration dans index.html
   const container = document.getElementById("items")
   
-  //creation a et rattachement à index.html puis ajout attribut href
+  //creation a et rattachement à index.html puis ajout attribut href unique
   const a = document.createElement ("a")
   container.appendChild(a)
-  a.setAttribute ("href", "./product.html?id=42")
+  a.setAttribute ("href", "./product.html?id="+canape._id)
   
   //creation article et rattachement à index.html
   const article = document.createElement ("article")

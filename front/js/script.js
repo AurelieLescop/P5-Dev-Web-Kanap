@@ -2,6 +2,7 @@
 const urlInventory = "http://localhost:3000/api/products"
 
 //creation fonction pour afficher dynamiquement les produits
+//fetch API
 async function getArticles () {
 
   //recupération données API
@@ -10,8 +11,10 @@ async function getArticles () {
 
   console.log(data)
 
+//display all product
 //pour chaque objet du tableau
  for (let canape of data) {
+
 
   //endroit intégration dans index.html
   const container = document.getElementById("items")
@@ -35,7 +38,6 @@ async function getArticles () {
   const h3 = document.createElement ("h3")
   const h3Content = document.createTextNode(canape.name)
   h3.appendChild(h3Content)
-  document.body.appendChild(h3) //à quoi sert cette ligne ??
   article.appendChild(h3)
   h3.setAttribute ("class", "productName")
   
@@ -43,7 +45,6 @@ async function getArticles () {
   const p = document.createElement ("p")
   const pContent = document.createTextNode(canape.description)
   p.appendChild(pContent)
-  document.body.appendChild(p)
   article.appendChild(p)
   p.setAttribute ("class", "productDescription")
 

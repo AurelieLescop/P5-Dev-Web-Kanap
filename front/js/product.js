@@ -27,11 +27,11 @@ async function getArticle () {
     console.log(data)
 
 //ajout image avec balise alt et src
-const container = document.querySelector('.item__img')
-const img = document.createElement ("img")
-container.appendChild(img)
-  img.setAttribute ("src", data.imageUrl)
-  img.setAttribute ("alt", data.altTxt)
+    const container = document.querySelector('.item__img')
+    const img = document.createElement ("img")
+    container.appendChild(img)
+    img.setAttribute ("src", data.imageUrl)
+    img.setAttribute ("alt", data.altTxt)
 
   //ajout du titre h1 lié au canapé spécifique ds la page product.html
   document.querySelector('h1').textContent = data.name;
@@ -43,65 +43,25 @@ container.appendChild(img)
 //ajout de la description dans id=description lié au canapé spécifique ds la page product.html
   document.querySelector('#description').textContent = data.description
   
+//ajout des options de couleur
+console.log(data.colors[0])
+console.log(data.colors[1])
+console.log(data.colors[2])
 
+for (let color of data.colors) {
+console.log(color)
+const colorChoice = document.getElementById('colors')
+const option = document.createElement ("option")
+colorChoice.appendChild(option)
+option.setAttribute ("option", color)
 
+const optionContent = document.createTextNode(color)
+option.appendChild(optionContent)
+console.log(optionContent)
 
-
-
+}
 
 }
 
 getArticle()
-
-
-
-
-
-  
-
-  
-  //creation a et rattachement à product.html puis ajout attribut href unique
-  //const a = document.createElement ("a")
-  //container.appendChild(a)
-  //a.setAttribute ("href", "./product.html?id="+canape._id)
-
-
-
-//pour chaque objet du tableau
- //for (let canape of data) {
- //endroit intégration dans index.html
-  //const container = document.getElementById("items")
-  //creation a et rattachement à product.html puis ajout attribut href unique
-  //const a = document.createElement ("a")
-  //container.appendChild(a)
-  //a.setAttribute ("href", "./product.html?id="+canape._id)
-  
-  //creation article et rattachement à index.html
-  //const article = document.createElement ("article")
-  //a.appendChild(article)
-  
-  //creation img, rattachement à index.html et ajout des attributs src et alt
-  //const img = document.createElement ("img")
-  //article.appendChild(img)
-  //img.setAttribute ("src", canape.imageUrl)
-  //img.setAttribute ("alt", canape.altTxt)
-  
- //creation titre h3, création contenu titre, rattachement contenu à h3 puis à index.html, ajout de l'attribut class
-  //const h3 = document.createElement ("h3")
-  //const h3Content = document.createTextNode(canape.name)
-  //h3.appendChild(h3Content)
-  //document.body.appendChild(h3)
-  //article.appendChild(h3)
-  //h3.setAttribute ("class", "productName")
-  
-  //creation paragraphe p, création contenu p, rattachement contenu à p puis à index.html, ajout de l'attribut class
-  //const p = document.createElement ("p")
-  //const pContent = document.createTextNode(canape.description)
-  //p.appendChild(pContent)
-  //document.body.appendChild(p)
-  //article.appendChild(p)
-  //p.setAttribute ("class", "productDescription")
-
-  //console.log (canape)
- //}
 

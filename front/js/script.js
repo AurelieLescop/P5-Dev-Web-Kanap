@@ -35,7 +35,7 @@ async function getArticles () {
   const h3 = document.createElement ("h3")
   const h3Content = document.createTextNode(canape.name)
   h3.appendChild(h3Content)
-  document.body.appendChild(h3)
+  document.body.appendChild(h3) //à quoi sert cette ligne ??
   article.appendChild(h3)
   h3.setAttribute ("class", "productName")
   

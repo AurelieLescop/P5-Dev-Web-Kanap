@@ -26,17 +26,23 @@ async function getArticle () {
 
     console.log(data)
 
-
+//ajout image avec balise alt et src
+const container = document.querySelector('.item__img')
+const img = document.createElement ("img")
+container.appendChild(img)
+  img.setAttribute ("src", data.imageUrl)
+  img.setAttribute ("alt", data.altTxt)
 
   //ajout du titre h1 lié au canapé spécifique ds la page product.html
-document.querySelector('h1').textContent = data.name;
-  console.log(titleContent);
+  document.querySelector('h1').textContent = data.name;
   console.log(data.name);
 
+//ajout du prix dans id=price liié au canapé spécifique ds la page product.html
+  document.querySelector('#price').textContent = data.price
 
-
-
-
+//ajout de la description dans id=description lié au canapé spécifique ds la page product.html
+  document.querySelector('#description').textContent = data.description
+  
 
 
 

@@ -1,7 +1,5 @@
 //récupération de l'URL de la page
 var currentUrl = window.location.href;
-
-//role de cette ligne?
 var url = new URL(currentUrl);
 
 //récupération de l'id de l'URL
@@ -11,37 +9,76 @@ console.log(currentUrl);
 console.log(url);
 
 
-//Récupération de l'adresse API du canapé (revoir commentaire???) - fabrication url
+//Fabrication URL canape
 const urlProduct = "http://localhost:3000/api/products/" + id
-
 console.log(urlProduct)
 
-//creation fonction pour afficher dynamiquement le canapé sélectionné
-
-async function getArticle() {
-
-  //recupération données API
+//recupération données API
+async function fetchArticleFromApi () {
   const res = await fetch(urlProduct)
   const data = await res.json()
 
   console.log(data)
+  return data
+}
 
-  //ajout image avec balise alt et src
-  const container = document.querySelector('.item__img')
+//création image avec balise alt et src et intégration
+function createImg (data) {
   const img = document.createElement("img")
-  container.appendChild(img)
   img.setAttribute("src", data.imageUrl)
   img.setAttribute("alt", data.altTxt)
+  return img
+}
 
-  //ajout du titre h1 lié au canapé spécifique ds la page product.html
+function integrateImg (img) {
+  const container = document.querySelector('.item__img')
+  container.appendChild(img)
+  return img
+}
+
+//ajout du titre h1 lié au canapé spécifique ds la page product.html
+function addTitleContentH1 (data) {
   document.querySelector('h1').textContent = data.name;
   console.log(data.name);
+}
 
-  //ajout du prix dans id=price liié au canapé spécifique ds la page product.html
+//ajout du prix dans id=price lié au canapé spécifique ds la page product.html
+function addContentPrice (data) {
   document.querySelector('#price').textContent = data.price
+}
 
-  //ajout de la description dans id=description lié au canapé spécifique ds la page product.html
+//ajout de la description dans id=description lié au canapé spécifique ds la page product.html
+function addContentDescription (data) {
   document.querySelector('#description').textContent = data.description
+}
+
+function createElement (data) {
+  const img = createImg (data)
+  integrateImg(img)
+  addTitleContentH1 (data)
+  addContentPrice (data)
+  addContentDescription (data)
+}
+
+function createColorOption (color) {
+  const colorChoice = document.getElementById('colors')
+  const option = document.createElement("option")
+  colorChoice.appendChild(option)
+  option.setAttribute("option", color)
+  return option
+}
+
+function addColorContent (color, colorOption) {
+  const optionContent = document.createTextNode(color)
+  colorOption.appendChild(optionContent)
+  console.log(optionContent)
+}
+
+//creation fonction pour afficher dynamiquement le canapé sélectionné
+async function getArticle() {
+  const data = await fetchArticleFromApi ()
+  createElement (data)
+   
 
   //ajout des options de couleur
   console.log(data.colors[0])
@@ -50,17 +87,9 @@ async function getArticle() {
 
   for (let color of data.colors) {
     console.log(color)
-    const colorChoice = document.getElementById('colors')
-    const option = document.createElement("option")
-    colorChoice.appendChild(option)
-    option.setAttribute("option", color)
-
-    const optionContent = document.createTextNode(color)
-    option.appendChild(optionContent)
-    console.log(optionContent)
-
+    const colorOption = createColorOption (color)
+    addColorContent (color, colorOption)
   }
-
 }
 
 getArticle()

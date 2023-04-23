@@ -13,6 +13,7 @@ async function fetchArticleFromApi () {
   return data
 }
 
+
 function createCanapeElement (canape) {
   //creation a et rattachement à index.html puis ajout attribut href unique
   const a = document.createElement ("a")
@@ -56,13 +57,15 @@ async function getArticles () {
 
 
   //pour chaque objet du tableau
- for (let toto of data) {
+ for (let canape of data) {
 
   //endroit intégration dans index.html
   const container = document.getElementById("items")
-
-  const newElement = createCanapeElement (toto)
-
+  
+  // creation d'un element
+  const newElement = createCanapeElement (canape)
+  
+  // rattachement de l'element et intégration à index.html
   container.appendChild(newElement)
 
  }

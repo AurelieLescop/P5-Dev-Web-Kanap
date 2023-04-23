@@ -1,27 +1,22 @@
 
 const urlInventory = "http://localhost:3000/api/products"
 
-//creation fonction pour afficher dynamiquement les produits
-//fetch API
-async function getArticles () {
+//import { urlInventory } from './config'
 
+async function fetchArticleFromApi () {
   //recupération données API
   const res = await fetch(urlInventory)
   const data = await res.json()
 
   console.log(data)
 
-//display all product
-//pour chaque objet du tableau
- for (let canape of data) {
+  return data
+}
 
-
-  //endroit intégration dans index.html
-  const container = document.getElementById("items")
-  
+function createCanapeElement (canape) {
   //creation a et rattachement à index.html puis ajout attribut href unique
   const a = document.createElement ("a")
-  container.appendChild(a)
+
   a.setAttribute ("href", "./product.html?id="+canape._id)
   
   //creation article et rattachement à index.html
@@ -49,6 +44,27 @@ async function getArticles () {
   p.setAttribute ("class", "productDescription")
 
   console.log (canape)
+
+  return a
+}
+
+//creation fonction pour afficher dynamiquement les produits
+async function getArticles () {
+
+  const data = await fetchArticleFromApi ()
+  console.log("L17", data)
+
+
+  //pour chaque objet du tableau
+ for (let toto of data) {
+
+  //endroit intégration dans index.html
+  const container = document.getElementById("items")
+
+  const newElement = createCanapeElement (toto)
+
+  container.appendChild(newElement)
+
  }
 
 }

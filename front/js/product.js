@@ -1,3 +1,4 @@
+
 //récupération de l'URL de la page
 var currentUrl = window.location.href;
 var url = new URL(currentUrl);
@@ -60,6 +61,11 @@ function createElement (data) {
   addContentDescription (data)
 }
 
+//ajout du titre title lié au canapé spécifique ds la page product.html
+function ModifyPageTitleContent (data) {
+  document.querySelector('title').textContent = data.name;
+}
+
 function createColorOption (color) {
   const colorChoice = document.getElementById('colors')
   const option = document.createElement("option")
@@ -78,8 +84,8 @@ function addColorContent (color, colorOption) {
 async function getArticle() {
   const data = await fetchArticleFromApi ()
   createElement (data)
+  ModifyPageTitleContent (data)
    
-
   //ajout des options de couleur
   console.log(data.colors[0])
   console.log(data.colors[1])

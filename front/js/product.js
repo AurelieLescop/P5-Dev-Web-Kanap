@@ -130,10 +130,31 @@ function addToCart(product) {
 
   // si le produit existe dans le panier, on modifie sa quantité
   } else {
+    if ((product.color == "") && (product.quantity>0 && product.quantity<=100)) {
+      alert("Veuillez sélectionner la couleur de votre canapé")
+    } else if ((product.quantity <= 0) || (product.quantity > 100)) {
+      alert("Veuillez choisir une quantité comprise entre 0 et 100")
+   }
+
+    else {
     foundProduct.quantity += product.quantity
     //foundProduct.quantity = foundProduct.quantity + product.quantity
+    alert("Votre canapé a bien été ajouté au panier")
   }
+}
   
   saveCart(cartContent)
 
 }
+
+let addToCartButton = document.getElementById('addToCart')
+
+addToCartButton.addEventListener("click", () => {
+let product = {
+  productId : id,
+  quantity : document.getElementById('quantity').value *1,
+  color : document.getElementById('colors').value
+}
+addToCart(product)
+
+})

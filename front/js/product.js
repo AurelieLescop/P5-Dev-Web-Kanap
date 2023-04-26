@@ -100,3 +100,40 @@ async function getArticle() {
 
 getArticle()
 
+// gestion du panier
+
+// Fonction qui sauvegarde les données dans le panier
+function saveCart(cartContent) {
+  localStorage.setItem("cartProduct", JSON.stringify(cartContent))
+}
+
+// Fonction qui récupère les données du panier
+function getFromCart() {
+  let cartContent = localStorage.getItem("cartProduct");
+
+  //si le contenu du panier est nul alors il faut créer un tableau vide
+  if (cartContent == null) {
+    return []
+  } else {
+    return JSON.parse(cartContent)
+  }
+}
+
+// Fonction qui ajoute des produits dans le panier
+function addToCart(product) {
+  let cartContent = getFromCart()
+  let foundProduct = cartContent.find(p => p.id == product.id && p.color == product.color)
+
+  // si le produit n'existe pas dans le panier, on l'ajoute au panier (on le créé)
+  if (foundProduct == undefined) {
+    cartContent.push(product) 
+
+  // si le produit existe dans le panier, on modifie sa quantité
+  } else {
+    foundProduct.quantity += product.quantity
+    //foundProduct.quantity = foundProduct.quantity + product.quantity
+  }
+  
+  saveCart(cartContent)
+
+}

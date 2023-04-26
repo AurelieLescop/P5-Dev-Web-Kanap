@@ -56,6 +56,7 @@ function createElementp (canape, article) {
   return p
 }
 
+//fonction qui affiche un produit - JSDOC
 function createCanapeElement (canape) {
   const a = createElementA (canape)
   const article = createElementArticle (a)
@@ -68,7 +69,7 @@ function createCanapeElement (canape) {
   return a
 }
 
-//creation fonction pour afficher dynamiquement les produits
+//fonction pour afficher dynamiquement les produits
 async function getArticles () {
 
   const data = await fetchArticleFromApi ()

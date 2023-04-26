@@ -15,7 +15,7 @@ const urlProduct = "http://localhost:3000/api/products/" + id
 console.log(urlProduct)
 
 //recupération données API
-async function fetchArticleFromApi () {
+async function fetchArticleFromApi() {
   const res = await fetch(urlProduct)
   const data = await res.json()
 
@@ -24,49 +24,49 @@ async function fetchArticleFromApi () {
 }
 
 //création image avec balise alt et src et intégration
-function createImg (data) {
+function createImg(data) {
   const img = document.createElement("img")
   img.setAttribute("src", data.imageUrl)
   img.setAttribute("alt", data.altTxt)
   return img
 }
 
-function integrateImg (img) {
+function integrateImg(img) {
   const container = document.querySelector('.item__img')
   container.appendChild(img)
   return img
 }
 
 //ajout du titre h1 lié au canapé spécifique ds la page product.html
-function addTitleContentH1 (data) {
+function addTitleContentH1(data) {
   document.querySelector('h1').textContent = data.name;
   console.log(data.name);
 }
 
 //ajout du prix dans id=price lié au canapé spécifique ds la page product.html
-function addContentPrice (data) {
+function addContentPrice(data) {
   document.querySelector('#price').textContent = data.price
 }
 
 //ajout de la description dans id=description lié au canapé spécifique ds la page product.html
-function addContentDescription (data) {
+function addContentDescription(data) {
   document.querySelector('#description').textContent = data.description
 }
 
-function createElement (data) {
-  const img = createImg (data)
+function createElement(data) {
+  const img = createImg(data)
   integrateImg(img)
-  addTitleContentH1 (data)
-  addContentPrice (data)
-  addContentDescription (data)
+  addTitleContentH1(data)
+  addContentPrice(data)
+  addContentDescription(data)
 }
 
 //ajout du titre title lié au canapé spécifique ds la page product.html
-function ModifyPageTitleContent (data) {
+function ModifyPageTitleContent(data) {
   document.querySelector('title').textContent = data.name;
 }
 
-function createColorOption (color) {
+function createColorOption(color) {
   const colorChoice = document.getElementById('colors')
   const option = document.createElement("option")
   colorChoice.appendChild(option)
@@ -74,7 +74,7 @@ function createColorOption (color) {
   return option
 }
 
-function addColorContent (color, colorOption) {
+function addColorContent(color, colorOption) {
   const optionContent = document.createTextNode(color)
   colorOption.appendChild(optionContent)
   console.log(optionContent)
@@ -82,10 +82,10 @@ function addColorContent (color, colorOption) {
 
 //creation fonction pour afficher dynamiquement le canapé sélectionné
 async function getArticle() {
-  const data = await fetchArticleFromApi ()
-  createElement (data)
-  ModifyPageTitleContent (data)
-   
+  const data = await fetchArticleFromApi()
+  createElement(data)
+  ModifyPageTitleContent(data)
+
   //ajout des options de couleur
   console.log(data.colors[0])
   console.log(data.colors[1])
@@ -93,8 +93,8 @@ async function getArticle() {
 
   for (let color of data.colors) {
     console.log(color)
-    const colorOption = createColorOption (color)
-    addColorContent (color, colorOption)
+    const colorOption = createColorOption(color)
+    addColorContent(color, colorOption)
   }
 }
 
@@ -123,38 +123,39 @@ function getFromCart() {
 function addToCart(product) {
   let cartContent = getFromCart()
   let foundProduct = cartContent.find(p => p.id == product.id && p.color == product.color)
-
+  console.log(product)
   // si le produit n'existe pas dans le panier, on l'ajoute au panier (on le créé)
-  if (foundProduct == undefined) {
-    cartContent.push(product) 
-
-  // si le produit existe dans le panier, on modifie sa quantité
-  } else {
-    if ((product.color == "") && (product.quantity>0 && product.quantity<=100)) {
-      alert("Veuillez sélectionner la couleur de votre canapé")
-    } else if ((product.quantity <= 0) || (product.quantity > 100)) {
-      alert("Veuillez choisir une quantité comprise entre 0 et 100")
-   }
-
-    else {
-    foundProduct.quantity += product.quantity
-    //foundProduct.quantity = foundProduct.quantity + product.quantity
+  if ((product.color == "") /*&& (product.quantity>0 && product.quantity<=100)*/) {
+    alert("Veuillez sélectionner la couleur de votre canapé")
+  } else if ((product.quantity <= 0) || (product.quantity > 100)) {
+    alert("Veuillez choisir une quantité comprise entre 1 et 100")
+  } else if (foundProduct == undefined) {
+    cartContent.push(product)
+    saveCart(cartContent)
     alert("Votre canapé a bien été ajouté au panier")
+    
+    // si le produit existe dans le panier, on modifie sa quantité
+  } else {
+    if (Number(foundProduct.quantity + product.quantity) >=100) {
+      alert("Vous ne pouvez commander plus de 100 produits identiques")
+    }
+    else {
+      foundProduct.quantity += product.quantity
+      //foundProduct.quantity = foundProduct.quantity + product.quantity
+      saveCart(cartContent)
+      alert("Votre canapé a bien été ajouté au panier")
   }
-}
-  
-  saveCart(cartContent)
-
+  }
 }
 
 let addToCartButton = document.getElementById('addToCart')
 
 addToCartButton.addEventListener("click", () => {
-let product = {
-  productId : id,
-  quantity : document.getElementById('quantity').value *1,
-  color : document.getElementById('colors').value
-}
-addToCart(product)
+  let product = {
+    productId: id,
+    quantity: Number(document.getElementById('quantity').value),
+    color: document.getElementById('colors').value
+  }
+  addToCart(product)
 
 })

@@ -154,7 +154,8 @@ addToCartButton.addEventListener("click", () => {
   let product = {
     productId: id,
     quantity: Number(document.getElementById('quantity').value),
-    color: document.getElementById('colors').value
+    color: document.getElementById('colors').value,
+    price: Number(document.getElementById('colors').value)
   }
   addToCart(product)
 

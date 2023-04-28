@@ -23,6 +23,8 @@ async function fetchArticleFromApi() {
   return data
 }
 
+//const data = fetchArticleFromApi ()
+
 //création image avec balise alt et src et intégration
 function createImg(data) {
   const img = document.createElement("img")
@@ -98,6 +100,10 @@ async function getArticle() {
   }
 }
 
+/*async function getData() {
+  const data = await fetchArticleFromApi()
+  return data}*/
+
 getArticle()
 
 // gestion du panier
@@ -147,16 +153,18 @@ function addToCart(product) {
   }
   }
 }
-
+//price: parseFloat(productCardPrice.innerHTML)
 let addToCartButton = document.getElementById('addToCart')
 
 addToCartButton.addEventListener("click", () => {
+  //const data = getData()
   let product = {
     productId: id,
     quantity: Number(document.getElementById('quantity').value),
     color: document.getElementById('colors').value,
-    price: Number(document.getElementById('colors').value)
+    price: Number(document.getElementById('price').textContent),
+   //  price: data.price
   }
   addToCart(product)
-
+console.log (document.getElementById('price').textContent)
 })

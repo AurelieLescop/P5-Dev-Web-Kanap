@@ -9,6 +9,7 @@ console.log(id);
 console.log(currentUrl);
 console.log(url);
 
+let imgUrl, altText
 
 //Fabrication URL canape
 const urlProduct = "http://localhost:3000/api/products/" + id
@@ -30,6 +31,8 @@ function createImg(data) {
   const img = document.createElement("img")
   img.setAttribute("src", data.imageUrl)
   img.setAttribute("alt", data.altTxt)
+  imgUrl = data.imageUrl
+  altText = data.altTxt
   return img
 }
 
@@ -163,7 +166,8 @@ addToCartButton.addEventListener("click", () => {
     quantity: Number(document.getElementById('quantity').value),
     color: document.getElementById('colors').value,
     price: Number(document.getElementById('price').textContent),
-   //  price: data.price
+   imageUrl: imgUrl, 
+   altTxt: altText,
   }
   addToCart(product)
 console.log (document.getElementById('price').textContent)

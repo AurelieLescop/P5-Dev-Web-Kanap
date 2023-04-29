@@ -1,15 +1,13 @@
 
 //récupération de l'URL de la page
-var currentUrl = window.location.href;
-var url = new URL(currentUrl);
+const currentUrl = window.location.href;
+const url = new URL(currentUrl);
 
 //récupération de l'id de l'URL
-var id = url.searchParams.get("id");
+let id = url.searchParams.get("id");
 console.log(id);
 console.log(currentUrl);
 console.log(url);
-
-let imgUrl, altText
 
 //Fabrication URL canape
 const urlProduct = "http://localhost:3000/api/products/" + id
@@ -26,15 +24,19 @@ async function fetchArticleFromApi() {
 
 //const data = fetchArticleFromApi ()
 
+let imgUrl, altTxt
+
 //création image avec balise alt et src et intégration
 function createImg(data) {
   const img = document.createElement("img")
   img.setAttribute("src", data.imageUrl)
   img.setAttribute("alt", data.altTxt)
   imgUrl = data.imageUrl
-  altText = data.altTxt
+  altTxt = data.altTxt
   return img
 }
+
+
 
 function integrateImg(img) {
   const container = document.querySelector('.item__img')
@@ -42,9 +44,12 @@ function integrateImg(img) {
   return img
 }
 
+let productName
+
 //ajout du titre h1 lié au canapé spécifique ds la page product.html
 function addTitleContentH1(data) {
   document.querySelector('h1').textContent = data.name;
+  productName = data.name
   console.log(data.name);
 }
 
@@ -167,7 +172,8 @@ addToCartButton.addEventListener("click", () => {
     color: document.getElementById('colors').value,
     price: Number(document.getElementById('price').textContent),
    imageUrl: imgUrl, 
-   altTxt: altText,
+   altText: altTxt,
+   name: productName
   }
   addToCart(product)
 console.log (document.getElementById('price').textContent)

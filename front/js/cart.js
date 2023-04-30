@@ -172,6 +172,13 @@ function calculTotalQuantity(product) {
     totalCartQuantity = totalCartQuantity + product.quantity
     console.log(product.quantity)
     console.log(totalCartQuantity)
+    return totalCartQuantity
+}
+
+function integrateTotalQuantity(totalCartQuantity) {
+    document.getElementById('totalQuantity').textContent = totalCartQuantity
+    console.log(totalCartQuantity)
+
 }
 
 //calcul total prix
@@ -179,6 +186,13 @@ let totalCartPrice = 0
 function calculTotalPrice(product) {
     totalCartPrice = totalCartPrice + (product.quantity * product.price)
     console.log(totalCartPrice)
+    return totalCartPrice
+}
+
+function integrateTotalPrice(totalCartPrice) {
+    document.getElementById('totalPrice').textContent = totalCartPrice
+    console.log(totalCartQuantity)
+
 }
 
 function createCart() {
@@ -187,9 +201,12 @@ function createCart() {
         // endroit intgration dans html
         createCartElement(product)
 
-        calculTotalQuantity(product)
+        const totalCartQuantity = calculTotalQuantity(product)
+        integrateTotalQuantity(totalCartQuantity)
+        
 
-        calculTotalPrice(product)
+        const totalCartPrice = calculTotalPrice(product)
+        integrateTotalPrice(totalCartPrice)
 
 
     }

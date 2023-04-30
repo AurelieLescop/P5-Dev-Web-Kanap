@@ -7,7 +7,7 @@ console.log(JSON.parse(localStorage.getItem("cartProduct")))
 console.log(productsLoadedInLocalStorage[0].quantity)
 console.log(productsLoadedInLocalStorage[0].price)
 
-
+let productId, productColor
 // creation article
 function createArticle(product) {
     const container = document.getElementById("cart__items")
@@ -16,8 +16,13 @@ function createArticle(product) {
     article.setAttribute("class", "cart__item")
     article.setAttribute("data-id", product.productId)
     article.setAttribute("data-color", product.color)
+    productId = product.productId
+    productColor = product.color
+
     return article
 }
+
+
 
 //creation div class = cart__item__img
 function createDivImg(article) {
@@ -237,6 +242,7 @@ removeToCartButton.addEventListener("click", () => {
 
 
     console.log(essai)
+    console.log(productId)
 })
 
 }

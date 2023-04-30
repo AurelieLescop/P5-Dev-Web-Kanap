@@ -8,22 +8,6 @@ console.log(productsLoadedInLocalStorage[0].quantity)
 console.log(productsLoadedInLocalStorage[0].price)
 
 
-/*
-- créer article et attribuet class, data-id et data-colors
-- créer div avec class = cart__item__img
-    - créer img avec src et alt dans cette div
-- créer div avec class ="cart__item__content__description"
-    - créer h2 avec contenu
-    - créer p couleur
-    - créer p prix
-- créer div avec class="cart__item__content__settings"
-    - créer div avec class="cart__item__content__settings__quantity
-        - créer p avec qté
-        - créer <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
-    - créer div avec class="cart__item__content__settings__delete"
-        - créer p avec p class="deleteItem" et contenu "supprimer"
-*/
-
 // creation article
 function createArticle(product) {
     const container = document.getElementById("cart__items")
@@ -216,28 +200,132 @@ function createCart() {
 
 
 
+
 createCart()
 
-   // function removeFromCart(product)
 
 /*
-function createElement(data) {
-  const img = createImg(data)
-  integrateImg(img)
-  addTitleContentH1(data)
-  addContentPrice(data)
-  addContentDescription(data)
+// gestion du panier
+// Fonction qui sauvegarde les données dans le panier
+function saveCart(cartContent) {
+    localStorage.setItem("cartProduct", JSON.stringify(cartContent))
+  }
+
+  //fonction qui récupère le panier
+function getFromCart() {
+    let cartContent = localStorage.getItem("cartProduct");
+    if (cartContent == null) {
+      return []
+    } else {
+      return JSON.parse(cartContent)
+    }
+  }
+
+function removeFromCart(product) {
+    let cart = getFromCart()
+    cart = cart.filter(p => p.name == product.name && p.color == product.color)
+    saveCart(cart)
 }*/
 
-/*
-function createCanapeElement (canape) {
-  const a = createElementA (canape)
-  const article = createElementArticle (a)
-  createElementImg (article, canape)
-  createElementH3 (canape, article)
-  createElementp (canape, article)
+let removeToCartButtons = document.querySelectorAll('.deleteItem')
 
-  console.log (canape)
+for (let removeToCartButton of removeToCartButtons) {
+const essai = removeToCartButton.closest('article > div')
+//const essai = removeToCartButton.closest('data-id')
 
-  return a
-}*/
+removeToCartButton.addEventListener("click", () => {
+
+
+    console.log(essai)
+})
+
+}
+
+function removeFromCart() {
+    
+}
+
+   /*let addToCartButton = document.getElementById('addToCart')
+  
+   addToCartButton.addEventListener("click", () => {
+     //const data = getData()
+     let product = {
+       productId: id,
+       quantity: Number(document.getElementById('quantity').value),
+       color: document.getElementById('colors').value,
+       price: Number(document.getElementById('price').textContent),
+      imageUrl: imgUrl, 
+      altText: altTxt,
+      name: productName
+     }
+     addToCart(product)*/
+
+
+   // gestion du panier
+
+
+
+
+
+
+  /*
+
+  // Fonction qui récupère les données du panier
+  function getFromCart() {
+    let cartContent = localStorage.getItem("cartProduct");
+  
+    //si le contenu du panier est nul alors il faut créer un tableau vide
+    if (cartContent == null) {
+      return []
+    } else {
+      return JSON.parse(cartContent)
+    }
+  }
+ 
+  
+  // Fonction qui ajoute des produits dans le panier
+  function addToCart(product) {
+    let cartContent = getFromCart()
+    let foundProduct = cartContent.find(p => p.id == product.id && p.color == product.color)
+    console.log(product)
+    // si le produit n'existe pas dans le panier, on l'ajoute au panier (on le créé)
+    if ((product.color == "")) {
+      alert("Veuillez sélectionner la couleur de votre canapé")
+    } else if ((product.quantity <= 0) || (product.quantity > 100)) {
+      alert("Veuillez choisir une quantité comprise entre 1 et 100")
+    } else if (foundProduct == undefined) {
+      cartContent.push(product)
+      saveCart(cartContent)
+      alert("Votre canapé a bien été ajouté au panier")
+      
+      // si le produit existe dans le panier, on modifie sa quantité
+    } else {
+      if (Number(foundProduct.quantity + product.quantity) >=100) {
+        alert("Vous ne pouvez pas commander plus de 100 canapés identiques")
+      }
+      else {
+        foundProduct.quantity += product.quantity
+        //foundProduct.quantity = foundProduct.quantity + product.quantity
+        saveCart(cartContent)
+        alert("Votre canapé a bien été ajouté au panier")
+    }
+    }
+  }
+  //price: parseFloat(productCardPrice.innerHTML)
+  let addToCartButton = document.getElementById('addToCart')
+  
+  addToCartButton.addEventListener("click", () => {
+    //const data = getData()
+    let product = {
+      productId: id,
+      quantity: Number(document.getElementById('quantity').value),
+      color: document.getElementById('colors').value,
+      price: Number(document.getElementById('price').textContent),
+     imageUrl: imgUrl, 
+     altText: altTxt,
+     name: productName
+    }
+    addToCart(product)
+  console.log (document.getElementById('price').textContent)
+  })
+  */

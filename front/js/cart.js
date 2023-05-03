@@ -335,3 +335,105 @@ function removeFromCart() {
   console.log (document.getElementById('price').textContent)
   })
   */
+
+  // Formulaire
+
+  // vérification des champs saisis
+
+  function emailIsInvalid() {
+    const email = document.querySelector("#email").value
+   // const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
+   //const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-][.][a-zA-Z]{2,3}$/
+   const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
+    if (regex.test(email) ===false) {
+        alert("Merci de renseigner une adresse email valide")
+        return true
+    }
+    else {
+        return false
+    }
+  }
+
+
+
+  function inputIsInvalid() {
+    const form = document.querySelector(".cart__order__form")
+    const inputs = form.querySelectorAll("input")
+
+
+    for (let input of inputs) {
+    if (input.textContent === "") {
+        let paragraphes = form.querySelectorAll("p")
+        for (let paragraphe of paragraphes) {
+
+        paragraphe.textContent = "Veuillez compléter l'ensemble des champs"
+        }
+    }
+console.log(input)
+console.log(input.textContent)
+console.log(form)
+console.log(form.querySelector("input").textContent)
+console.log(form.querySelector("p"))
+console.log(form.querySelectorAll("p"))
+
+  }
+}
+
+ 
+
+  function firstNameIsInvalid() {
+    const firstName = document.querySelector("#firstName").value
+    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    if (regex.test(firstName) === false) {
+        alert("Merci de renseigner un prénom valide (sans chiffre ni ponctuation autre que - et ')")
+        return true
+    }
+    else {
+        return false
+    }
+
+  }
+
+  
+
+  function lastNameIsInvalid() {
+    const lastName = document.querySelector("#lastName").value
+    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    if (regex.test(lastName) === false) {
+        alert("Merci de renseigner un nom de famille valide (sans chiffre ni ponctuation autre que -)")
+        return true
+    }
+    else {
+        return false
+    }
+
+  }
+
+  
+
+  let validateOrderButton = document.getElementById('order')
+
+  validateOrderButton.addEventListener("click", () => {
+    inputIsInvalid()
+    firstNameIsInvalid()
+    firstNameIsInvalid()
+    emailIsInvalid()
+  })
+
+/*
+
+let addToCartButton = document.getElementById('addToCart')
+
+addToCartButton.addEventListener("click", () => {
+  let product = {
+    productId: id,
+    quantity: Number(document.getElementById('quantity').value),
+    color: document.getElementById('colors').value,
+    price: Number(document.getElementById('price').textContent),
+   imageUrl: imgUrl, 
+   altText: altTxt,
+   name: productName
+  }
+  addToCart(product)
+console.log (document.getElementById('price').textContent)
+})*/

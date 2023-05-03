@@ -1,10 +1,5 @@
 
-let productsLoadedInLocalStorage = JSON.parse(localStorage.getItem("cartProduct"));
-console.log(productsLoadedInLocalStorage);
 
-console.log(JSON.parse(localStorage.getItem("cartProduct")))
-console.log(productsLoadedInLocalStorage[0].quantity)
-console.log(productsLoadedInLocalStorage[0].price)
 
 let productId, productColor
 // creation article
@@ -113,7 +108,9 @@ function createInputQuantity(divContentSettingsQuantity, product) {
     inputQuantity.setAttribute("name", "itemQuantity")
     inputQuantity.setAttribute("min", "1")
     inputQuantity.setAttribute("max", "100")
-    inputQuantity.setAttribute("value", product.quantity)
+    inputQuantity.setAttribute("value", product.quantity)    
+    inputQuantity.setAttribute("data-id", product.productId)
+    inputQuantity.setAttribute("data-color", product.color)
 }
 
 
@@ -132,8 +129,7 @@ function createPDelete(divContentSettingsDelete, product) {
     pDelete.appendChild(pDeleteContent)
     divContentSettingsDelete.appendChild(pDelete)
     pDelete.setAttribute("class", "deleteItem")
-    pDelete.setAttribute("data-id", product.productId)
-    pDelete.setAttribute("data-color", product.color)
+
 
 }
 
@@ -184,20 +180,38 @@ function integrateTotalPrice(totalCartPrice) {
 }
 
 function displayCart() {
+    const container = document.getElementById("cart__items")
+
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+
+    let productsLoadedInLocalStorage = JSON.parse(localStorage.getItem("cartProduct"));
+
+    let totalQty = 0;
+    let totalPrice = 0;
     for (let product of productsLoadedInLocalStorage) {
 
         // endroit intgration dans html
         createCartElement(product)
 
-        const totalCartQuantity = calculTotalQuantity(product)
-        integrateTotalQuantity(totalCartQuantity)
+        // product.quantity
+        // product.price
+        totalQty = totalQty + Number(product.quantity);
+        totalPrice = totalPrice + (Number(product.quantity) * Number(product.price));
 
 
-        const totalCartPrice = calculTotalPrice(product)
-        integrateTotalPrice(totalCartPrice)
+        // // Mise à jour compteur
+        // const totalCartQuantity = calculTotalQuantity(product)
+        // // integrateTotalQuantity(totalCartQuantity)
 
 
+        // const totalCartPrice = calculTotalPrice(product)
+        // // integrateTotalPrice(totalCartPrice)
     }
+    integrateTotalQuantity(totalQty)
+    integrateTotalPrice(totalPrice)
+    registerEvent()
 }
 
 displayCart()
@@ -220,70 +234,86 @@ function getFromCart() {
     }
 }
 
-function removeFromCart(product) {
+function removeFromCart(id, color) {
+    //debugger;
     let cart = getFromCart()
-    cart = cart.filter(p => p.id === product.id && p.color === product.color)
+    cart = cart.filter(p => !(p.productId === id && p.color === color))
+    //cart = cart.filter(p => p.id !== product.id || p.color !== product.color)
+    console.log("affiche cart", cart)
     saveCart(cart)
 }
 
-let removeToCartButtons = document.querySelectorAll('.deleteItem')
 
-for (let removeToCartButton of removeToCartButtons) {
-    //const essai = removeToCartButton.closest('article > div')
-    //const essai = removeToCartButton.closest('data-id')
 
-    removeToCartButton.addEventListener("click", (event) => {
+function manageDeleteEvent(event) {
+    {
         //console.log(essai)
         //console.log(productId)
         console.log(event);
         console.log(event.target);
-        console.log(event.target.dataset.color);
-        console.log(event.target.dataset.id);
-        let product = {
+        console.log(event.target.closest("article").dataset.color);
+        console.log(event.target.closest("article").dataset.id);
+
+        /*let product = {
             id: event.target.dataset.id,
             color: event.target.dataset.color,
-        }
-        console.log(product)
-        removeFromCart(product)
+        }*/
+       // debugger;
+        removeFromCart(event.target.closest("article").dataset.id, event.target.closest("article").dataset.color)
         displayCart()
-    })
+    }
 }
 
+function registerEvent() {
+    const removeToCartButtons = document.querySelectorAll('.deleteItem')
+    for (let removeToCartButton of removeToCartButtons) {
+        //const essai = removeToCartButton.closest('article > div')
+        //const essai = removeToCartButton.closest('data-id')
+
+        removeToCartButton.addEventListener("click", manageDeleteEvent)
+    }
+
+    let containerDisplayCart = document.getElementById('cart__items')
+    let modifyQuantityButtons = containerDisplayCart.querySelectorAll('input')
+
+    for (let modifyQuantityButton of modifyQuantityButtons) {
+        modifyQuantityButton.addEventListener("change", manageQuantityChange)
+    }
+
+}
+
+function modifyQuantity(newQuantity, id, color) {
+    const cartArray = getFromCart()
+    cartArray[0].quantity
+    let index = cartArray.findIndex(p=> p.productId ===id && p.color === color)
+    cartArray[index].quantity = newQuantity
+    return cartArray
+}
+
+function manageQuantityChange(event) {
+    console.log(event);
+    console.log(event.target.value)
+
+    //
+    const cartArray = modifyQuantity(Number(event.target.value), event.target.dataset.id, event.target.dataset.color)
+    saveCart(cartArray)
+    displayCart()
+
+    /*console.log(event.target);
+    console.log(event.target.dataset.color);
+    console.log(event.target.dataset.id);
+    let product = {
+        id: event.target.dataset.id,
+        color: event.target.dataset.color,
+    }
+    console.log(product)
+
+    <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
+    */
+}
 
 //Modification quantité
-let containerDisplayCart = document.getElementById('cart__items')
-let modifyQuantityButtons = containerDisplayCart.querySelectorAll('input')
 
-for (let modifyQuantityButton of modifyQuantityButtons) {
-    modifyQuantityButton.addEventListener("change", (event) => {
-        console.log(event);
-        console.log(event.target.value)
-        let product = {
-            quantity : event.target.value,
-
-        }
-        /*const totalCartQuantity = calculTotalQuantity(product)
-        integrateTotalQuantity(totalCartQuantity)
-        const totalCartPrice = calculTotalPrice(product)
-        integrateTotalPrice(totalCartPrice)*/
-        cartContent.push(product)
-        saveCart(product)
-        displayCart()
-
-        /*console.log(event.target);
-        console.log(event.target.dataset.color);
-        console.log(event.target.dataset.id);
-        let product = {
-            id: event.target.dataset.id,
-            color: event.target.dataset.color,
-        }
-        console.log(product)
-        removeFromCart(product)
-        displayCart()
-        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
-        */
-    })
-}
 
 // Formulaire
 
@@ -358,14 +388,12 @@ function lastNameIsInvalid() {
 
 }
 
-
-
 let validateOrderButton = document.getElementById('order')
 
 validateOrderButton.addEventListener("click", () => {
-    inputIsInvalid()
-    firstNameIsInvalid()
-    firstNameIsInvalid()
-    emailIsInvalid()
+    if (inputIsInvalid()) return
+    if (firstNameIsInvalid()) return
+    if (firstNameIsInvalid()) return
+    if (emailIsInvalid()) return
 })
 

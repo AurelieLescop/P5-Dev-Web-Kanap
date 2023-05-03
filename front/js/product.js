@@ -1,4 +1,5 @@
 
+
 //récupération de l'URL de la page
 const currentUrl = window.location.href;
 const url = new URL(currentUrl);
@@ -13,6 +14,44 @@ console.log(url);
 const urlProduct = "http://localhost:3000/api/products/" + id
 console.log(urlProduct)
 
+//creation fonction pour afficher dynamiquement le canapé sélectionné
+async function getArticle() {
+  const data = await fetchArticleFromApi()
+  createElement(data)
+  ModifyPageTitleContent(data)
+
+  //ajout des options de couleur
+  console.log(data.colors[0])
+  console.log(data.colors[1])
+  console.log(data.colors[2])
+
+  for (let color of data.colors) {
+    console.log(color)
+    const colorOption = createColorOption(color)
+    addColorContent(color, colorOption)
+  }
+
+  //price: parseFloat(productCardPrice.innerHTML)
+  let addToCartButton = document.getElementById('addToCart')
+
+  // data ==
+  addToCartButton.addEventListener("click", () => {
+    console.log(data);
+    //const data = getData()
+    let product = {
+      productId: data._id,
+      color: document.getElementById('colors').value,
+      quantity: Number(document.getElementById('quantity').value),
+      price: data.price,
+      imageUrl: data.imageUrl, 
+      altText: data.altTxt,
+      name: data.name
+    }
+    addToCart(product)
+    console.log (document.getElementById('price').textContent)
+  })
+}
+
 //recupération données API
 async function fetchArticleFromApi() {
   const res = await fetch(urlProduct)
@@ -23,8 +62,6 @@ async function fetchArticleFromApi() {
 }
 
 //const data = fetchArticleFromApi ()
-
-let imgUrl, altTxt
 
 //création image avec balise alt et src et intégration
 function createImg(data) {
@@ -43,8 +80,6 @@ function integrateImg(img) {
   container.appendChild(img)
   return img
 }
-
-let productName
 
 //ajout du titre h1 lié au canapé spécifique ds la page product.html
 function addTitleContentH1(data) {
@@ -90,29 +125,9 @@ function addColorContent(color, colorOption) {
   console.log(optionContent)
 }
 
-//creation fonction pour afficher dynamiquement le canapé sélectionné
-async function getArticle() {
-  const data = await fetchArticleFromApi()
-  createElement(data)
-  ModifyPageTitleContent(data)
-
-  //ajout des options de couleur
-  console.log(data.colors[0])
-  console.log(data.colors[1])
-  console.log(data.colors[2])
-
-  for (let color of data.colors) {
-    console.log(color)
-    const colorOption = createColorOption(color)
-    addColorContent(color, colorOption)
-  }
-}
-
 /*async function getData() {
   const data = await fetchArticleFromApi()
   return data}*/
-
-getArticle()
 
 // gestion du panier
 
@@ -161,20 +176,7 @@ function addToCart(product) {
   }
   }
 }
-//price: parseFloat(productCardPrice.innerHTML)
-let addToCartButton = document.getElementById('addToCart')
 
-addToCartButton.addEventListener("click", () => {
-  //const data = getData()
-  let product = {
-    productId: id,
-    quantity: Number(document.getElementById('quantity').value),
-    color: document.getElementById('colors').value,
-    price: Number(document.getElementById('price').textContent),
-   imageUrl: imgUrl, 
-   altText: altTxt,
-   name: productName
-  }
-  addToCart(product)
-console.log (document.getElementById('price').textContent)
-})
+
+// Ceci est appelé directement
+getArticle()

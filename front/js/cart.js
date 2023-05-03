@@ -108,7 +108,7 @@ function createInputQuantity(divContentSettingsQuantity, product) {
     inputQuantity.setAttribute("name", "itemQuantity")
     inputQuantity.setAttribute("min", "1")
     inputQuantity.setAttribute("max", "100")
-    inputQuantity.setAttribute("value", product.quantity)    
+    inputQuantity.setAttribute("value", product.quantity)
     inputQuantity.setAttribute("data-id", product.productId)
     inputQuantity.setAttribute("data-color", product.color)
 }
@@ -258,7 +258,7 @@ function manageDeleteEvent(event) {
             id: event.target.dataset.id,
             color: event.target.dataset.color,
         }*/
-       // debugger;
+        // debugger;
         removeFromCart(event.target.closest("article").dataset.id, event.target.closest("article").dataset.color)
         displayCart()
     }
@@ -284,9 +284,13 @@ function registerEvent() {
 
 function modifyQuantity(newQuantity, id, color) {
     const cartArray = getFromCart()
-    cartArray[0].quantity
-    let index = cartArray.findIndex(p=> p.productId ===id && p.color === color)
-    cartArray[index].quantity = newQuantity
+    //cartArray[0].quantity
+    //si index non trouvé, il mettra -1
+    let index = cartArray.findIndex(p => p.productId === id && p.color === color)
+    if (index > -1) {
+        cartArray[index].quantity = newQuantity
+
+    }
     return cartArray
 }
 
@@ -294,22 +298,17 @@ function manageQuantityChange(event) {
     console.log(event);
     console.log(event.target.value)
 
-    //
-    const cartArray = modifyQuantity(Number(event.target.value), event.target.dataset.id, event.target.dataset.color)
-    saveCart(cartArray)
-    displayCart()
 
-    /*console.log(event.target);
-    console.log(event.target.dataset.color);
-    console.log(event.target.dataset.id);
-    let product = {
-        id: event.target.dataset.id,
-        color: event.target.dataset.color,
+    if ((Number(event.target.value) <= 0) || (Number(event.target.value) > 100)) {
+        alert("Veuillez choisir une quantité comprise entre 1 et 100")
+        //getFromCart()
     }
-    console.log(product)
+    else {
+        const cartArray = modifyQuantity(Number(event.target.value), event.target.dataset.id, event.target.dataset.color)
+        saveCart(cartArray)
+        displayCart()
+    }
 
-    <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
-    */
 }
 
 //Modification quantité
@@ -378,20 +377,24 @@ function firstNameIsInvalid() {
 function lastNameIsInvalid() {
     const lastName = document.querySelector("#lastName").value
     const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    if (regex.test(lastName) === false) {
-        alert("Merci de renseigner un nom de famille valide (sans chiffre ni ponctuation autre que -)")
+    return (!regex.test(lastName))
+
+    /*if (!regex.test(lastName)) {
+       
         return true
     }
     else {
         return false
-    }
+    }*/
 
 }
 
 let validateOrderButton = document.getElementById('order')
 
 validateOrderButton.addEventListener("click", () => {
-    if (inputIsInvalid()) return
+    if (inputIsInvalid()) {
+        alert("Merci de renseigner un nom de famille valide (sans chiffre ni ponctuation autre que -)")
+    } return
     if (firstNameIsInvalid()) return
     if (firstNameIsInvalid()) return
     if (emailIsInvalid()) return

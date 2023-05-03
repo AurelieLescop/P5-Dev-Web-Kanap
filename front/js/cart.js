@@ -2,7 +2,6 @@
 let productsLoadedInLocalStorage = JSON.parse(localStorage.getItem("cartProduct"));
 console.log(productsLoadedInLocalStorage);
 
-console.log("Hello")
 console.log(JSON.parse(localStorage.getItem("cartProduct")))
 console.log(productsLoadedInLocalStorage[0].quantity)
 console.log(productsLoadedInLocalStorage[0].price)
@@ -130,12 +129,15 @@ function createDivContentSettingsDelete(divContentSettings) {
 }
 
 //creation p class = cart__item__content__settings__delete
-function createPDelete(divContentSettingsDelete) {
+function createPDelete(divContentSettingsDelete, product) {
     const pDelete = document.createElement("p")
     const pDeleteContent = document.createTextNode("Supprimer")
     pDelete.appendChild(pDeleteContent)
     divContentSettingsDelete.appendChild(pDelete)
     pDelete.setAttribute("class", "deleteItem")
+    pDelete.setAttribute("data-id", product.productId)
+    pDelete.setAttribute("data-color", product.color)
+
 }
 
 function createCartElement(product) {
@@ -152,7 +154,7 @@ function createCartElement(product) {
     createPQuantity(divContentSettingsQuantity)
     createInputQuantity(divContentSettingsQuantity, product)
     const divContentSettingsDelete = createDivContentSettingsDelete(divContentSettings)
-    createPDelete(divContentSettingsDelete)
+    createPDelete(divContentSettingsDelete, product)
 }
 
 // calcul total quantité
@@ -184,7 +186,7 @@ function integrateTotalPrice(totalCartPrice) {
 
 }
 
-function createCart() {
+function displayCart() {
     for (let product of productsLoadedInLocalStorage) {
 
         // endroit intgration dans html
@@ -206,10 +208,10 @@ function createCart() {
 
 
 
-createCart()
+displayCart()
 
 
-/*
+
 // gestion du panier
 // Fonction qui sauvegarde les données dans le panier
 function saveCart(cartContent) {
@@ -228,28 +230,45 @@ function getFromCart() {
 
 function removeFromCart(product) {
     let cart = getFromCart()
-    cart = cart.filter(p => p.name == product.name && p.color == product.color)
+    cart = cart.filter(p => p.id === product.id && p.color === product.color)
     saveCart(cart)
-}*/
+}
 
 let removeToCartButtons = document.querySelectorAll('.deleteItem')
 
 for (let removeToCartButton of removeToCartButtons) {
-const essai = removeToCartButton.closest('article > div')
+//const essai = removeToCartButton.closest('article > div')
 //const essai = removeToCartButton.closest('data-id')
 
-removeToCartButton.addEventListener("click", () => {
+removeToCartButton.addEventListener("click", (event) => {
 
 
-    console.log(essai)
-    console.log(productId)
+    //console.log(essai)
+    //console.log(productId)
+    console.log(event);
+    console.log(event.target);
+    console.log(event.target.dataset.color);
+    console.log(event.target.dataset.id);
+    let product = {
+        id: event.target.dataset.id,
+        color: event.target.dataset.color,
+    }
+    console.log(product)
+    removeFromCart(product)
+    displayCart()
 })
 
 }
 
-function removeFromCart() {
-    
-}
+
+
+
+/*let productsLoadedInLocalStorage = JSON.parse(localStorage.getItem("cartProduct"));
+console.log(productsLoadedInLocalStorage);
+
+console.log(JSON.parse(localStorage.getItem("cartProduct")))
+console.log(productsLoadedInLocalStorage[0].quantity)
+console.log(productsLoadedInLocalStorage[0].price)*/
 
    /*let addToCartButton = document.getElementById('addToCart')
   

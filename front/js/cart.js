@@ -21,8 +21,6 @@ function createArticle(product) {
     return article
 }
 
-
-
 //creation div class = cart__item__img
 function createDivImg(article) {
     const divImg = document.createElement("div")
@@ -64,7 +62,6 @@ function createH2(divContentDescription, product) {
     h2.appendChild(h2Content)
     divContentDescription.appendChild(h2)
 }
-
 
 //creation paragraphe p couleur
 function createPColor(divContentDescription, product) {
@@ -194,7 +191,7 @@ function displayCart() {
 
         const totalCartQuantity = calculTotalQuantity(product)
         integrateTotalQuantity(totalCartQuantity)
-        
+
 
         const totalCartPrice = calculTotalPrice(product)
         integrateTotalPrice(totalCartPrice)
@@ -202,11 +199,6 @@ function displayCart() {
 
     }
 }
-
-
-
-
-
 
 displayCart()
 
@@ -216,17 +208,17 @@ displayCart()
 // Fonction qui sauvegarde les données dans le panier
 function saveCart(cartContent) {
     localStorage.setItem("cartProduct", JSON.stringify(cartContent))
-  }
+}
 
-  //fonction qui récupère le panier
+//fonction qui récupère le panier
 function getFromCart() {
     let cartContent = localStorage.getItem("cartProduct");
     if (cartContent == null) {
-      return []
+        return []
     } else {
-      return JSON.parse(cartContent)
+        return JSON.parse(cartContent)
     }
-  }
+}
 
 function removeFromCart(product) {
     let cart = getFromCart()
@@ -237,170 +229,108 @@ function removeFromCart(product) {
 let removeToCartButtons = document.querySelectorAll('.deleteItem')
 
 for (let removeToCartButton of removeToCartButtons) {
-//const essai = removeToCartButton.closest('article > div')
-//const essai = removeToCartButton.closest('data-id')
+    //const essai = removeToCartButton.closest('article > div')
+    //const essai = removeToCartButton.closest('data-id')
 
-removeToCartButton.addEventListener("click", (event) => {
-
-
-    //console.log(essai)
-    //console.log(productId)
-    console.log(event);
-    console.log(event.target);
-    console.log(event.target.dataset.color);
-    console.log(event.target.dataset.id);
-    let product = {
-        id: event.target.dataset.id,
-        color: event.target.dataset.color,
-    }
-    console.log(product)
-    removeFromCart(product)
-    displayCart()
-})
-
+    removeToCartButton.addEventListener("click", (event) => {
+        //console.log(essai)
+        //console.log(productId)
+        console.log(event);
+        console.log(event.target);
+        console.log(event.target.dataset.color);
+        console.log(event.target.dataset.id);
+        let product = {
+            id: event.target.dataset.id,
+            color: event.target.dataset.color,
+        }
+        console.log(product)
+        removeFromCart(product)
+        displayCart()
+    })
 }
 
 
+//Modification quantité
+let containerDisplayCart = document.getElementById('cart__items')
+let modifyQuantityButtons = containerDisplayCart.querySelectorAll('input')
 
+for (let modifyQuantityButton of modifyQuantityButtons) {
+    modifyQuantityButton.addEventListener("change", (event) => {
+        console.log(event);
+        console.log(event.target.value)
+        let product = {
+            quantity : event.target.value,
 
-/*let productsLoadedInLocalStorage = JSON.parse(localStorage.getItem("cartProduct"));
-console.log(productsLoadedInLocalStorage);
+        }
+        /*const totalCartQuantity = calculTotalQuantity(product)
+        integrateTotalQuantity(totalCartQuantity)
+        const totalCartPrice = calculTotalPrice(product)
+        integrateTotalPrice(totalCartPrice)*/
+        cartContent.push(product)
+        saveCart(product)
+        displayCart()
 
-console.log(JSON.parse(localStorage.getItem("cartProduct")))
-console.log(productsLoadedInLocalStorage[0].quantity)
-console.log(productsLoadedInLocalStorage[0].price)*/
+        /*console.log(event.target);
+        console.log(event.target.dataset.color);
+        console.log(event.target.dataset.id);
+        let product = {
+            id: event.target.dataset.id,
+            color: event.target.dataset.color,
+        }
+        console.log(product)
+        removeFromCart(product)
+        displayCart()
+        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
+        */
+    })
+}
 
-   /*let addToCartButton = document.getElementById('addToCart')
-  
-   addToCartButton.addEventListener("click", () => {
-     //const data = getData()
-     let product = {
-       productId: id,
-       quantity: Number(document.getElementById('quantity').value),
-       color: document.getElementById('colors').value,
-       price: Number(document.getElementById('price').textContent),
-      imageUrl: imgUrl, 
-      altText: altTxt,
-      name: productName
-     }
-     addToCart(product)*/
+// Formulaire
 
+// vérification des champs saisis
 
-   // gestion du panier
-
-
-
-
-
-
-  /*
-
-  // Fonction qui récupère les données du panier
-  function getFromCart() {
-    let cartContent = localStorage.getItem("cartProduct");
-  
-    //si le contenu du panier est nul alors il faut créer un tableau vide
-    if (cartContent == null) {
-      return []
-    } else {
-      return JSON.parse(cartContent)
-    }
-  }
- 
-  
-  // Fonction qui ajoute des produits dans le panier
-  function addToCart(product) {
-    let cartContent = getFromCart()
-    let foundProduct = cartContent.find(p => p.id == product.id && p.color == product.color)
-    console.log(product)
-    // si le produit n'existe pas dans le panier, on l'ajoute au panier (on le créé)
-    if ((product.color == "")) {
-      alert("Veuillez sélectionner la couleur de votre canapé")
-    } else if ((product.quantity <= 0) || (product.quantity > 100)) {
-      alert("Veuillez choisir une quantité comprise entre 1 et 100")
-    } else if (foundProduct == undefined) {
-      cartContent.push(product)
-      saveCart(cartContent)
-      alert("Votre canapé a bien été ajouté au panier")
-      
-      // si le produit existe dans le panier, on modifie sa quantité
-    } else {
-      if (Number(foundProduct.quantity + product.quantity) >=100) {
-        alert("Vous ne pouvez pas commander plus de 100 canapés identiques")
-      }
-      else {
-        foundProduct.quantity += product.quantity
-        //foundProduct.quantity = foundProduct.quantity + product.quantity
-        saveCart(cartContent)
-        alert("Votre canapé a bien été ajouté au panier")
-    }
-    }
-  }
-  //price: parseFloat(productCardPrice.innerHTML)
-  let addToCartButton = document.getElementById('addToCart')
-  
-  addToCartButton.addEventListener("click", () => {
-    //const data = getData()
-    let product = {
-      productId: id,
-      quantity: Number(document.getElementById('quantity').value),
-      color: document.getElementById('colors').value,
-      price: Number(document.getElementById('price').textContent),
-     imageUrl: imgUrl, 
-     altText: altTxt,
-     name: productName
-    }
-    addToCart(product)
-  console.log (document.getElementById('price').textContent)
-  })
-  */
-
-  // Formulaire
-
-  // vérification des champs saisis
-
-  function emailIsInvalid() {
+function emailIsInvalid() {
     const email = document.querySelector("#email").value
-   // const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
-   //const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-][.][a-zA-Z]{2,3}$/
-   const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
-    if (regex.test(email) ===false) {
+    // const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
+    //const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-][.][a-zA-Z]{2,3}$/
+    const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
+    if (regex.test(email) === false) {
         alert("Merci de renseigner une adresse email valide")
         return true
     }
     else {
         return false
     }
-  }
+}
 
 
 
-  function inputIsInvalid() {
+function inputIsInvalid() {
     const form = document.querySelector(".cart__order__form")
     const inputs = form.querySelectorAll("input")
 
 
     for (let input of inputs) {
-    if (input.textContent === "") {
-        let paragraphes = form.querySelectorAll("p")
-        for (let paragraphe of paragraphes) {
+        if (input.textContent === "") {
+            let paragraphes = form.querySelectorAll("p")
+            for (let paragraphe of paragraphes) {
 
-        paragraphe.textContent = "Veuillez compléter l'ensemble des champs"
+                paragraphe.textContent = "Veuillez compléter l'ensemble des champs"
+            }
         }
-    }
-console.log(input)
-console.log(input.textContent)
-console.log(form)
-console.log(form.querySelector("input").textContent)
-console.log(form.querySelector("p"))
-console.log(form.querySelectorAll("p"))
+        console.log(input)
+        console.log(input.textContent)
+        console.log(form)
+        console.log(form.querySelector("input").textContent)
+        console.log(form.querySelector("p"))
+        console.log(form.querySelectorAll("p"))
 
-  }
+    }
 }
 
- 
 
-  function firstNameIsInvalid() {
+
+function firstNameIsInvalid() {
     const firstName = document.querySelector("#firstName").value
     const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
     if (regex.test(firstName) === false) {
@@ -411,11 +341,11 @@ console.log(form.querySelectorAll("p"))
         return false
     }
 
-  }
+}
 
-  
 
-  function lastNameIsInvalid() {
+
+function lastNameIsInvalid() {
     const lastName = document.querySelector("#lastName").value
     const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
     if (regex.test(lastName) === false) {
@@ -426,33 +356,16 @@ console.log(form.querySelectorAll("p"))
         return false
     }
 
-  }
+}
 
-  
 
-  let validateOrderButton = document.getElementById('order')
 
-  validateOrderButton.addEventListener("click", () => {
+let validateOrderButton = document.getElementById('order')
+
+validateOrderButton.addEventListener("click", () => {
     inputIsInvalid()
     firstNameIsInvalid()
     firstNameIsInvalid()
     emailIsInvalid()
-  })
+})
 
-/*
-
-let addToCartButton = document.getElementById('addToCart')
-
-addToCartButton.addEventListener("click", () => {
-  let product = {
-    productId: id,
-    quantity: Number(document.getElementById('quantity').value),
-    color: document.getElementById('colors').value,
-    price: Number(document.getElementById('price').textContent),
-   imageUrl: imgUrl, 
-   altText: altTxt,
-   name: productName
-  }
-  addToCart(product)
-console.log (document.getElementById('price').textContent)
-})*/

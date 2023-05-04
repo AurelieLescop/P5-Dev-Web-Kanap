@@ -289,19 +289,30 @@ function modifyQuantity(newQuantity, id, color) {
     let index = cartArray.findIndex(p => p.productId === id && p.color === color)
     if (index > -1) {
         cartArray[index].quantity = newQuantity
+        console.log("nouvelle quantité", newQuantity)
 
     }
     return cartArray
 }
 
-function manageQuantityChange(event) {
+function manageQuantityChange(event, id, color) {
     console.log(event);
     console.log(event.target.value)
 
 
     if ((Number(event.target.value) <= 0) || (Number(event.target.value) > 100)) {
         alert("Veuillez choisir une quantité comprise entre 1 et 100")
-        //getFromCart()
+        const cartArray = getFromCart()
+        let index = cartArray.findIndex(p => p.productId === id && p.color === color)
+        if (index > -1) {
+            event.target.value = cartArray[index].quantity
+            console.log("ancienne quantité", evnt.target.value)
+        }
+        saveCart(cartArray)
+        displayCart()
+       /* getFromCart()
+        event.target.value = à reprendre*/
+
     }
     else {
         const cartArray = modifyQuantity(Number(event.target.value), event.target.dataset.id, event.target.dataset.color)
@@ -362,7 +373,7 @@ function inputIsInvalid() {
 function firstNameIsInvalid() {
     const firstName = document.querySelector("#firstName").value
     const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    if (regex.test(firstName) === false) {
+    return (!regex.test(firstName)) {
         alert("Merci de renseigner un prénom valide (sans chiffre ni ponctuation autre que - et ')")
         return true
     }
@@ -393,10 +404,13 @@ let validateOrderButton = document.getElementById('order')
 
 validateOrderButton.addEventListener("click", () => {
     if (inputIsInvalid()) {
+        
+        return
+    } else if (firstNameIsInvalid()) 
+    else if (lastNameIsInvalid()) 
+    {
         alert("Merci de renseigner un nom de famille valide (sans chiffre ni ponctuation autre que -)")
-    } return
-    if (firstNameIsInvalid()) return
-    if (firstNameIsInvalid()) return
-    if (emailIsInvalid()) return
+    }
+    else if (emailIsInvalid()) return
 })
 

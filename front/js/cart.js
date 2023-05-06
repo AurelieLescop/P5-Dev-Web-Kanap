@@ -310,8 +310,8 @@ function manageQuantityChange(event, id, color) {
         }
         saveCart(cartArray)
         displayCart()
-       /* getFromCart()
-        event.target.value = à reprendre*/
+        /* getFromCart()
+         event.target.value = à reprendre*/
 
     }
     else {
@@ -329,57 +329,132 @@ function manageQuantityChange(event, id, color) {
 
 // vérification des champs saisis
 
-function emailIsInvalid() {
-    const email = document.querySelector("#email").value
-    // const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
-    //const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-][.][a-zA-Z]{2,3}$/
-    const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
-    if (regex.test(email) === false) {
-        alert("Merci de renseigner une adresse email valide")
-        return true
-    }
-    else {
-        return false
-    }
-}
-
-
-
-function inputIsInvalid() {
+/*function inputIsInvalid() {
     const form = document.querySelector(".cart__order__form")
     const inputs = form.querySelectorAll("input")
 
-
+//debugger
     for (let input of inputs) {
-        if (input.textContent === "") {
-            let paragraphes = form.querySelectorAll("p")
-            for (let paragraphe of paragraphes) {
 
+        let paragraphes = form.querySelectorAll("p")
+        for (let paragraphe of paragraphes) {
+            if (input.textContent == "") {
                 paragraphe.textContent = "Veuillez compléter l'ensemble des champs"
             }
-        }
+       
         console.log(input)
         console.log(input.textContent)
         console.log(form)
         console.log(form.querySelector("input").textContent)
         console.log(form.querySelector("p"))
         console.log(form.querySelectorAll("p"))
+        console.log(input.textContent)
+        console.log(paragraphe.textContent)
+        }
+    }
+}*/
 
+
+
+function firstNameIsInvalid(regex) {
+    const firstName = document.querySelector("#firstName").value
+    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    let errorMessageFirstName = document.getElementById("firstNameErrorMsg")
+    if ((firstName === "") || (!regex.test(firstName))) {
+
+        errorMessageFirstName.textContent = "Veuillez remplir le champ avec un prénom valide (sans chiffre ni ponctuation autre que -)"
+    }
+
+    else {
+        errorMessageFirstName.textContent = ""
     }
 }
 
 
 
-function firstNameIsInvalid() {
+function lastNameIsInvalid(regex) {
+    const lastName = document.querySelector("#lastName").value
+    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    let errorMessageLastName = document.getElementById("lastNameErrorMsg")
+   if ((lastName === "") || (!regex.test(lastName))) {
+    errorMessageLastName.textContent = "Veuillez remplir le champ avec un nom de famille valide (sans chiffre ni ponctuation autre que -)"
+   }
+   else {
+    errorMessageLastName.textContent = ""
+}
+}
+
+function addressIsInvalid() {
+    const address = document.querySelector("#address").value
+    let addressErrorMsg = document.getElementById("addressErrorMsg")
+    if (address === "") {
+        addressErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide (sans chiffre ni ponctuation autre que -)"
+       }
+       else {
+        addressErrorMsg.textContent = ""
+    }
+}
+
+function citysIsInvalid(regex) {
+    const city = document.querySelector("#city").value
+    let cityErrorMsg = document.getElementById("cityErrorMsg")
+    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    if ((city === "") || (!regex.test(city))){
+        cityErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide"
+       }
+       else {
+        cityErrorMsg.textContent = ""
+    }
+}
+
+
+function emailIsInvalid() {
+    const email = document.querySelector("#email").value
+    // const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
+    //const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-][.][a-zA-Z]{2,3}$/
+    const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
+    let emailErrorMsg = document.getElementById("emailErrorMsg")
+    if ((email === "") || (!regex.test(email))) {
+        emailErrorMsg.textContent = "Veuillez remplir le champ avec une adresse email valide"
+       }
+       else {
+        emailErrorMsg.textContent = ""
+    }
+
+}
+
+function checkInputIsInvalid() {
+    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+        firstNameIsInvalid(regex) 
+    || lastNameIsInvalid(regex) 
+    || addressIsInvalid() 
+    || citysIsInvalid(regex)
+    || emailIsInvalid()
+}
+
+let validateOrderButton = document.getElementById('order')
+
+validateOrderButton.addEventListener("click", () => {
+    if (checkInputIsInvalid()) 
+    {return}
+
+
+})  
+
+// brouillon
+
+/*function firstNameIsInvalid() {
     const firstName = document.querySelector("#firstName").value
     const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    return (!regex.test(firstName)) {
-        alert("Merci de renseigner un prénom valide (sans chiffre ni ponctuation autre que - et ')")
+    return (!regex.test(firstName))
+
+    /{
+
         return true
     }
     else {
         return false
-    }
+    }/
 
 }
 
@@ -388,29 +463,56 @@ function firstNameIsInvalid() {
 function lastNameIsInvalid() {
     const lastName = document.querySelector("#lastName").value
     const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    return (!regex.test(lastName))
+    let errorMessageLastName = document.getElementById("lastNameErrorMsg")
+   if (lastName === "") {
+    errorMessageLastName.textContent = "Veuillez remplir le champ nom"
+   }
+   else /if (lastName !== "") /{
+   / errorMessageLastName.textContent = ""/
+    if (!regex.test(lastName)) {
+    errorMessageLastName.textContent = "Merci de renseigner un nom de famille valide (sans chiffre ni ponctuation autre que -)"}
 
-    /*if (!regex.test(lastName)) {
+   }
+    /if (!regex.test(lastName)) {
        
         return true
     }
     else {
         return false
-    }*/
+    }/
 
+}
+
+function emailIsInvalid() {
+    const email = document.querySelector("#email").value
+    // const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
+    //const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-][.][a-zA-Z]{2,3}$/
+    const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
+    return (!regex.test(email)) 
+    
+    /{
+        alert("Merci de renseigner une adresse email valide")
+        return true
+    }
+    else {
+       return false
+    }/
 }
 
 let validateOrderButton = document.getElementById('order')
 
 validateOrderButton.addEventListener("click", () => {
-    if (inputIsInvalid()) {
-        
+/    if (inputIsInvalid()) {
         return
-    } else if (firstNameIsInvalid()) 
-    else if (lastNameIsInvalid()) 
-    {
-        alert("Merci de renseigner un nom de famille valide (sans chiffre ni ponctuation autre que -)")
+    } else/ if (firstNameIsInvalid()) {
+        alert("Merci de renseigner un prénom valide (sans chiffre ni ponctuation autre que - et ')")
+        return
     }
-    else if (emailIsInvalid()) return
-})
-
+    else if (lastNameIsInvalid()) {
+        alert("Merci de renseigner un nom de famille valide (sans chiffre ni ponctuation autre que -)")
+        return
+    }
+    else if (emailIsInvalid()) {
+        alert("Merci de renseigner une adresse email valide")
+       // return
+}})*/

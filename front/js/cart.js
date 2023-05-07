@@ -109,8 +109,6 @@ function createInputQuantity(divContentSettingsQuantity, product) {
     inputQuantity.setAttribute("min", "1")
     inputQuantity.setAttribute("max", "100")
     inputQuantity.setAttribute("value", product.quantity)
-    inputQuantity.setAttribute("data-id", product.productId)
-    inputQuantity.setAttribute("data-color", product.color)
 }
 
 
@@ -306,7 +304,7 @@ function manageQuantityChange(event, id, color) {
         let index = cartArray.findIndex(p => p.productId === id && p.color === color)
         if (index > -1) {
             event.target.value = cartArray[index].quantity
-            console.log("ancienne quantité", evnt.target.value)
+            console.log("ancienne quantité", event.target.value)
         }
         saveCart(cartArray)
         displayCart()
@@ -315,7 +313,7 @@ function manageQuantityChange(event, id, color) {
 
     }
     else {
-        const cartArray = modifyQuantity(Number(event.target.value), event.target.dataset.id, event.target.dataset.color)
+        const cartArray = modifyQuantity(Number(event.target.value), event.target.closest("article").dataset.id, event.target.closest("article").dataset.color) 
         saveCart(cartArray)
         displayCart()
     }

@@ -1,9 +1,12 @@
-
-
-
 let productId, productColor
 // creation article
-function createArticle(product) {
+
+/** affichage de l'article
+ * création de l'élément article, ajout de ses attributs et intégration à la page html
+ * @param {*} product 
+ * @returns 
+ */
+function displayArticle(product) {
     const container = document.getElementById("cart__items")
     const article = document.createElement("article")
     container.appendChild(article)
@@ -16,7 +19,11 @@ function createArticle(product) {
     return article
 }
 
-//creation div class = cart__item__img
+/** affichage div class = cart__item__img
+ * création de la div et intégration à la page html
+ * @param {*} article 
+ * @returns 
+ */
 function createDivImg(article) {
     const divImg = document.createElement("div")
     article.appendChild(divImg)
@@ -24,7 +31,11 @@ function createDivImg(article) {
     return divImg
 }
 
-// creation Img
+/** affichage image
+ * création de l'image, ajout de ses attributs et intégration dans la page html
+ * @param {*} divImg 
+ * @param {*} product 
+ */
 function createImg(divImg, product) {
     const img = document.createElement("img")
     divImg.appendChild(img)
@@ -33,7 +44,11 @@ function createImg(divImg, product) {
     console.log(product)
 }
 
-//creation div class = cart__item__content
+/** affichage div class = cart__item__content
+ * création de la divContent, ajout de son attribut et intégration dans la page html
+ * @param {*} article 
+ * @returns 
+ */
 function createDivContent(article) {
     const divContent = document.createElement("div")
     article.appendChild(divContent)
@@ -41,7 +56,11 @@ function createDivContent(article) {
     return divContent
 }
 
-//creation div class = cart__item__content__description
+/** affichage div class = cart__item__content__description
+ * création de la divContentDescription, ajout de son attribut et intégration dans la page html
+ * @param {*} divContent 
+ * @returns 
+ */
 function createDivContentDescription(divContent) {
     const divContentDescription = document.createElement("div")
     divContent.appendChild(divContentDescription)
@@ -49,8 +68,11 @@ function createDivContentDescription(divContent) {
     return divContentDescription
 }
 
-
-//creation titre h2
+/** affichage titre h2
+ * création titre h2, ajout de son attribut et intégration dans la page html
+ * @param {*} divContentDescription 
+ * @param {*} product 
+ */
 function createH2(divContentDescription, product) {
     const h2 = document.createElement("h2")
     const h2Content = document.createTextNode(product.name)
@@ -58,7 +80,11 @@ function createH2(divContentDescription, product) {
     divContentDescription.appendChild(h2)
 }
 
-//creation paragraphe p couleur
+/** affichage paragraphe p couleur
+ * création paragraphe p couleur, ajout de son attribut et intégration dans la page html
+ * @param {*} divContentDescription 
+ * @param {*} product 
+ */
 function createPColor(divContentDescription, product) {
     const pColor = document.createElement("p")
     const pColorContent = document.createTextNode(product.color)
@@ -66,7 +92,11 @@ function createPColor(divContentDescription, product) {
     divContentDescription.appendChild(pColor)
 }
 
-//creation paragraphe p prix
+/** affichage paragraphe p prix
+ * création paragraphe p prix, ajout de son attribut et intégration dans la page html
+ * @param {*} divContentDescription 
+ * @param {*} product 
+ */
 function createPPrice(divContentDescription, product) {
     const pPrice = document.createElement("p")
     const pPriceContent = document.createTextNode(product.price + " €")
@@ -74,8 +104,11 @@ function createPPrice(divContentDescription, product) {
     divContentDescription.appendChild(pPrice)
 }
 
-
-//creation div class = cart__item__content__settings
+/** affichage div class = cart__item__content__settings
+ * création div class = cart__item__content__settings, ajout de son attribut et intégration dans la page html
+ * @param {*} divContent 
+ * @returns 
+ */
 function createDivContentSettings(divContent) {
     const divContentSettings = document.createElement("div")
     divContent.appendChild(divContentSettings)
@@ -83,7 +116,11 @@ function createDivContentSettings(divContent) {
     return divContentSettings
 }
 
-//creation div class = cart__item__content__settings__quantity
+/** affichage div class = cart__item__content__settings__quantity
+ * création div class = cart__item__content__settings__quantity, ajout de son attribut et intégration dans la page html
+ * @param {*} divContentSettings 
+ * @returns 
+ */
 function createDivContentSettingsQuantity(divContentSettings) {
     const divContentSettingsQuantity = document.createElement("div")
     divContentSettings.appendChild(divContentSettingsQuantity)
@@ -91,7 +128,10 @@ function createDivContentSettingsQuantity(divContentSettings) {
     return divContentSettingsQuantity
 }
 
-//creation paragraphe p prix
+/** affichage paragraphe p prix
+ * création paragraphe p prix et intégration dans la page html
+ * @param {*} divContentSettingsQuantity 
+ */
 function createPQuantity(divContentSettingsQuantity) {
     const pQuantity = document.createElement("p")
     const pQuantityContent = document.createTextNode("Qté : ")
@@ -99,7 +139,11 @@ function createPQuantity(divContentSettingsQuantity) {
     divContentSettingsQuantity.appendChild(pQuantity)
 }
 
-//creation tab input quantity
+/** affichage tab input quantity
+ * création tab input quantity, ajout de ses attributs et intégration dans la page html
+ * @param {*} divContentSettingsQuantity 
+ * @param {*} product 
+ */
 function createInputQuantity(divContentSettingsQuantity, product) {
     const inputQuantity = document.createElement("input")
     divContentSettingsQuantity.appendChild(inputQuantity)
@@ -111,8 +155,11 @@ function createInputQuantity(divContentSettingsQuantity, product) {
     inputQuantity.setAttribute("value", product.quantity)
 }
 
-
-//creation div class = cart__item__content__settings__delete
+/** affichage div class = cart__item__content__settings__delete
+ * création div class = cart__item__content__settings__delete, ajout de son attribut et intégration dans la page html
+ * @param {*} divContentSettings 
+ * @returns 
+ */
 function createDivContentSettingsDelete(divContentSettings) {
     const divContentSettingsDelete = document.createElement("div")
     divContentSettings.appendChild(divContentSettingsDelete)
@@ -120,19 +167,25 @@ function createDivContentSettingsDelete(divContentSettings) {
     return divContentSettingsDelete
 }
 
-//creation p class = cart__item__content__settings__delete
+/** affichage p class = cart__item__content__settings__delete
+ * création p class = cart__item__content__settings__delete, ajout de son attribut et intégration dans la page html
+ * @param {*} divContentSettingsDelete 
+ * @param {*} product 
+ */
 function createPDelete(divContentSettingsDelete, product) {
     const pDelete = document.createElement("p")
     const pDeleteContent = document.createTextNode("Supprimer")
     pDelete.appendChild(pDeleteContent)
     divContentSettingsDelete.appendChild(pDelete)
     pDelete.setAttribute("class", "deleteItem")
-
-
 }
 
-function createCartElement(product) {
-    const article = createArticle(product)
+/** affichage de l'article
+ * appel des fonctions précédemment développées
+ * @param {*} product 
+ */
+function displayCartElement(product) {
+    const article = displayArticle(product)
     const divImg = createDivImg(article)
     createImg(divImg, product)
     const divContent = createDivContent(article)
@@ -148,7 +201,8 @@ function createCartElement(product) {
     createPDelete(divContentSettingsDelete, product)
 }
 
-// calcul total quantité
+/** calcul total quantité
+ */
 let totalCartQuantity = 0
 function calculTotalQuantity(product) {
     totalCartQuantity = totalCartQuantity + product.quantity
@@ -163,7 +217,8 @@ function integrateTotalQuantity(totalCartQuantity) {
 
 }
 
-//calcul total prix
+/** calcul total prix
+ */
 let totalCartPrice = 0
 function calculTotalPrice(product) {
     totalCartPrice = totalCartPrice + (product.quantity * product.price)
@@ -177,13 +232,17 @@ function integrateTotalPrice(totalCartPrice) {
 
 }
 
+/** affichage du panier
+ */
 function displayCart() {
     const container = document.getElementById("cart__items")
 
+    //suppression d'un précédent éventuel panier
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
 
+    // récupération des produits du local storage
     let productsLoadedInLocalStorage = JSON.parse(localStorage.getItem("cartProduct"));
 
     let totalQty = 0;
@@ -191,21 +250,10 @@ function displayCart() {
     for (let product of productsLoadedInLocalStorage) {
 
         // endroit intgration dans html
-        createCartElement(product)
+        displayCartElement(product)
 
-        // product.quantity
-        // product.price
         totalQty = totalQty + Number(product.quantity);
         totalPrice = totalPrice + (Number(product.quantity) * Number(product.price));
-
-
-        // // Mise à jour compteur
-        // const totalCartQuantity = calculTotalQuantity(product)
-        // // integrateTotalQuantity(totalCartQuantity)
-
-
-        // const totalCartPrice = calculTotalPrice(product)
-        // // integrateTotalPrice(totalCartPrice)
     }
     integrateTotalQuantity(totalQty)
     integrateTotalPrice(totalPrice)
@@ -216,13 +264,13 @@ displayCart()
 
 
 
-// gestion du panier
-// Fonction qui sauvegarde les données dans le panier
+// -------------- GESTION DU PANIER
+// Sauvegarde les données dans le panier
 function saveCart(cartContent) {
     localStorage.setItem("cartProduct", JSON.stringify(cartContent))
 }
 
-//fonction qui récupère le panier
+// Récupération des données du panier
 function getFromCart() {
     let cartContent = localStorage.getItem("cartProduct");
     if (cartContent == null) {
@@ -232,42 +280,46 @@ function getFromCart() {
     }
 }
 
+/** suppression produit du panier
+ * @param {*} id 
+ * @param {*} color 
+ */
 function removeFromCart(id, color) {
-    //debugger;
+    // récupération du panier
     let cart = getFromCart()
+    //permet de retrouver le produit ayant le même identifiant et la même couleur
     cart = cart.filter(p => !(p.productId === id && p.color === color))
-    //cart = cart.filter(p => p.id !== product.id || p.color !== product.color)
     console.log("affiche cart", cart)
+    //enregistrement du nouveau panier
     saveCart(cart)
 }
 
 
-
+/**
+ * gestion de l'évènement supprimer
+ * @param {*} event 
+ */
 function manageDeleteEvent(event) {
     {
-        //console.log(essai)
-        //console.log(productId)
         console.log(event);
         console.log(event.target);
+        //chemin permettant de récupérer la couleur du produit
         console.log(event.target.closest("article").dataset.color);
+        //chemin permettant de récupérer l'identifiant du produit
         console.log(event.target.closest("article").dataset.id);
 
-        /*let product = {
-            id: event.target.dataset.id,
-            color: event.target.dataset.color,
-        }*/
-        // debugger;
+        //suppression du produit du panier ayant cet identifiant et cette couleur
         removeFromCart(event.target.closest("article").dataset.id, event.target.closest("article").dataset.color)
         displayCart()
     }
 }
 
+/** ajout d'évènements à tous les boutons "supprimer" 
+ * et tous les menus déroulants de quantité du panier
+ */
 function registerEvent() {
     const removeToCartButtons = document.querySelectorAll('.deleteItem')
     for (let removeToCartButton of removeToCartButtons) {
-        //const essai = removeToCartButton.closest('article > div')
-        //const essai = removeToCartButton.closest('data-id')
-
         removeToCartButton.addEventListener("click", manageDeleteEvent)
     }
 
@@ -280,103 +332,93 @@ function registerEvent() {
 
 }
 
+/** permet de modifier la quantité directement dans le panier affiché (à la saisie ou avec le menu)
+ * recherche le produit dans le panier ayant le même identifiant et la même couleur
+ * modifie la quantité dans le panier stocké dans le local storage
+ * @param {*} newQuantity 
+ * @param {*} id 
+ * @param {*} color 
+ * @returns 
+ */
 function modifyQuantity(newQuantity, id, color) {
     const cartArray = getFromCart()
-    //cartArray[0].quantity
     //si index non trouvé, il mettra -1
     let index = cartArray.findIndex(p => p.productId === id && p.color === color)
     if (index > -1) {
         cartArray[index].quantity = newQuantity
         console.log("nouvelle quantité", newQuantity)
-
     }
     return cartArray
 }
 
+/** prise en compte du changement de la quantité
+ * vérification que le nombre est compris entre 1 et 100
+ * si non, message alerte et prise en compte précédente quantité, sauvegarde et affichage panier
+ * si oui, modification de la quantité avec la nouvelle donnée, sauvegarde et affichage du panier
+ * @param {*} event 
+ * @param {*} id 
+ * @param {*} color 
+ */
 function manageQuantityChange(event, id, color) {
     console.log(event);
     console.log(event.target.value)
-
 
     if ((Number(event.target.value) <= 0) || (Number(event.target.value) > 100)) {
         alert("Veuillez choisir une quantité comprise entre 1 et 100")
         const cartArray = getFromCart()
         let index = cartArray.findIndex(p => p.productId === id && p.color === color)
         if (index > -1) {
+            //affichage et prise en compte de l'ancienne quantité
             event.target.value = cartArray[index].quantity
             console.log("ancienne quantité", event.target.value)
         }
         saveCart(cartArray)
         displayCart()
-        /* getFromCart()
-         event.target.value = à reprendre*/
-
     }
     else {
-        const cartArray = modifyQuantity(Number(event.target.value), event.target.closest("article").dataset.id, event.target.closest("article").dataset.color) 
+        const cartArray = modifyQuantity(Number(event.target.value), event.target.closest("article").dataset.id, event.target.closest("article").dataset.color)
         saveCart(cartArray)
         displayCart()
     }
 
 }
 
-//Modification quantité
+// ------------ VERIFICATION CHAMPS FORMULAIRE
 
-
-// Formulaire
-
-// vérification des champs saisis
-
-/*function inputIsInvalid() {
-    const form = document.querySelector(".cart__order__form")
-    const inputs = form.querySelectorAll("input")
-
-//debugger
-    for (let input of inputs) {
-
-        let paragraphes = form.querySelectorAll("p")
-        for (let paragraphe of paragraphes) {
-            if (input.textContent == "") {
-                paragraphe.textContent = "Veuillez compléter l'ensemble des champs"
-            }
-       
-        console.log(input)
-        console.log(input.textContent)
-        console.log(form)
-        console.log(form.querySelector("input").textContent)
-        console.log(form.querySelector("p"))
-        console.log(form.querySelectorAll("p"))
-        console.log(input.textContent)
-        console.log(paragraphe.textContent)
-        }
-    }
-}*/
-
+/** vérification du champ prénom
+ * si champ vide ou si ne vérifiant pas l expression régulière, affichage message d'erreur
+ * si non, aucun affichage
+ * @param {*} regex 
+ * @returns 
+ */
 function firstNameIsInvalid(regex) {
     const firstName = document.querySelector("#firstName").value
     //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
     let errorMessageFirstName = document.getElementById("firstNameErrorMsg")
     if ((firstName === "") || (!regex.test(firstName))) {
-
         errorMessageFirstName.textContent = "Veuillez remplir le champ avec un prénom valide (sans chiffre ni ponctuation autre que -)"
-        //   return true
+        return true
     }
 
     else {
         errorMessageFirstName.textContent = ""
-        //  return false
+        // return false
     }
 }
 
-
-
+/** vérification du champ nom de famille
+ * si champ vide ou si ne vérifiant pas l expression régulière, affichage message d'erreur
+ * si non, aucun affichage
+ * @param {*} regex 
+ * @returns 
+ */
 function lastNameIsInvalid(regex) {
     const lastName = document.querySelector("#lastName").value
     //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
     let errorMessageLastName = document.getElementById("lastNameErrorMsg")
     if ((lastName === "") || (!regex.test(lastName))) {
         errorMessageLastName.textContent = "Veuillez remplir le champ avec un nom de famille valide (sans chiffre ni ponctuation autre que -)"
-        //  return true
+        return true
     }
     else {
         errorMessageLastName.textContent = ""
@@ -384,60 +426,80 @@ function lastNameIsInvalid(regex) {
     }
 }
 
+/** vérification du champ adresse
+ * si champ vide, affichage message d'erreur
+ * si non, aucun affichage
+ * @param {*} regex 
+ * @returns 
+ */
 function addressIsInvalid() {
     const address = document.querySelector("#address").value
     let addressErrorMsg = document.getElementById("addressErrorMsg")
     if (address === "") {
         addressErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide (sans chiffre ni ponctuation autre que -)"
-        //    return true
+        return true
     }
     else {
         addressErrorMsg.textContent = ""
-        //    return false
-
-    }
-}
-
-function citysIsInvalid(regex) {
-    const city = document.querySelector("#city").value
-    let cityErrorMsg = document.getElementById("cityErrorMsg")
-    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    if ((city === "") || (!regex.test(city))) {
-        cityErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide"
-        //   return true
-    }
-    else {
-        cityErrorMsg.textContent = ""
         // return false
 
     }
 }
 
+/** vérification du champ ville
+ * si champ vide ou si ne vérifiant pas l expression régulière, affichage message d'erreur
+ * si non, aucun affichage
+ * @param {*} regex 
+ * @returns 
+ */
+function cityIsInvalid(regex) {
+    const city = document.querySelector("#city").value
+    let cityErrorMsg = document.getElementById("cityErrorMsg")
+    if ((city === "") || (!regex.test(city))) {
+        cityErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide (sans chiffre ni ponctuation autre que -)"
+        return true
+    }
+    else {
+        cityErrorMsg.textContent = ""
+        //    return false
+    }
+}
 
+/** vérification du champ email
+ * si champ vide ou si ne vérifiant pas l expression régulière, affichage message d'erreur
+ * si non, aucun affichage
+ * @param {*} regex 
+ * @returns 
+ */
 function emailIsInvalid() {
     const email = document.querySelector("#email").value
-    // const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
-    //const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-][.][a-zA-Z]{2,3}$/
     const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
     let emailErrorMsg = document.getElementById("emailErrorMsg")
     if ((email === "") || (!regex.test(email))) {
         emailErrorMsg.textContent = "Veuillez remplir le champ avec une adresse email valide"
-        //   return true
+        return true
     }
     else {
         emailErrorMsg.textContent = ""
-        //     return false
+        //    return false
     }
 
 }
 
+/** vérification de l'ensemble des champs
+ * si champ vide ou si ne vérifiant pas l expression régulière, renvoit true
+ * @param {*} regex 
+ * @returns 
+ */
 function checkInputIsInvalid() {
     const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    firstNameIsInvalid(regex)
+    if (firstNameIsInvalid(regex)
         || lastNameIsInvalid(regex)
         || addressIsInvalid()
-        || citysIsInvalid(regex)
-        || emailIsInvalid()
+        || cityIsInvalid(regex)
+        || emailIsInvalid()) {
+        return true
+    }
 }
 
 
@@ -450,181 +512,72 @@ validateOrderButton.addEventListener("click", (event) => {
         alert("Votre panier est vide, commande impossible")
         return
     }
-    // if (checkInputIsInvalid() === true) 
-   else if (checkInputIsInvalid()) {
-    event.preventDefault()
+
+    else if (checkInputIsInvalid()) {
+        event.preventDefault()
         return
     }
     else {
         postOrder()
-        
-            }});
-
-            function postOrder() {
-                let order = {
-                    contact: {
-                        firstName: document.querySelector("#firstName").value,
-                        lastName: document.querySelector("#lastName").value,
-                        address: document.querySelector("#address").value,
-                        city: document.querySelector("#city").value,
-                        email: document.querySelector("#email").value,
-                    },
-                    products: getIdsFromLocalStorage(),
-                }
-                console.log(order)
-                //return order
-        
-                fetch("http://localhost:3000/api/products/order", {
-                    method: "POST",
-                    body: JSON.stringify(order),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
-                    .then((response) => {
-                        return response.json();
-                    })
-                    .then((response) => {
-                        localStorage.clear();
-                        window.location.href = `confirmation.html?order=${response.orderId}`;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-            })
-        }
-/*function firstNameIsInvalid(regex) {
-    const firstName = document.querySelector("#firstName").value
-    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    let errorMessageFirstName = document.getElementById("firstNameErrorMsg")
-    if ((firstName === "") || (!regex.test(firstName))) {
-
-        errorMessageFirstName.textContent = "Veuillez remplir le champ avec un prénom valide (sans chiffre ni ponctuation autre que -)"
-        //   return true
-    }
-
-    else {
-        errorMessageFirstName.textContent = ""
-        //  return false
-    }
-}
-
-
-
-function lastNameIsInvalid(regex) {
-    const lastName = document.querySelector("#lastName").value
-    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    let errorMessageLastName = document.getElementById("lastNameErrorMsg")
-    if ((lastName === "") || (!regex.test(lastName))) {
-        errorMessageLastName.textContent = "Veuillez remplir le champ avec un nom de famille valide (sans chiffre ni ponctuation autre que -)"
-        //  return true
-    }
-    else {
-        errorMessageLastName.textContent = ""
-        //return false
-    }
-}
-
-function addressIsInvalid() {
-    const address = document.querySelector("#address").value
-    let addressErrorMsg = document.getElementById("addressErrorMsg")
-    if (address === "") {
-        addressErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide (sans chiffre ni ponctuation autre que -)"
-        //    return true
-    }
-    else {
-        addressErrorMsg.textContent = ""
-        //    return false
 
     }
-}
+});
 
-function citysIsInvalid(regex) {
-    const city = document.querySelector("#city").value
-    let cityErrorMsg = document.getElementById("cityErrorMsg")
-    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    if ((city === "") || (!regex.test(city))) {
-        cityErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide"
-        //   return true
-    }
-    else {
-        cityErrorMsg.textContent = ""
-        // return false
-
-    }
-}
-
-
-function emailIsInvalid() {
-    const email = document.querySelector("#email").value
-    // const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
-    //const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-][.][a-zA-Z]{2,3}$/
-    const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
-    let emailErrorMsg = document.getElementById("emailErrorMsg")
-    if ((email === "") || (!regex.test(email))) {
-        emailErrorMsg.textContent = "Veuillez remplir le champ avec une adresse email valide"
-        //   return true
-    }
-    else {
-        emailErrorMsg.textContent = ""
-        //     return false
-    }
-
-}
-
-function checkInputIsInvalid() {
-    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    firstNameIsInvalid(regex)
-        || lastNameIsInvalid(regex)
-        || addressIsInvalid()
-        || citysIsInvalid(regex)
-        || emailIsInvalid()
-}
-
-
-let validateOrderButton = document.getElementById('order')
-
-validateOrderButton.addEventListener("click", (event) => {
+/** permet de récupérer les identifiants des produits du panier sous forme de tableau
+ * @returns 
+ */
+function getIdsFromLocalStorage() {
     const cartArray = getFromCart()
-    event.preventDefault()
-    if (cartArray.length === 0) {
-        alert("Votre panier est vide, commande impossible")
-        return
-    }
-    // if (checkInputIsInvalid() === true) 
-    else if (checkInputIsInvalid()) {
-        return
-    }
-    else {
-        let order = {
-            contact: {
-                firstName: document.querySelector("#firstName").value,
-                lastName: document.querySelector("#lastName").value,
-                address: document.querySelector("#address").value,
-                city: document.querySelector("#city").value,
-                email: document.querySelector("#email").value,
-            },
-            products: getIdsFromLocalStorage(),
-        }
-        console.log(order)
-        //return order
+    let products = []
+    for (let product of cartArray) {
 
-        fetch("http://localhost:3000/api/products/order", {
-            method: "POST",
-            body: JSON.stringify(order),
-            headers: {
-                "Content-Type": "application/json",
-            },
+        console.log(product)
+        console.log(product.productId)
+        console.log(cartArray[0].productId)
+        console.log(products)
+        products.push(product.productId)
+    }
+    console.log(cartArray)
+    console.log(products)
+    return products
+}
+
+/** envoi de la requête au back end
+ */
+function postOrder() {
+    let order = {
+        contact: {
+            firstName: document.querySelector("#firstName").value,
+            lastName: document.querySelector("#lastName").value,
+            address: document.querySelector("#address").value,
+            city: document.querySelector("#city").value,
+            email: document.querySelector("#email").value,
+        },
+        products: getIdsFromLocalStorage(),
+    }
+    console.log(order)
+    //return order
+
+    //Envoi de la requête POST au back-end
+    fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        body: JSON.stringify(order),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => {
+            return response.json();
         })
-            .then((response) => {
-                return response.json();
-            })
-            .then((response) => {
-                localStorage.clear();
-                window.location.href = `confirmation.html?order=${response.orderId}`;
-            })
-            .catch((error) => {
-                console.log(error);
-            });*/
+        .then((response) => {
+            localStorage.clear();
+            window.location.href = `confirmation.html?order=${response.orderId}`;
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
+
 
 /* essai async / await
 const urlProductsOrder = "http://localhost:3000/api/products/order"
@@ -641,220 +594,3 @@ let result = await response.json();
 
 ligne 484 jusqu'à ligne 489 ?
 */
-
-
-
-
-//Envoi de la requête POST au back-end
-// Création de l'entête de la requête
-
-
-
-/* essai async / await
-const urlProductsOrder = "http://localhost:3000/api/products/order"
-
-let response = await fetch(urlProductsOrder, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify(order),
-}
-);
-let result = await response.json();
-
-let data = await {
-    const orderId = data.orderId,
-    window.location.href = "/html/confirmation.html" + "?orderId=" + orderId
-  }
-  */
-
-
-/*
-  fetch(postUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: jsonData,
-  })
-    .then((res) => res.json())
-    // to check res.ok status in the network
-    .then((data) => {
-      localStorage.clear();
-      let confirmationUrl = "./confirmation.html?id=" + data.orderId;
-      window.location.href = confirmationUrl;
-    })
-    .catch(() => {
-      alert("Une erreur est survenue, merci de revenir plus tard.");
-    }); // catching errors
-});
-*/
-
-/*inspiration depuis page script.js
-async function fetchArticleFromApi() {
-    const res = await fetch(urlInventory)
-    const data = await res.json()
-    return data
-}*/
-
-/*
-const body = makeRequestBody()
-fetch("http://localhost:3000/api/products/order", {
-  method: "POST",
-  body: JSON.stringify(body),
-  headers: {
-    "Content-Type": "application/json"
-  }
-})
-  .then((res) => res.json()) // fait jusque là
-  .then((data) => {
-    const orderId = data.orderId
-    window.location.href = "/html/confirmation.html" + "?orderId=" + orderId
-  })
-  .catch((err) => console.error(err))
-*/
-
-/* issu du lien dans le projet
-let user = {
-  name: 'John',
-  surname: 'Smith'
-};
-
-let response = await fetch('/article/fetch/post/user', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8'
-  },
-  body: JSON.stringify(user)
-});
-
-let result = await response.json();
-*/
-
-
-
-
-/*
-const urlInventory = "http://localhost:3000/api/products"
-
-async function fetchArticleFromApi () {
-  const res = await fetch(urlInventory)
-  const data = await res.json()
-  return data
-}
-
-*/
-
-function getIdsFromLocalStorage() {
-    const cartArray = getFromCart()
-    let products = []
-    for (let product of cartArray) {
-
-        //products.push(product.productId)
-
-        console.log(product)
-        console.log(product.productId)
-        console.log(cartArray[0].productId)
-        console.log(products)
-        products.push(product.productId)
-
-        //return products
-
-    }
-    console.log(cartArray)
-    console.log(products)
-    return products
-}
-
-//
-
-/**
- *
- * Expects request to contain:
- * contact: {
- *   firstName: string,
- *   lastName: string,
- *   address: string,
- *   city: string,
- *   email: string
- * }
- * products: [string] <-- array of product _id
- *
- */
-
-// brouillon
-
-/*function firstNameIsInvalid() {
-    const firstName = document.querySelector("#firstName").value
-    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    return (!regex.test(firstName))
-
-    /{
-
-        return true
-    }
-    else {
-        return false
-    }/
-
-}
-
-
-
-function lastNameIsInvalid() {
-    const lastName = document.querySelector("#lastName").value
-    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    let errorMessageLastName = document.getElementById("lastNameErrorMsg")
-   if (lastName === "") {
-    errorMessageLastName.textContent = "Veuillez remplir le champ nom"
-   }
-   else /if (lastName !== "") /{
-   / errorMessageLastName.textContent = ""/
-    if (!regex.test(lastName)) {
-    errorMessageLastName.textContent = "Merci de renseigner un nom de famille valide (sans chiffre ni ponctuation autre que -)"}
-
-   }
-    /if (!regex.test(lastName)) {
-       
-        return true
-    }
-    else {
-        return false
-    }/
-
-}
-
-function emailIsInvalid() {
-    const email = document.querySelector("#email").value
-    // const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
-    //const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-][.][a-zA-Z]{2,3}$/
-    const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
-    return (!regex.test(email)) 
-    
-    /{
-        alert("Merci de renseigner une adresse email valide")
-        return true
-    }
-    else {
-       return false
-    }/
-}
-
-let validateOrderButton = document.getElementById('order')
-
-validateOrderButton.addEventListener("click", () => {
-/    if (inputIsInvalid()) {
-        return
-    } else/ if (firstNameIsInvalid()) {
-        alert("Merci de renseigner un prénom valide (sans chiffre ni ponctuation autre que - et ')")
-        return
-    }
-    else if (lastNameIsInvalid()) {
-        alert("Merci de renseigner un nom de famille valide (sans chiffre ni ponctuation autre que -)")
-        return
-    }
-    else if (emailIsInvalid()) {
-        alert("Merci de renseigner une adresse email valide")
-       // return
-}})*/

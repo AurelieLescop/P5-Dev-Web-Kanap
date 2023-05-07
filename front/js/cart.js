@@ -354,9 +354,147 @@ function manageQuantityChange(event, id, color) {
     }
 }*/
 
-
-
 function firstNameIsInvalid(regex) {
+    const firstName = document.querySelector("#firstName").value
+    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    let errorMessageFirstName = document.getElementById("firstNameErrorMsg")
+    if ((firstName === "") || (!regex.test(firstName))) {
+
+        errorMessageFirstName.textContent = "Veuillez remplir le champ avec un prénom valide (sans chiffre ni ponctuation autre que -)"
+        //   return true
+    }
+
+    else {
+        errorMessageFirstName.textContent = ""
+        //  return false
+    }
+}
+
+
+
+function lastNameIsInvalid(regex) {
+    const lastName = document.querySelector("#lastName").value
+    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    let errorMessageLastName = document.getElementById("lastNameErrorMsg")
+    if ((lastName === "") || (!regex.test(lastName))) {
+        errorMessageLastName.textContent = "Veuillez remplir le champ avec un nom de famille valide (sans chiffre ni ponctuation autre que -)"
+        //  return true
+    }
+    else {
+        errorMessageLastName.textContent = ""
+        //return false
+    }
+}
+
+function addressIsInvalid() {
+    const address = document.querySelector("#address").value
+    let addressErrorMsg = document.getElementById("addressErrorMsg")
+    if (address === "") {
+        addressErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide (sans chiffre ni ponctuation autre que -)"
+        //    return true
+    }
+    else {
+        addressErrorMsg.textContent = ""
+        //    return false
+
+    }
+}
+
+function citysIsInvalid(regex) {
+    const city = document.querySelector("#city").value
+    let cityErrorMsg = document.getElementById("cityErrorMsg")
+    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    if ((city === "") || (!regex.test(city))) {
+        cityErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide"
+        //   return true
+    }
+    else {
+        cityErrorMsg.textContent = ""
+        // return false
+
+    }
+}
+
+
+function emailIsInvalid() {
+    const email = document.querySelector("#email").value
+    // const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
+    //const regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-][.][a-zA-Z]{2,3}$/
+    const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
+    let emailErrorMsg = document.getElementById("emailErrorMsg")
+    if ((email === "") || (!regex.test(email))) {
+        emailErrorMsg.textContent = "Veuillez remplir le champ avec une adresse email valide"
+        //   return true
+    }
+    else {
+        emailErrorMsg.textContent = ""
+        //     return false
+    }
+
+}
+
+function checkInputIsValid() {
+    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    !firstNameIsInvalid(regex)
+        && !lastNameIsInvalid(regex)
+        && !addressIsInvalid()
+        && !citysIsInvalid(regex)
+        && !emailIsInvalid()
+}
+
+
+let validateOrderButton = document.getElementById('order')
+
+validateOrderButton.addEventListener("click", (event) => {
+    const cartArray = getFromCart()
+    event.preventDefault()
+    if (cartArray.length === 0) {
+        alert("Votre panier est vide, commande impossible")
+        return
+    }
+    // if (checkInputIsInvalid() === true) 
+    else if (checkInputIsValid()) {
+        postForm()
+    }
+    /*else {
+        alert("Une erreur est survenue")
+    }*/
+})
+
+function postForm() {
+    let order = {
+        contact: {
+            firstName: document.querySelector("#firstName").value,
+            lastName: document.querySelector("#lastName").value,
+            address: document.querySelector("#address").value,
+            city: document.querySelector("#city").value,
+            email: document.querySelector("#email").value,
+        },
+        products: getIdsFromLocalStorage(),
+    }
+    fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        body: JSON.stringify(order),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            localStorage.clear();
+            window.location.href = `confirmation.html?order=${response.orderId}`;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+
+
+
+/*function firstNameIsInvalid(regex) {
     const firstName = document.querySelector("#firstName").value
     //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
     let errorMessageFirstName = document.getElementById("firstNameErrorMsg")
@@ -444,6 +582,7 @@ function checkInputIsInvalid() {
         || emailIsInvalid()
 }
 
+
 let validateOrderButton = document.getElementById('order')
 
 validateOrderButton.addEventListener("click", (event) => {
@@ -469,10 +608,98 @@ validateOrderButton.addEventListener("click", (event) => {
             products: getIdsFromLocalStorage(),
         }
         console.log(order)
-        return order
+        //return order
 
-    }
-})
+        fetch("http://localhost:3000/api/products/order", {
+            method: "POST",
+            body: JSON.stringify(order),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                localStorage.clear();
+                window.location.href = `confirmation.html?order=${response.orderId}`;
+            })
+            .catch((error) => {
+                console.log(error);
+            });*/
+
+/* essai async / await
+const urlProductsOrder = "http://localhost:3000/api/products/order"
+
+let response = await fetch(urlProductsOrder, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(order),
+}
+);
+let result = await response.json();
+
+ligne 484 jusqu'à ligne 489 ?
+*/
+
+
+
+
+//Envoi de la requête POST au back-end
+// Création de l'entête de la requête
+
+
+
+/* essai async / await
+const urlProductsOrder = "http://localhost:3000/api/products/order"
+
+let response = await fetch(urlProductsOrder, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(order),
+}
+);
+let result = await response.json();
+
+let data = await {
+    const orderId = data.orderId,
+    window.location.href = "/html/confirmation.html" + "?orderId=" + orderId
+  }
+  */
+
+
+/*
+  fetch(postUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: jsonData,
+  })
+    .then((res) => res.json())
+    // to check res.ok status in the network
+    .then((data) => {
+      localStorage.clear();
+      let confirmationUrl = "./confirmation.html?id=" + data.orderId;
+      window.location.href = confirmationUrl;
+    })
+    .catch(() => {
+      alert("Une erreur est survenue, merci de revenir plus tard.");
+    }); // catching errors
+});
+*/
+
+/*inspiration depuis page script.js
+async function fetchArticleFromApi() {
+    const res = await fetch(urlInventory)
+    const data = await res.json()
+    return data
+}*/
+
 /*
 const body = makeRequestBody()
 fetch("http://localhost:3000/api/products/order", {
@@ -482,13 +709,45 @@ fetch("http://localhost:3000/api/products/order", {
     "Content-Type": "application/json"
   }
 })
-  .then((res) => res.json())
+  .then((res) => res.json()) // fait jusque là
   .then((data) => {
     const orderId = data.orderId
     window.location.href = "/html/confirmation.html" + "?orderId=" + orderId
   })
   .catch((err) => console.error(err))
 */
+
+/* issu du lien dans le projet
+let user = {
+  name: 'John',
+  surname: 'Smith'
+};
+
+let response = await fetch('/article/fetch/post/user', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+  body: JSON.stringify(user)
+});
+
+let result = await response.json();
+*/
+
+
+
+
+/*
+const urlInventory = "http://localhost:3000/api/products"
+
+async function fetchArticleFromApi () {
+  const res = await fetch(urlInventory)
+  const data = await res.json()
+  return data
+}
+
+*/
+
 function getIdsFromLocalStorage() {
     const cartArray = getFromCart()
     let products = []

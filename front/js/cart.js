@@ -433,13 +433,13 @@ function emailIsInvalid() {
 
 }
 
-function checkInputIsValid() {
+function checkInputIsInvalid() {
     const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    !firstNameIsInvalid(regex)
-        && !lastNameIsInvalid(regex)
-        && !addressIsInvalid()
-        && !citysIsInvalid(regex)
-        && !emailIsInvalid()
+    firstNameIsInvalid(regex)
+        || lastNameIsInvalid(regex)
+        || addressIsInvalid()
+        || citysIsInvalid(regex)
+        || emailIsInvalid()
 }
 
 
@@ -453,47 +453,47 @@ validateOrderButton.addEventListener("click", (event) => {
         return
     }
     // if (checkInputIsInvalid() === true) 
-    else if (checkInputIsValid()) {
-        postForm()
+   else if (checkInputIsInvalid()) {
+    event.preventDefault()
+        return
     }
-    /*else {
-        alert("Une erreur est survenue")
-    }*/
-})
+    else {
+        postOrder()
+        
+            }});
 
-function postForm() {
-    let order = {
-        contact: {
-            firstName: document.querySelector("#firstName").value,
-            lastName: document.querySelector("#lastName").value,
-            address: document.querySelector("#address").value,
-            city: document.querySelector("#city").value,
-            email: document.querySelector("#email").value,
-        },
-        products: getIdsFromLocalStorage(),
-    }
-    fetch("http://localhost:3000/api/products/order", {
-        method: "POST",
-        body: JSON.stringify(order),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((response) => {
-            localStorage.clear();
-            window.location.href = `confirmation.html?order=${response.orderId}`;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-
-
-
+            function postOrder() {
+                let order = {
+                    contact: {
+                        firstName: document.querySelector("#firstName").value,
+                        lastName: document.querySelector("#lastName").value,
+                        address: document.querySelector("#address").value,
+                        city: document.querySelector("#city").value,
+                        email: document.querySelector("#email").value,
+                    },
+                    products: getIdsFromLocalStorage(),
+                }
+                console.log(order)
+                //return order
+        
+                fetch("http://localhost:3000/api/products/order", {
+                    method: "POST",
+                    body: JSON.stringify(order),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((response) => {
+                        localStorage.clear();
+                        window.location.href = `confirmation.html?order=${response.orderId}`;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+            })
+        }
 /*function firstNameIsInvalid(regex) {
     const firstName = document.querySelector("#firstName").value
     //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/

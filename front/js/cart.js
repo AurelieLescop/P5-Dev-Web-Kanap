@@ -363,10 +363,12 @@ function firstNameIsInvalid(regex) {
     if ((firstName === "") || (!regex.test(firstName))) {
 
         errorMessageFirstName.textContent = "Veuillez remplir le champ avec un prénom valide (sans chiffre ni ponctuation autre que -)"
+        //   return true
     }
 
     else {
         errorMessageFirstName.textContent = ""
+        //  return false
     }
 }
 
@@ -376,12 +378,14 @@ function lastNameIsInvalid(regex) {
     const lastName = document.querySelector("#lastName").value
     //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
     let errorMessageLastName = document.getElementById("lastNameErrorMsg")
-   if ((lastName === "") || (!regex.test(lastName))) {
-    errorMessageLastName.textContent = "Veuillez remplir le champ avec un nom de famille valide (sans chiffre ni ponctuation autre que -)"
-   }
-   else {
-    errorMessageLastName.textContent = ""
-}
+    if ((lastName === "") || (!regex.test(lastName))) {
+        errorMessageLastName.textContent = "Veuillez remplir le champ avec un nom de famille valide (sans chiffre ni ponctuation autre que -)"
+        //  return true
+    }
+    else {
+        errorMessageLastName.textContent = ""
+        //return false
+    }
 }
 
 function addressIsInvalid() {
@@ -389,9 +393,12 @@ function addressIsInvalid() {
     let addressErrorMsg = document.getElementById("addressErrorMsg")
     if (address === "") {
         addressErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide (sans chiffre ni ponctuation autre que -)"
-       }
-       else {
+        //    return true
+    }
+    else {
         addressErrorMsg.textContent = ""
+        //    return false
+
     }
 }
 
@@ -399,11 +406,14 @@ function citysIsInvalid(regex) {
     const city = document.querySelector("#city").value
     let cityErrorMsg = document.getElementById("cityErrorMsg")
     //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    if ((city === "") || (!regex.test(city))){
+    if ((city === "") || (!regex.test(city))) {
         cityErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide"
-       }
-       else {
+        //   return true
+    }
+    else {
         cityErrorMsg.textContent = ""
+        // return false
+
     }
 }
 
@@ -416,30 +426,105 @@ function emailIsInvalid() {
     let emailErrorMsg = document.getElementById("emailErrorMsg")
     if ((email === "") || (!regex.test(email))) {
         emailErrorMsg.textContent = "Veuillez remplir le champ avec une adresse email valide"
-       }
-       else {
+        //   return true
+    }
+    else {
         emailErrorMsg.textContent = ""
+        //     return false
     }
 
 }
 
 function checkInputIsInvalid() {
     const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-        firstNameIsInvalid(regex) 
-    || lastNameIsInvalid(regex) 
-    || addressIsInvalid() 
-    || citysIsInvalid(regex)
-    || emailIsInvalid()
+    firstNameIsInvalid(regex)
+        || lastNameIsInvalid(regex)
+        || addressIsInvalid()
+        || citysIsInvalid(regex)
+        || emailIsInvalid()
 }
 
 let validateOrderButton = document.getElementById('order')
 
-validateOrderButton.addEventListener("click", () => {
-    if (checkInputIsInvalid()) 
-    {return}
+validateOrderButton.addEventListener("click", (event) => {
+    const cartArray = getFromCart()
+    event.preventDefault()
+    if (cartArray.length === 0) {
+        alert("Votre panier est vide, commande impossible")
+        return
+    }
+    // if (checkInputIsInvalid() === true) 
+    else if (checkInputIsInvalid()) {
+        return
+    }
+    else {
+        let order = {
+            contact: {
+                firstName: document.querySelector("#firstName").value,
+                lastName: document.querySelector("#lastName").value,
+                address: document.querySelector("#address").value,
+                city: document.querySelector("#city").value,
+                email: document.querySelector("#email").value,
+            },
+            products: getIdsFromLocalStorage(),
+        }
+        console.log(order)
+        return order
 
+    }
+})
+/*
+const body = makeRequestBody()
+fetch("http://localhost:3000/api/products/order", {
+  method: "POST",
+  body: JSON.stringify(body),
+  headers: {
+    "Content-Type": "application/json"
+  }
+})
+  .then((res) => res.json())
+  .then((data) => {
+    const orderId = data.orderId
+    window.location.href = "/html/confirmation.html" + "?orderId=" + orderId
+  })
+  .catch((err) => console.error(err))
+*/
+function getIdsFromLocalStorage() {
+    const cartArray = getFromCart()
+    let products = []
+    for (let product of cartArray) {
 
-})  
+        //products.push(product.productId)
+
+        console.log(product)
+        console.log(product.productId)
+        console.log(cartArray[0].productId)
+        console.log(products)
+        products.push(product.productId)
+
+        //return products
+
+    }
+    console.log(cartArray)
+    console.log(products)
+    return products
+}
+
+//
+
+/**
+ *
+ * Expects request to contain:
+ * contact: {
+ *   firstName: string,
+ *   lastName: string,
+ *   address: string,
+ *   city: string,
+ *   email: string
+ * }
+ * products: [string] <-- array of product _id
+ *
+ */
 
 // brouillon
 

@@ -161,7 +161,10 @@ function addToCart(product) {
   } else if (foundProduct == undefined) {
     cartContent.push(product)
     saveCart(cartContent)
-    alert("Votre canapé a bien été ajouté au panier")
+    if (window.confirm("Votre canapé a bien été ajouté au panier. Voulez-vous voir votre panier?")) {
+      window.open("./cart.html");
+    }      
+   // alert("Votre canapé a bien été ajouté au panier")
     
     // si le produit existe dans le panier, on modifie sa quantité
   } else {
@@ -172,7 +175,10 @@ function addToCart(product) {
       foundProduct.quantity += product.quantity
       //foundProduct.quantity = foundProduct.quantity + product.quantity
       saveCart(cartContent)
-      alert("Votre canapé a bien été ajouté au panier")
+      if (window.confirm("Votre canapé a bien été ajouté au panier. Voulez-vous voir votre panier?")) {
+        window.open("./cart.html");
+      }      
+     // alert("Votre canapé a bien été ajouté au panier")
   }
   }
 }

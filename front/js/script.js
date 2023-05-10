@@ -9,7 +9,7 @@ async function fetchArticleFromApi() {
   //recupération données API
   const res = await fetch(urlInventory)
   const data = await res.json()
-  console.log(data)
+  console.log("data",data)
   return data
 }
 

@@ -201,35 +201,19 @@ function displayCartElement(product) {
     createPDelete(divContentSettingsDelete, product)
 }
 
-/** calcul total quantité
+/** affichage total quantité
  */
-let totalCartQuantity = 0
-function calculTotalQuantity(product) {
-    totalCartQuantity = totalCartQuantity + product.quantity
-    console.log(product.quantity)
-    console.log(totalCartQuantity)
-    return totalCartQuantity
-}
-
 function integrateTotalQuantity(totalCartQuantity) {
     document.getElementById('totalQuantity').textContent = totalCartQuantity
     console.log(totalCartQuantity)
 
 }
 
-/** calcul total prix
+/** affichage total prix
  */
-let totalCartPrice = 0
-function calculTotalPrice(product) {
-    totalCartPrice = totalCartPrice + (product.quantity * product.price)
-    console.log(totalCartPrice)
-    return totalCartPrice
-}
-
 function integrateTotalPrice(totalCartPrice) {
     document.getElementById('totalPrice').textContent = totalCartPrice
     console.log(totalCartQuantity)
-
 }
 
 /** affichage du panier
@@ -275,9 +259,8 @@ function getFromCart() {
     let cartContent = localStorage.getItem("cartProduct");
     if (cartContent == null) {
         return []
-    } else {
-        return JSON.parse(cartContent)
     }
+        return JSON.parse(cartContent)
 }
 
 /** suppression produit du panier
@@ -388,62 +371,56 @@ function manageQuantityChange(event, id, color) {
 /** vérification du champ prénom
  * si champ vide ou si ne vérifiant pas l expression régulière, affichage message d'erreur
  * si non, aucun affichage
- * @param {*} regex 
  * @returns 
  */
-function firstNameIsInvalid(regex) {
+function firstNameIsValid() {
     const firstName = document.querySelector("#firstName").value
-    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
     let errorMessageFirstName = document.getElementById("firstNameErrorMsg")
-    if ((firstName === "") || (!regex.test(firstName))) {
-        errorMessageFirstName.textContent = "Veuillez remplir le champ avec un prénom valide (sans chiffre ni ponctuation autre que -)"
+    errorMessageFirstName.textContent = ""
+    if (firstName !== "" && regex.test(firstName)) {
         return true
     }
-
-    else {
-        errorMessageFirstName.textContent = ""
-        // return false
-    }
+    errorMessageFirstName.textContent = "Veuillez remplir le champ avec un prénom valide (sans chiffre ni ponctuation autre que -)"
+    return false
 }
 
 /** vérification du champ nom de famille
  * si champ vide ou si ne vérifiant pas l expression régulière, affichage message d'erreur
  * si non, aucun affichage
- * @param {*} regex 
+ * @param {*}  
  * @returns 
  */
-function lastNameIsInvalid(regex) {
+function lastNameIsValid() {
     const lastName = document.querySelector("#lastName").value
-    //const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
     let errorMessageLastName = document.getElementById("lastNameErrorMsg")
-    if ((lastName === "") || (!regex.test(lastName))) {
-        errorMessageLastName.textContent = "Veuillez remplir le champ avec un nom de famille valide (sans chiffre ni ponctuation autre que -)"
+    errorMessageLastName.textContent = ""
+    if (lastName !== "" && regex.test(lastName)) {
         return true
     }
-    else {
-        errorMessageLastName.textContent = ""
-        //return false
-    }
+    errorMessageLastName.textContent = "Veuillez remplir le champ avec un nom de famille valide (sans chiffre ni ponctuation autre que -)"
+    return false
 }
 
 /** vérification du champ adresse
  * si champ vide, affichage message d'erreur
  * si non, aucun affichage
- * @param {*} regex 
+ * @param {*}  
  * @returns 
  */
-function addressIsInvalid() {
+function addressIsValid() {
     const address = document.querySelector("#address").value
     let addressErrorMsg = document.getElementById("addressErrorMsg")
-    if (address === "") {
-        addressErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide (sans chiffre ni ponctuation autre que -)"
+    addressErrorMsg.textContent = ""
+    if (address !== "") {
         return true
     }
-    else {
-        addressErrorMsg.textContent = ""
-        // return false
 
-    }
+    addressErrorMsg.textContent = "Veuillez remplir le champ avec une adresse valide"
+    return false
+
+
 }
 
 /** vérification du champ ville
@@ -452,17 +429,16 @@ function addressIsInvalid() {
  * @param {*} regex 
  * @returns 
  */
-function cityIsInvalid(regex) {
+function cityIsValid() {
     const city = document.querySelector("#city").value
+    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
     let cityErrorMsg = document.getElementById("cityErrorMsg")
-    if ((city === "") || (!regex.test(city))) {
-        cityErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide (sans chiffre ni ponctuation autre que -)"
+    cityErrorMsg.textContent = ""
+    if (city !== "" && regex.test(city)) {
         return true
     }
-    else {
-        cityErrorMsg.textContent = ""
-        //    return false
-    }
+    cityErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide (sans chiffre ni ponctuation autre que -)"
+    return false
 }
 
 /** vérification du champ email
@@ -471,56 +447,60 @@ function cityIsInvalid(regex) {
  * @param {*} regex 
  * @returns 
  */
-function emailIsInvalid() {
+function emailIsValid() {
     const email = document.querySelector("#email").value
     const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
     let emailErrorMsg = document.getElementById("emailErrorMsg")
-    if ((email === "") || (!regex.test(email))) {
-        emailErrorMsg.textContent = "Veuillez remplir le champ avec une adresse email valide"
+    emailErrorMsg.textContent = ""
+    if (email !== "" && regex.test(email)) {
         return true
     }
-    else {
-        emailErrorMsg.textContent = ""
-        //    return false
-    }
-
+    emailErrorMsg.textContent = "Veuillez remplir le champ avec une adresse email valide"
+    return false
 }
 
 /** vérification de l'ensemble des champs
- * si champ vide ou si ne vérifiant pas l expression régulière, renvoit true
- * @param {*} regex 
- * @returns 
+ * si tous les champs sont valides, renvoit true
+ * @returns boolean
  */
-function checkInputIsInvalid() {
-    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    if (firstNameIsInvalid(regex)
-        || lastNameIsInvalid(regex)
-        || addressIsInvalid()
-        || cityIsInvalid(regex)
-        || emailIsInvalid()) {
-        return true
+function checkInputIsValid() {
+    let isValid = true;
+
+    if (!firstNameIsValid()) {
+        isValid = false
     }
+
+    if (!lastNameIsValid()) {
+        isValid = false
+    }
+
+    if (!addressIsValid()) {
+        isValid = false
+    }
+    if (!cityIsValid()) {
+        isValid = false
+    }
+
+    if (!emailIsValid()) {
+        isValid = false
+    }
+    return isValid
 }
 
 
 let validateOrderButton = document.getElementById('order')
 
-validateOrderButton.addEventListener("click", (event) => {
-    const cartArray = getFromCart()
+validateOrderButton.addEventListener("click", async (event) => {
     event.preventDefault()
+    const cartArray = getFromCart()
     if (cartArray.length === 0) {
         alert("Votre panier est vide, commande impossible")
         return
     }
-
-    else if (checkInputIsInvalid()) {
-        event.preventDefault()
+    if (checkInputIsValid()===false) {
         return
     }
-    else {
-        postOrder()
-
-    }
+    await postOrder()
 });
 
 /** permet de récupérer les identifiants des produits du panier sous forme de tableau
@@ -530,21 +510,16 @@ function getIdsFromLocalStorage() {
     const cartArray = getFromCart()
     let products = []
     for (let product of cartArray) {
-
-        console.log(product)
-        console.log(product.productId)
-        console.log(cartArray[0].productId)
-        console.log(products)
         products.push(product.productId)
     }
-    console.log(cartArray)
-    console.log(products)
+    console.log("articles dans le panier", cartArray)
+    console.log("articles dans la commande", products)
     return products
 }
 
 /** envoi de la requête au back end
  */
-function postOrder() {
+async function postOrder() {
     let order = {
         contact: {
             firstName: document.querySelector("#firstName").value,
@@ -559,38 +534,40 @@ function postOrder() {
     //return order
 
     //Envoi de la requête POST au back-end
-    fetch("http://localhost:3000/api/products/order", {
+    // fetch("http://localhost:3000/api/products/order", {
+    //     method: "POST",
+    //     body: JSON.stringify(order),
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    // })
+    //     .then((response) => {
+    //         return response.json();
+    //     })
+    //     .then((response) => {
+    //         localStorage.clear();
+    //         window.location.href = `confirmation.html?order=${response.orderId}`;
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     })
+
+
+
+
+    const urlProductsOrder = "http://localhost:3000/api/products/order"
+
+    let response = await fetch(urlProductsOrder, {
         method: "POST",
-        body: JSON.stringify(order),
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((response) => {
-            localStorage.clear();
-            window.location.href = `confirmation.html?order=${response.orderId}`;
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        body: JSON.stringify(order),
+    }
+    );
+    let result = await response.json();
+    localStorage.clear();
+    window.location.href = `confirmation.html?order=${result.orderId}`;
 }
 
 
-/* essai async / await
-const urlProductsOrder = "http://localhost:3000/api/products/order"
-
-let response = await fetch(urlProductsOrder, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify(order),
-}
-);
-let result = await response.json();
-
-ligne 484 jusqu'à ligne 489 ?
-*/

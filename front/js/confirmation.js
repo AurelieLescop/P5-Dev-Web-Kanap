@@ -3,7 +3,6 @@
  */
 const orderId = getOrderId()
 displayOrderId(orderId)
-//removeAllCache()
 
 /** permet de récupérer le numéro de commande dans l'adresse url
  * @returns le numéro de commande
@@ -26,9 +25,3 @@ function displayOrderId(orderNumber) {
     orderId.textContent = orderNumber
 }
 
-/** permet de vider le local storage
- */
-function removeAllCache() {
-    const cache = window.localStorage
-    cache.clear()
-}

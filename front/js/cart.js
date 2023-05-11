@@ -201,20 +201,23 @@ function displayCartElement(product) {
     createPDelete(divContentSettingsDelete, product)
 }
 
+
 /** affichage total quantité
  */
+
 function integrateTotalQuantity(totalCartQuantity) {
     document.getElementById('totalQuantity').textContent = totalCartQuantity
     console.log(totalCartQuantity)
-
 }
 
 /** affichage total prix
  */
+
 function integrateTotalPrice(totalCartPrice) {
     document.getElementById('totalPrice').textContent = totalCartPrice
-    console.log(totalCartQuantity)
+    console.log(totalCartPrice)
 }
+
 
 /** affichage du panier
  */
@@ -490,14 +493,17 @@ function checkInputIsValid() {
 
 let validateOrderButton = document.getElementById('order')
 
-validateOrderButton.addEventListener("click", async (event) => {
+validateOrderButton.addEventListener("click", async(event) => {
     event.preventDefault()
     const cartArray = getFromCart()
+    console.log(cartArray.length)
+    
     if (cartArray.length === 0) {
+        console.log("hello")
         alert("Votre panier est vide, commande impossible")
         return
     }
-    if (checkInputIsValid()===false) {
+    if (!checkInputIsValid()) {
         return
     }
     await postOrder()
@@ -531,29 +537,6 @@ async function postOrder() {
         products: getIdsFromLocalStorage(),
     }
     console.log(order)
-    //return order
-
-    //Envoi de la requête POST au back-end
-    // fetch("http://localhost:3000/api/products/order", {
-    //     method: "POST",
-    //     body: JSON.stringify(order),
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    // })
-    //     .then((response) => {
-    //         return response.json();
-    //     })
-    //     .then((response) => {
-    //         localStorage.clear();
-    //         window.location.href = `confirmation.html?order=${response.orderId}`;
-    //     })
-    //     .catch((error) => {
-    //         console.log(error);
-    //     })
-
-
-
 
     const urlProductsOrder = "http://localhost:3000/api/products/order"
 
@@ -570,4 +553,37 @@ async function postOrder() {
     window.location.href = `confirmation.html?order=${result.orderId}`;
 }
 
+/*
+function postOrder() {
+    let order = {
+        contact: {
+            firstName: document.querySelector("#firstName").value,
+            lastName: document.querySelector("#lastName").value,
+            address: document.querySelector("#address").value,
+            city: document.querySelector("#city").value,
+            email: document.querySelector("#email").value,
+        },
+        products: getIdsFromLocalStorage(),
+    }
+    console.log(order)
+    //return order
 
+    //Envoi de la requête POST au back-end
+    fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        body: JSON.stringify(order),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            localStorage.clear();
+            window.location.href = `confirmation.html?order=${response.orderId}`;
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}*/

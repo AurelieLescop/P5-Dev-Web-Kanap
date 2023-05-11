@@ -1,20 +1,60 @@
 let productId, productColor
 // creation article
 
+// essai
+function fetchIdData () {
+    let items = getFromCart()
+    console.log("items", items)
+    console.log("items[0].productId", items[0].productId)
+
+    for (let item of items) {
+
+        let id = item.productId
+        let color = item.color
+        let quantity = item.quantity
+        console.log ("id", id)
+        const urlProduct = "http://localhost:3000/api/products/" + id
+        fetchArticleFromApi(urlProduct)
+        displayArticle()
+        return (id, color, quantity)
+        // return id
+    } 
+}
+
+let id
+let color
+let quantity
+
+
+
+async function fetchArticleFromApi(urlProduct) {
+    const res = await fetch(urlProduct)
+    const data = await res.json()
+  
+    console.log("data", data)
+    return data
+  }
+  
+
+fetchIdData()
+
+
 /** affichage de l'article
  * création de l'élément article, ajout de ses attributs et intégration à la page html
  * @param {*} product 
  * @returns 
  */
-function displayArticle(product) {
+function displayArticle(/*product*/) {
     const container = document.getElementById("cart__items")
     const article = document.createElement("article")
     container.appendChild(article)
     article.setAttribute("class", "cart__item")
-    article.setAttribute("data-id", product.productId)
-    article.setAttribute("data-color", product.color)
-    productId = product.productId
-    productColor = product.color
+    // article.setAttribute("data-id", product.productId)
+    // article.setAttribute("data-color", product.color)
+    article.setAttribute("data-id", id)
+    article.setAttribute("data-color", color)
+    // productId = product.productId
+    // productColor = product.color
 
     return article
 }

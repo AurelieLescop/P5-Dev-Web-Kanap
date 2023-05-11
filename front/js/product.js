@@ -148,10 +148,11 @@ async function getArticle() {
       productId: data._id,
       color: document.getElementById('colors').value,
       quantity: Number(document.getElementById('quantity').value),
+      /*essai suppression données sensibles du LS
       price: data.price,
       imageUrl: data.imageUrl,
       altText: data.altTxt,
-      name: data.name
+      name: data.name*/
     }
     addToCart(product)
     console.log(document.getElementById('price').textContent)

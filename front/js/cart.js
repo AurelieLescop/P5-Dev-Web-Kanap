@@ -1,60 +1,20 @@
 let productId, productColor
 // creation article
 
-// essai
-function fetchIdData () {
-    let items = getFromCart()
-    console.log("items", items)
-    console.log("items[0].productId", items[0].productId)
-
-    for (let item of items) {
-
-        let id = item.productId
-        let color = item.color
-        let quantity = item.quantity
-        console.log ("id", id)
-        const urlProduct = "http://localhost:3000/api/products/" + id
-        fetchArticleFromApi(urlProduct)
-        displayArticle()
-        return (id, color, quantity)
-        // return id
-    } 
-}
-
-let id
-let color
-let quantity
-
-
-
-async function fetchArticleFromApi(urlProduct) {
-    const res = await fetch(urlProduct)
-    const data = await res.json()
-  
-    console.log("data", data)
-    return data
-  }
-  
-
-fetchIdData()
-
-
 /** affichage de l'article
  * création de l'élément article, ajout de ses attributs et intégration à la page html
  * @param {*} product 
  * @returns 
  */
-function displayArticle(/*product*/) {
+function displayArticle(product) {
     const container = document.getElementById("cart__items")
     const article = document.createElement("article")
     container.appendChild(article)
     article.setAttribute("class", "cart__item")
-    // article.setAttribute("data-id", product.productId)
-    // article.setAttribute("data-color", product.color)
-    article.setAttribute("data-id", id)
-    article.setAttribute("data-color", color)
-    // productId = product.productId
-    // productColor = product.color
+    article.setAttribute("data-id", product.productId)
+    article.setAttribute("data-color", product.color)
+    productId = product.productId
+    productColor = product.color
 
     return article
 }
@@ -76,12 +36,19 @@ function createDivImg(article) {
  * @param {*} divImg 
  * @param {*} product 
  */
-function createImg(divImg, product) {
+function createImg(divImg, data /*imageUrl, altTxt, product*/) {
     const img = document.createElement("img")
     divImg.appendChild(img)
-    img.setAttribute("src", product.imageUrl)
-    img.setAttribute("alt", product.altText)
-    console.log(product)
+    // img.setAttribute("src", product.imageUrl)
+    // img.setAttribute("alt", product.altText)
+    // img.setAttribute("src", imageUrl)
+    // img.setAttribute("alt", altTxt)
+    // console.log("altTxt createImage", altTxt)
+
+    img.setAttribute("src", data.imageUrl)
+    img.setAttribute("alt", data.altTxt)
+    
+    //mis en commentaire console.log(product)
 }
 
 /** affichage div class = cart__item__content
@@ -113,9 +80,9 @@ function createDivContentDescription(divContent) {
  * @param {*} divContentDescription 
  * @param {*} product 
  */
-function createH2(divContentDescription, product) {
+function createH2(divContentDescription, data) {
     const h2 = document.createElement("h2")
-    const h2Content = document.createTextNode(product.name)
+    const h2Content = document.createTextNode(data.name)
     h2.appendChild(h2Content)
     divContentDescription.appendChild(h2)
 }
@@ -137,9 +104,9 @@ function createPColor(divContentDescription, product) {
  * @param {*} divContentDescription 
  * @param {*} product 
  */
-function createPPrice(divContentDescription, product) {
+function createPPrice(divContentDescription, data) {
     const pPrice = document.createElement("p")
-    const pPriceContent = document.createTextNode(product.price + " €")
+    const pPriceContent = document.createTextNode(data.price + " €")
     pPrice.appendChild(pPriceContent)
     divContentDescription.appendChild(pPrice)
 }
@@ -224,15 +191,18 @@ function createPDelete(divContentSettingsDelete, product) {
  * appel des fonctions précédemment développées
  * @param {*} product 
  */
-function displayCartElement(product) {
+
+//function displayCartElement(product)
+function displayCartElement(product, data) {
     const article = displayArticle(product)
     const divImg = createDivImg(article)
-    createImg(divImg, product)
+    createImg(divImg, data)
+    //    createImg(divImg, product)
     const divContent = createDivContent(article)
     const divContentDescription = createDivContentDescription(divContent)
-    createH2(divContentDescription, product)
+    createH2(divContentDescription, data)
     createPColor(divContentDescription, product)
-    createPPrice(divContentDescription, product)
+    createPPrice(divContentDescription, data)
     const divContentSettings = createDivContentSettings(divContent)
     const divContentSettingsQuantity = createDivContentSettingsQuantity(divContentSettings)
     createPQuantity(divContentSettingsQuantity)
@@ -241,27 +211,74 @@ function displayCartElement(product) {
     createPDelete(divContentSettingsDelete, product)
 }
 
-
 /** affichage total quantité
  */
-
 function integrateTotalQuantity(totalCartQuantity) {
     document.getElementById('totalQuantity').textContent = totalCartQuantity
     console.log(totalCartQuantity)
+
 }
 
 /** affichage total prix
  */
-
 function integrateTotalPrice(totalCartPrice) {
     document.getElementById('totalPrice').textContent = totalCartPrice
     console.log(totalCartPrice)
 }
 
+/*function fetchIdData () {
+    let items = getFromCart()
+    console.log("items", items)
+    console.log("items[0].productId", items[0].productId)
+
+    for (let item of items) {
+        console.log("item", item)
+        let id = item.productId
+        let color = item.color
+        let quantity = item.quantity
+        console.log ("id", id)
+        const urlProduct = "http://localhost:3000/api/products/" + id
+        fetchArticleFromApi(urlProduct)
+        displayArticle()
+        return (id, color, quantity)
+        // return id
+    } 
+}
+
+let id
+let color
+let quantity
+
+
+
+async function fetchArticleFromApi(urlProduct) {
+    const res = await fetch(urlProduct)
+    const data = await res.json()
+  
+    console.log("data", data)
+    return data
+  }
+  
+
+fetchIdData()*/
 
 /** affichage du panier
  */
-function displayCart() {
+
+//essai
+async function fetchArticleFromApi(urlProduct) {
+    const res = await fetch(urlProduct)
+    const data = await res.json()
+
+    console.log("data", data)
+    return data
+}
+
+//let articleName, price, quantity, altTxt, imageUrl
+
+//essai
+
+async function displayCart() {
     const container = document.getElementById("cart__items")
 
     //suppression d'un précédent éventuel panier
@@ -275,12 +292,33 @@ function displayCart() {
     let totalQty = 0;
     let totalPrice = 0;
     for (let product of productsLoadedInLocalStorage) {
+        console.log("product", product)
+        console.log("productId", product.productId)
+
+        //essai
+        let id = product.productId
+        const urlProduct = "http://localhost:3000/api/products/" + id
+        const data = await fetchArticleFromApi(urlProduct)
+        /*articleName = data.name
+        price = data.price
+        color = product.color
+        quantity = product.quantity
+        altTxt = data.altTxt
+        imageUrl = data.imageUrl*/
+        console.log("data l289", data)
+        console.log("name from API", data.name)
+        console.log(data.altTxt)
+        //fin essai
 
         // endroit intgration dans html
-        displayCartElement(product)
+        displayCartElement(product, data)
+
+        //ancienne version
+        // totalQty = totalQty + Number(product.quantity);
+        // totalPrice = totalPrice + (Number(product.quantity) * Number(product.price));
 
         totalQty = totalQty + Number(product.quantity);
-        totalPrice = totalPrice + (Number(product.quantity) * Number(product.price));
+        totalPrice = totalPrice + (Number(product.quantity) * Number(data.price));
     }
     integrateTotalQuantity(totalQty)
     integrateTotalPrice(totalPrice)
@@ -303,7 +341,7 @@ function getFromCart() {
     if (cartContent == null) {
         return []
     }
-        return JSON.parse(cartContent)
+    return JSON.parse(cartContent)
 }
 
 /** suppression produit du panier
@@ -533,13 +571,10 @@ function checkInputIsValid() {
 
 let validateOrderButton = document.getElementById('order')
 
-validateOrderButton.addEventListener("click", async(event) => {
+validateOrderButton.addEventListener("click", async (event) => {
     event.preventDefault()
     const cartArray = getFromCart()
-    console.log(cartArray.length)
-    
     if (cartArray.length === 0) {
-        console.log("hello")
         alert("Votre panier est vide, commande impossible")
         return
     }
@@ -577,6 +612,29 @@ async function postOrder() {
         products: getIdsFromLocalStorage(),
     }
     console.log(order)
+    //return order
+
+    //Envoi de la requête POST au back-end
+    // fetch("http://localhost:3000/api/products/order", {
+    //     method: "POST",
+    //     body: JSON.stringify(order),
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    // })
+    //     .then((response) => {
+    //         return response.json();
+    //     })
+    //     .then((response) => {
+    //         localStorage.clear();
+    //         window.location.href = `confirmation.html?order=${response.orderId}`;
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     })
+
+
+
 
     const urlProductsOrder = "http://localhost:3000/api/products/order"
 
@@ -593,37 +651,4 @@ async function postOrder() {
     window.location.href = `confirmation.html?order=${result.orderId}`;
 }
 
-/*
-function postOrder() {
-    let order = {
-        contact: {
-            firstName: document.querySelector("#firstName").value,
-            lastName: document.querySelector("#lastName").value,
-            address: document.querySelector("#address").value,
-            city: document.querySelector("#city").value,
-            email: document.querySelector("#email").value,
-        },
-        products: getIdsFromLocalStorage(),
-    }
-    console.log(order)
-    //return order
 
-    //Envoi de la requête POST au back-end
-    fetch("http://localhost:3000/api/products/order", {
-        method: "POST",
-        body: JSON.stringify(order),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((response) => {
-            localStorage.clear();
-            window.location.href = `confirmation.html?order=${response.orderId}`;
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-}*/

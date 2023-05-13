@@ -199,7 +199,6 @@ function displayCartElement(product, data) {
  */
 function integrateTotalQuantity(totalCartQuantity) {
     document.getElementById('totalQuantity').textContent = totalCartQuantity;
-    console.log(totalCartQuantity);
 }
 
 /** affichage total prix du panier
@@ -207,7 +206,6 @@ function integrateTotalQuantity(totalCartQuantity) {
  */
 function integrateTotalPrice(totalCartPrice) {
     document.getElementById('totalPrice').textContent = totalCartPrice;
-    console.log(totalCartPrice);
 }
 
 /** récupération des données de l'API
@@ -217,7 +215,6 @@ function integrateTotalPrice(totalCartPrice) {
 async function fetchArticleFromApi(urlProduct) {
     const res = await fetch(urlProduct);
     const data = await res.json();
-    console.log("data", data);
     return data;
 }
 
@@ -239,14 +236,8 @@ async function displayCart() {
 
     // pour chaque produit du local storage
     for (let product of productsLoadedInLocalStorage) {
-        console.log("product", product);
-        console.log("productId", product.productId);
-
         let id = product.productId;
         const data = await fetchArticleFromApi(`http://localhost:3000/api/products/${id}`);
-        console.log("data l289", data);
-        console.log("name from API", data.name);
-        console.log(data.altTxt);
    
         // affichage des éléments dans la page html
         displayCartElement(product, data);
@@ -284,7 +275,6 @@ function removeFromCart(id, color) {
     let cart = getFromCart();
     //permet d'afficher le tableau dépourvu du produit ayant le même identifiant et la même couleur
     cart = cart.filter(p => !(p.productId === id && p.color === color));
-    console.log("affiche cart", cart);
     //enregistrement du nouveau panier
     saveCart(cart);
 }
@@ -294,13 +284,6 @@ function removeFromCart(id, color) {
  */
 function manageDeleteEvent(event) {
     {
-        console.log(event);
-        console.log(event.target);
-        //chemin permettant de récupérer la couleur du produit
-        console.log(event.target.closest("article").dataset.color);
-        //chemin permettant de récupérer l'identifiant du produit
-        console.log(event.target.closest("article").dataset.id);
-
         //suppression du produit du panier ayant cet identifiant et cette couleur
         removeFromCart(event.target.closest("article").dataset.id, event.target.closest("article").dataset.color);
         displayCart();
@@ -339,7 +322,6 @@ function modifyQuantity(newQuantity, id, color) {
     let index = cartArray.findIndex(p => p.productId === id && p.color === color);
     if (index > -1) {
         cartArray[index].quantity = newQuantity;
-        console.log("nouvelle quantité", newQuantity);
     }
     return cartArray;
 }
@@ -353,9 +335,6 @@ function modifyQuantity(newQuantity, id, color) {
  * @param {*} color 
  */
 function manageQuantityChange(event, id, color) {
-    console.log(event);
-    console.log(event.target.value);
-
     if ((Number(event.target.value) <= 0) || (Number(event.target.value) > 100)) {
         alert("Veuillez choisir une quantité comprise entre 1 et 100");
         const cartArray = getFromCart();
@@ -363,7 +342,6 @@ function manageQuantityChange(event, id, color) {
         if (index > -1) {
             //affichage et prise en compte de l'ancienne quantité
             event.target.value = cartArray[index].quantity;
-            console.log("ancienne quantité", event.target.value);
         }
         saveCart(cartArray);
         displayCart();
@@ -520,8 +498,6 @@ function getIdsFromLocalStorage() {
     for (let product of cartArray) {
         products.push(product.productId);
     }
-    console.log("articles dans le panier", cartArray)
-    console.log("articles dans la commande", products)
     return products;
 }
 
@@ -538,7 +514,6 @@ async function postOrder() {
         },
         products: getIdsFromLocalStorage(),
     }
-    console.log(order);
 
     const urlProductsOrder = "http://localhost:3000/api/products/order";
 

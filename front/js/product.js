@@ -6,14 +6,10 @@ const url = new URL(currentUrl);
 /** récupération de l'id depuis l'URL
  */
 let id = url.searchParams.get("id");
-console.log(id);
-console.log(currentUrl);
-console.log(url);
 
 /** creation url permettant d'interroger l'API et obtenir les informations liées à ce canapé précisément (grâce à son identifiant)
  */
 const urlProduct = "http://localhost:3000/api/products/" + id;
-console.log(urlProduct);
 
 /** recupération données API
  * utilisation de l'URL créée précédemment permettant de récupérer les données liées à 1 unique produit/canapé
@@ -22,7 +18,6 @@ console.log(urlProduct);
 async function fetchArticleFromApi() {
   const res = await fetch(urlProduct);
   const data = await res.json();
-  console.log(data);
   return data;
 }
 
@@ -54,7 +49,6 @@ function integrateImg(img) {
  */
 function addTitleContentH1(data) {
   document.querySelector('h1').textContent = data.name;
-  console.log(data.name);
 }
 
 /** ajout du prix dans la page product.html au niveau de l'élément contenant id=price
@@ -111,7 +105,6 @@ function createColorOption(color) {
 function addColorContent(color, colorOption) {
   const optionContent = document.createTextNode(color);
   colorOption.appendChild(optionContent);
-  console.log(optionContent);
 }
 
 
@@ -144,7 +137,6 @@ function addToCart(product) {
   let cartContent = getFromCart();
   //voir si un produit similaire existe dans le panier
   let foundProduct = cartContent.find(p => p.id == product.id && p.color == product.color);
-  console.log(product);
   // on vérifie la sélection d'une couleur et d'une quantité comprise entre 1 et 100
   if ((product.color == "")) {
     alert("Veuillez sélectionner la couleur de votre canapé");
@@ -187,11 +179,8 @@ async function getArticle() {
   modifyPageTitleContent(data);
 
   //ajout des options de couleur
-  console.log(data.colors[0]);
-
   //pour chaque couleur possible du canapé
   for (let color of data.colors) {
-    console.log(color);
     const colorOption = createColorOption(color);
     addColorContent(color, colorOption);
   }
@@ -199,7 +188,6 @@ async function getArticle() {
   //ajout d'un événement au bouton "ajouter au panier"
   let addToCartButton = document.getElementById('addToCart')
   addToCartButton.addEventListener("click", () => {
-    console.log(data);
 
     //au clic, données du produit qui seront envoyées dans le local storage
     let product = {
@@ -208,7 +196,6 @@ async function getArticle() {
       quantity: Number(document.getElementById('quantity').value),
     }
     addToCart(product);
-    console.log(document.getElementById('price').textContent);
   })
 }
 

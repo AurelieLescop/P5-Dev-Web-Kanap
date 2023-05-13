@@ -6,7 +6,6 @@ const urlInventory = "http://localhost:3000/api/products"
 async function fetchArticleFromApi() {
   const res = await fetch(urlInventory);
   const data = await res.json();
-  console.log("data", data);
   return data
 }
 
@@ -88,7 +87,6 @@ function displayCanapeElement(canape) {
   displayElementImg(article, canape);
   displayElementH3(canape, article);
   displayElementp(canape, article);
-  console.log(canape);
   return a;
 }
 

@@ -7,7 +7,7 @@ function getOrderId() {
     const url = new URL(currentUrl);
 
     //récupération de l'id de l'URL
-    let orderNumber = url.searchParams.get("order");
+    const orderNumber = url.searchParams.get("order");
     return orderNumber;
 }
 
@@ -19,7 +19,7 @@ function integrateOrderId(orderNumber) {
     orderId.textContent = orderNumber;
 }
 
-/** permet de récupérer le numéro de commande dans l'adresse url 
+/** permet de récupérer le numéro de commande dans l'adresse url
  * et de l'afficher dans la page html
  */
 function displayOrderId() {

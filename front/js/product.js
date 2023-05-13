@@ -5,15 +5,15 @@ const url = new URL(currentUrl);
 
 /** récupération de l'id depuis l'URL
  */
-let id = url.searchParams.get("id");
+const id = url.searchParams.get("id");
 
 /** creation url permettant d'interroger l'API et obtenir les informations liées à ce canapé précisément (grâce à son identifiant)
  */
-const urlProduct = "http://localhost:3000/api/products/" + id;
+const urlProduct = `http://localhost:3000/api/products/${id}`;
 
 /** recupération données API
  * utilisation de l'URL créée précédemment permettant de récupérer les données liées à 1 unique produit/canapé
- * @returns data qui est l'objet contenant l'ensemble des données liées au produit/canapé que l'on souhaite afficher 
+ * @returns data qui est l'objet contenant l'ensemble des données liées au produit/canapé que l'on souhaite afficher
  */
 async function fetchArticleFromApi() {
   const res = await fetch(urlProduct);
@@ -23,7 +23,7 @@ async function fetchArticleFromApi() {
 
 /** création de l'élément image et ajout de ses attributs
  * @param {*} data objet contenant l'ensemble des données liées au produit/canapé que l'on souhaite afficher
- * permet de récupérer le texte alternatif et la photo du canapé  
+ * permet de récupérer le texte alternatif et la photo du canapé 
  * @returns l'élément img
  */
 function createImg(data) {
@@ -45,7 +45,7 @@ function integrateImg(img) {
 
 /** ajout du titre h1 spécifique au canapé sélectionné dans la page product.html
  * @param {*} data objet contenant l'ensemble des données liées au produit que l'on souhaite afficher
- * permet de récupérer le nom du canapé 
+ * permet de récupérer le nom du canapé
  */
 function addTitleContentH1(data) {
   document.querySelector('h1').textContent = data.name;
@@ -53,7 +53,7 @@ function addTitleContentH1(data) {
 
 /** ajout du prix dans la page product.html au niveau de l'élément contenant id=price
  * @param {*} data objet contenant l'ensemble des données liées au produit que l'on souhaite afficher
- * permet de récupérer le prix du canapé 
+ * permet de récupérer le prix du canapé
  */
 function addContentPrice(data) {
   document.getElementById('price').textContent = data.price;
@@ -61,7 +61,7 @@ function addContentPrice(data) {
 
 /** ajout de la description dans la page product.html au niveau de l'élément contenant id=description
  * @param {*} data objet contenant l'ensemble des données liées au produit que l'on souhaite afficher
- * permet de récupérer la description du canapé 
+ * permet de récupérer la description du canapé
  */
 function addContentDescription(data) {
   document.getElementById('description').textContent = data.description;
@@ -80,7 +80,7 @@ function displayElement(data) {
 
 /** modification du titre de la page (dans l'onglet) en adéquation avec le nom du canapé
  * @param {*} data objet contenant l'ensemble des données liées au produit que l'on souhaite afficher
- * permet de récupérer le nom du canapé 
+ * permet de récupérer le nom du canapé
  */
 function modifyPageTitleContent(data) {
   document.querySelector('title').textContent = data.name;
@@ -99,14 +99,13 @@ function createColorOption(color) {
 }
 
 /** affichage des options de couleur dans le menu déroulant
- * @param {*} color 
- * @param {*} colorOption 
+ * @param {*} color
+ * @param {*} colorOption
  */
 function addColorContent(color, colorOption) {
   const optionContent = document.createTextNode(color);
   colorOption.appendChild(optionContent);
 }
-
 
 // ------------ GESTION DU PANIER-------------------------------
 
@@ -119,31 +118,30 @@ function saveCart(cartContent) {
  * @returns un tableau des produits du local storage (tableau vide si le local storage est vide)
  */
 function getFromCart() {
-  let cartContent = localStorage.getItem("cartProduct");
+  const cartContent = localStorage.getItem("cartProduct");
 
   //si le contenu du panier est nul alors il faut créer un tableau vide
   if (cartContent == null) {
     return [];
-  } else {
-    return JSON.parse(cartContent);
   }
+  return JSON.parse(cartContent);
 }
 
 /** ajout des produits au panier selon différentes conditions
- * @param {*} product correspondant au canapé ajouté (identifiant, couleur) 
+ * @param {*} product correspondant au canapé ajouté (identifiant, couleur)
  */
 function addToCart(product) {
   // récupération du panier
-  let cartContent = getFromCart();
+  const cartContent = getFromCart();
   //voir si un produit similaire existe dans le panier
-  let foundProduct = cartContent.find(p => p.id == product.id && p.color == product.color);
+  const foundProduct = cartContent.find((p) => p.id === product.id && p.color === product.color);
   // on vérifie la sélection d'une couleur et d'une quantité comprise entre 1 et 100
-  if ((product.color == "")) {
+  if ((product.color === "")) {
     alert("Veuillez sélectionner la couleur de votre canapé");
   } else if ((product.quantity <= 0) || (product.quantity > 100)) {
     alert("Veuillez choisir une quantité comprise entre 1 et 100");
     // si le produit n'existe pas dans le panier, on l'ajoute au panier (on le créé)
-  } else if (foundProduct == undefined) {
+  } else if (foundProduct === undefined) {
     cartContent.push(product);
     saveCart(cartContent);
     if (window.confirm("Votre canapé a bien été ajouté au panier. Voulez-vous voir votre panier?")) {
@@ -154,9 +152,8 @@ function addToCart(product) {
   } else {
     if (Number(foundProduct.quantity + product.quantity) >= 100) {
       alert("Vous ne pouvez pas commander plus de 100 canapés identiques");
-    }
-    // si le produit existe dans le panier et que la quantité ajoutée ne fait pas dépasser 100 la quantité totale, on modifie sa quantité
-    else {
+    } else {
+      // si le produit existe dans le panier et que la quantité ajoutée ne fait pas dépasser 100 la quantité totale, on modifie sa quantité
       foundProduct.quantity += product.quantity;
       saveCart(cartContent);
       if (window.confirm("Votre canapé a bien été ajouté au panier. Voulez-vous voir votre panier?")) {
@@ -165,7 +162,6 @@ function addToCart(product) {
     }
   }
 }
-
 
 /** affichage dynamique du canapé sélectionné dans la page html
  * récupération des données lié au canapé
@@ -180,23 +176,22 @@ async function getArticle() {
 
   //ajout des options de couleur
   //pour chaque couleur possible du canapé
-  for (let color of data.colors) {
+  for (const color of data.colors) {
     const colorOption = createColorOption(color);
     addColorContent(color, colorOption);
   }
 
   //ajout d'un événement au bouton "ajouter au panier"
-  let addToCartButton = document.getElementById('addToCart')
+  const addToCartButton = document.getElementById('addToCart');
   addToCartButton.addEventListener("click", () => {
-
     //au clic, données du produit qui seront envoyées dans le local storage
-    let product = {
+    const product = {
       productId: data._id,
       color: document.getElementById('colors').value,
       quantity: Number(document.getElementById('quantity').value),
-    }
+    };
     addToCart(product);
-  })
+  });
 }
 
 getArticle();

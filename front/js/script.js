@@ -1,4 +1,4 @@
-const urlInventory = "http://localhost:3000/api/products"
+const urlInventory = "http://localhost:3000/api/products";
 
 /** récupération des données de l'API
  * @returns le tableau des canapés avec les données relatives à chaque canapé
@@ -6,9 +6,8 @@ const urlInventory = "http://localhost:3000/api/products"
 async function fetchArticleFromApi() {
   const res = await fetch(urlInventory);
   const data = await res.json();
-  return data
+  return data;
 }
-
 
 /** creation élément a et ajout attribut href unique pour 1 canapé donné
  * href est créé à partir de l'identifiant unique du canapé
@@ -17,7 +16,7 @@ async function fetchArticleFromApi() {
  */
 function createElementA(canape) {
   const a = document.createElement("a");
-  a.setAttribute("href", "./product.html?id=" + canape._id);
+  a.setAttribute("href", `./product.html?id=${canape._id}`);
   return a;
 }
 
@@ -91,23 +90,18 @@ function displayCanapeElement(canape) {
 }
 
 /** permet d'afficher dynamiquement les produits du catalogue
- * pour chaque canapé du catalogue, 
- * création des éléments liés à 1 canapé donné, 
+ * pour chaque canapé du catalogue,
+ * création des éléments liés à 1 canapé donné,
  * et intégration dans la page html
  */
 async function getArticles() {
-
   const data = await fetchArticleFromApi();
-
   //pour chaque objet (canapé) du tableau
-  for (let canape of data) {
-
+  for (const canape of data) {
     //endroit intégration dans index.html
     const container = document.getElementById("items");
-
     // creation des différents éléments spécifiques au canapé
     const newElement = displayCanapeElement(canape);
-
     // rattachement des élément et intégration à index.html
     container.appendChild(newElement);
   }

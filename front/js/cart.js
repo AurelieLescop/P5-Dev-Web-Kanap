@@ -238,7 +238,7 @@ async function displayCart() {
     for (let product of productsLoadedInLocalStorage) {
         let id = product.productId;
         const data = await fetchArticleFromApi(`http://localhost:3000/api/products/${id}`);
-   
+
         // affichage des éléments dans la page html
         displayCartElement(product, data);
 

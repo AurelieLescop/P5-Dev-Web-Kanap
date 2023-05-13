@@ -1,286 +1,232 @@
-// creation article
-
-/** affichage de l'article
+/** affichage de l'élément article
  * création de l'élément article, ajout de ses attributs et intégration à la page html
- * @param {*} product 
- * @returns 
+ * @param {*} product correspondant à 1 produit récupéré dans le local storage contenant certaines données (identifiant, couleur, quantité)
+ * @returns l'élément article
  */
 function displayArticle(product) {
-    const container = document.getElementById("cart__items")
-    const article = document.createElement("article")
-    container.appendChild(article)
-    article.setAttribute("class", "cart__item")
-    article.setAttribute("data-id", product.productId)
-    article.setAttribute("data-color", product.color)
-    productId = product.productId
-    productColor = product.color
-
-    return article
+    const container = document.getElementById("cart__items");
+    const article = document.createElement("article");
+    container.appendChild(article);
+    article.setAttribute("class", "cart__item");
+    article.setAttribute("data-id", product.productId);
+    article.setAttribute("data-color", product.color);
+    return article;
 }
 
-/** affichage div class = cart__item__img
+/** affichage divImg dont la class = cart__item__img
  * création de la div et intégration à la page html
- * @param {*} article 
- * @returns 
+ * @param {*} article permettant le rattachement de l'élément div à article dans la page cart.html
+ * @returns divImg
  */
 function createDivImg(article) {
-    const divImg = document.createElement("div")
-    article.appendChild(divImg)
-    divImg.setAttribute("class", "cart__item__img")
-    return divImg
+    const divImg = document.createElement("div");
+    article.appendChild(divImg);
+    divImg.setAttribute("class", "cart__item__img");
+    return divImg;
 }
 
 /** affichage image
  * création de l'image, ajout de ses attributs et intégration dans la page html
- * @param {*} divImg 
- * @param {*} product 
+ * @param {*} divImg précédemment créé
+ * @param {*} data correspondant au produit issu de l'API à partir de l'identifiant du canapé product récupéré dans le local storage
  */
-function createImg(divImg, data /*imageUrl, altTxt, product*/) {
-    const img = document.createElement("img")
-    divImg.appendChild(img)
-    // img.setAttribute("src", product.imageUrl)
-    // img.setAttribute("alt", product.altText)
-    // img.setAttribute("src", imageUrl)
-    // img.setAttribute("alt", altTxt)
-    // console.log("altTxt createImage", altTxt)
-
-    img.setAttribute("src", data.imageUrl)
-    img.setAttribute("alt", data.altTxt)
-
-    //mis en commentaire console.log(product)
+function createImg(divImg, data) {
+    const img = document.createElement("img");
+    divImg.appendChild(img);
+    img.setAttribute("src", data.imageUrl);
+    img.setAttribute("alt", data.altTxt);
 }
 
-/** affichage div class = cart__item__content
+/** affichage divContent class = cart__item__content
  * création de la divContent, ajout de son attribut et intégration dans la page html
- * @param {*} article 
- * @returns 
+ * @param {*} article précédemment créé
+ * @returns divContent
  */
 function createDivContent(article) {
-    const divContent = document.createElement("div")
-    article.appendChild(divContent)
-    divContent.setAttribute("class", "cart__item__content")
-    return divContent
+    const divContent = document.createElement("div");
+    article.appendChild(divContent);
+    divContent.setAttribute("class", "cart__item__content");
+    return divContent;
 }
 
 /** affichage div class = cart__item__content__description
  * création de la divContentDescription, ajout de son attribut et intégration dans la page html
- * @param {*} divContent 
- * @returns 
+ * @param {*} divContent précédemment créé
+ * @returns divContentDescription
  */
 function createDivContentDescription(divContent) {
-    const divContentDescription = document.createElement("div")
-    divContent.appendChild(divContentDescription)
-    divContentDescription.setAttribute("class", "cart__item__content")
-    return divContentDescription
+    const divContentDescription = document.createElement("div");
+    divContent.appendChild(divContentDescription);
+    divContentDescription.setAttribute("class", "cart__item__content");
+    return divContentDescription;
 }
 
 /** affichage titre h2
  * création titre h2, ajout de son attribut et intégration dans la page html
- * @param {*} divContentDescription 
- * @param {*} product 
+ * @param {*} divContentDescription précédemment créé
+ * @param {*} data correspondant au produit issu de l'API à partir de l'identifiant du canapé product récupéré dans le local storage 
  */
 function createH2(divContentDescription, data) {
-    const h2 = document.createElement("h2")
-    const h2Content = document.createTextNode(data.name)
-    h2.appendChild(h2Content)
-    divContentDescription.appendChild(h2)
+    const h2 = document.createElement("h2");
+    const h2Content = document.createTextNode(data.name);
+    h2.appendChild(h2Content);
+    divContentDescription.appendChild(h2);
 }
 
 /** affichage paragraphe p couleur
  * création paragraphe p couleur, ajout de son attribut et intégration dans la page html
- * @param {*} divContentDescription 
- * @param {*} product 
+ * @param {*} divContentDescription précédemment créé
+ * @param {*} product correspondant à 1 produit récupéré dans le local storage contenant certaines données (identifiant, couleur, quantité)
  */
 function createPColor(divContentDescription, product) {
-    const pColor = document.createElement("p")
-    const pColorContent = document.createTextNode(product.color)
-    pColor.appendChild(pColorContent)
-    divContentDescription.appendChild(pColor)
+    const pColor = document.createElement("p");
+    const pColorContent = document.createTextNode(product.color);
+    pColor.appendChild(pColorContent);
+    divContentDescription.appendChild(pColor);
 }
 
 /** affichage paragraphe p prix
  * création paragraphe p prix, ajout de son attribut et intégration dans la page html
- * @param {*} divContentDescription 
- * @param {*} product 
+ * @param {*} divContentDescription précédemment créé
+ * @param {*} data correspondant au produit issu de l'API à partir de l'identifiant du canapé product récupéré dans le local storage 
  */
 function createPPrice(divContentDescription, data) {
-    const pPrice = document.createElement("p")
-    const pPriceContent = document.createTextNode(data.price + " €")
-    pPrice.appendChild(pPriceContent)
-    divContentDescription.appendChild(pPrice)
+    const pPrice = document.createElement("p");
+    const pPriceContent = document.createTextNode(data.price + " €");
+    pPrice.appendChild(pPriceContent);
+    divContentDescription.appendChild(pPrice);
 }
 
-/** affichage div class = cart__item__content__settings
+/** affichage DivContentSettings avec class = cart__item__content__settings
  * création div class = cart__item__content__settings, ajout de son attribut et intégration dans la page html
- * @param {*} divContent 
- * @returns 
+ * @param {*} divContent précédemment créé
+ * @returns divContentSettings
  */
 function createDivContentSettings(divContent) {
-    const divContentSettings = document.createElement("div")
-    divContent.appendChild(divContentSettings)
-    divContentSettings.setAttribute("class", "cart__item__content__settings")
-    return divContentSettings
+    const divContentSettings = document.createElement("div");
+    divContent.appendChild(divContentSettings);
+    divContentSettings.setAttribute("class", "cart__item__content__settings");
+    return divContentSettings;
 }
 
 /** affichage div class = cart__item__content__settings__quantity
  * création div class = cart__item__content__settings__quantity, ajout de son attribut et intégration dans la page html
- * @param {*} divContentSettings 
- * @returns 
+ * @param {*} divContentSettings précédemment créé
+ * @returns divContentSettingsQuantity
  */
 function createDivContentSettingsQuantity(divContentSettings) {
-    const divContentSettingsQuantity = document.createElement("div")
-    divContentSettings.appendChild(divContentSettingsQuantity)
-    divContentSettingsQuantity.setAttribute("class", "cart__item__content__settings__quantity")
-    return divContentSettingsQuantity
+    const divContentSettingsQuantity = document.createElement("div");
+    divContentSettings.appendChild(divContentSettingsQuantity);
+    divContentSettingsQuantity.setAttribute("class", "cart__item__content__settings__quantity");
+    return divContentSettingsQuantity;
 }
 
 /** affichage paragraphe p prix
  * création paragraphe p prix et intégration dans la page html
- * @param {*} divContentSettingsQuantity 
+ * @param {*} divContentSettingsQuantity précédemment créé
  */
 function createPQuantity(divContentSettingsQuantity) {
-    const pQuantity = document.createElement("p")
-    const pQuantityContent = document.createTextNode("Qté : ")
-    pQuantity.appendChild(pQuantityContent)
-    divContentSettingsQuantity.appendChild(pQuantity)
+    const pQuantity = document.createElement("p");
+    const pQuantityContent = document.createTextNode("Qté : ");
+    pQuantity.appendChild(pQuantityContent);
+    divContentSettingsQuantity.appendChild(pQuantity);
 }
 
 /** affichage tab input quantity
  * création tab input quantity, ajout de ses attributs et intégration dans la page html
- * @param {*} divContentSettingsQuantity 
- * @param {*} product 
+ * @param {*} divContentSettingsQuantity précédemment créé
+ * @param {*} product correspondant à 1 produit récupéré dans le local storage contenant certaines données (identifiant, couleur, quantité)
  */
 function createInputQuantity(divContentSettingsQuantity, product) {
-    const inputQuantity = document.createElement("input")
-    divContentSettingsQuantity.appendChild(inputQuantity)
-    inputQuantity.setAttribute("type", "number")
-    inputQuantity.setAttribute("class", "itemQuantity")
-    inputQuantity.setAttribute("name", "itemQuantity")
-    inputQuantity.setAttribute("min", "1")
-    inputQuantity.setAttribute("max", "100")
-    inputQuantity.setAttribute("value", product.quantity)
+    const inputQuantity = document.createElement("input");
+    divContentSettingsQuantity.appendChild(inputQuantity);
+    inputQuantity.setAttribute("type", "number");
+    inputQuantity.setAttribute("class", "itemQuantity");
+    inputQuantity.setAttribute("name", "itemQuantity");
+    inputQuantity.setAttribute("min", "1");
+    inputQuantity.setAttribute("max", "100");
+    inputQuantity.setAttribute("value", product.quantity);
 }
 
-/** affichage div class = cart__item__content__settings__delete
+/** affichage divContentSettingsDelete avec class = cart__item__content__settings__delete
  * création div class = cart__item__content__settings__delete, ajout de son attribut et intégration dans la page html
  * @param {*} divContentSettings 
- * @returns 
+ * @returns divContentSettingsDelete
  */
 function createDivContentSettingsDelete(divContentSettings) {
-    const divContentSettingsDelete = document.createElement("div")
-    divContentSettings.appendChild(divContentSettingsDelete)
-    divContentSettingsDelete.setAttribute("class", "cart__item__content__settings__delete")
-    return divContentSettingsDelete
+    const divContentSettingsDelete = document.createElement("div");
+    divContentSettings.appendChild(divContentSettingsDelete);
+    divContentSettingsDelete.setAttribute("class", "cart__item__content__settings__delete");
+    return divContentSettingsDelete;
 }
 
 /** affichage p class = cart__item__content__settings__delete
  * création p class = cart__item__content__settings__delete, ajout de son attribut et intégration dans la page html
- * @param {*} divContentSettingsDelete 
- * @param {*} product 
+ * @param {*} divContentSettingsDelete précédemment créé
  */
 function createPDelete(divContentSettingsDelete) {
-    const pDelete = document.createElement("p")
-    const pDeleteContent = document.createTextNode("Supprimer")
-    pDelete.appendChild(pDeleteContent)
-    divContentSettingsDelete.appendChild(pDelete)
-    pDelete.setAttribute("class", "deleteItem")
+    const pDelete = document.createElement("p");
+    const pDeleteContent = document.createTextNode("Supprimer");
+    pDelete.appendChild(pDeleteContent);
+    divContentSettingsDelete.appendChild(pDelete);
+    pDelete.setAttribute("class", "deleteItem");
 }
 
 /** affichage de l'article
  * appel des fonctions précédemment développées
- * @param {*} product 
+ * @param {*} product correspondant à 1 produit récupéré dans le local storage contenant certaines données (identifiant, couleur, quantité)
+ * @param {*} data correspondant au produit issu de l'API à partir de l'identifiant du canapé product récupéré dans le local storage 
  */
-
-//function displayCartElement(product)
 function displayCartElement(product, data) {
-    const article = displayArticle(product)
-    const divImg = createDivImg(article)
-    createImg(divImg, data)
-    //    createImg(divImg, product)
-    const divContent = createDivContent(article)
-    const divContentDescription = createDivContentDescription(divContent)
-    createH2(divContentDescription, data)
-    createPColor(divContentDescription, product)
-    createPPrice(divContentDescription, data)
-    const divContentSettings = createDivContentSettings(divContent)
-    const divContentSettingsQuantity = createDivContentSettingsQuantity(divContentSettings)
-    createPQuantity(divContentSettingsQuantity)
-    createInputQuantity(divContentSettingsQuantity, product)
-    const divContentSettingsDelete = createDivContentSettingsDelete(divContentSettings)
-    createPDelete(divContentSettingsDelete, product)
+    const article = displayArticle(product);
+    const divImg = createDivImg(article);
+    createImg(divImg, data);
+    const divContent = createDivContent(article);
+    const divContentDescription = createDivContentDescription(divContent);
+    createH2(divContentDescription, data);
+    createPColor(divContentDescription, product);
+    createPPrice(divContentDescription, data);
+    const divContentSettings = createDivContentSettings(divContent);
+    const divContentSettingsQuantity = createDivContentSettingsQuantity(divContentSettings);
+    createPQuantity(divContentSettingsQuantity);
+    createInputQuantity(divContentSettingsQuantity, product);
+    const divContentSettingsDelete = createDivContentSettingsDelete(divContentSettings);
+    createPDelete(divContentSettingsDelete, product);
 }
 
-/** affichage total quantité
+/** affichage total quantité du panier
+ * @param {*} totalCartQuantity correspondant à la quantité totale
  */
 function integrateTotalQuantity(totalCartQuantity) {
-    document.getElementById('totalQuantity').textContent = totalCartQuantity
-    console.log(totalCartQuantity)
-
+    document.getElementById('totalQuantity').textContent = totalCartQuantity;
+    console.log(totalCartQuantity);
 }
 
-/** affichage total prix
+/** affichage total prix du panier
+ * @param {*} totalCartPrice correspondant au prix total 
  */
 function integrateTotalPrice(totalCartPrice) {
-    document.getElementById('totalPrice').textContent = totalCartPrice
-    console.log(totalCartPrice)
+    document.getElementById('totalPrice').textContent = totalCartPrice;
+    console.log(totalCartPrice);
 }
 
-/*function fetchIdData () {
-    let items = getFromCart()
-    console.log("items", items)
-    console.log("items[0].productId", items[0].productId)
-
-    for (let item of items) {
-        console.log("item", item)
-        let id = item.productId
-        let color = item.color
-        let quantity = item.quantity
-        console.log ("id", id)
-        const urlProduct = "http://localhost:3000/api/products/" + id
-        fetchArticleFromApi(urlProduct)
-        displayArticle()
-        return (id, color, quantity)
-        // return id
-    } 
-}
-
-let id
-let color
-let quantity
-
-
-
+/** récupération des données de l'API
+ * @param {*} urlProduct correspondant à l'URL de l'API  
+ * @returns les données relatives au produit
+*/
 async function fetchArticleFromApi(urlProduct) {
-    const res = await fetch(urlProduct)
-    const data = await res.json()
-  
-    console.log("data", data)
-    return data
-  }
-  
-
-fetchIdData()*/
+    const res = await fetch(urlProduct);
+    const data = await res.json();
+    console.log("data", data);
+    return data;
+}
 
 /** affichage du panier
  */
-
-//essai
-async function fetchArticleFromApi(urlProduct) {
-    const res = await fetch(urlProduct)
-    const data = await res.json()
-
-    console.log("data", data)
-    return data
-}
-
-//let articleName, price, quantity, altTxt, imageUrl
-
-//essai
-
 async function displayCart() {
-    const container = document.getElementById("cart__items")
+    const container = document.getElementById("cart__items");
 
-    //suppression d'un précédent éventuel panier
+    //suppression d'un éventuel précédent panier
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
@@ -290,47 +236,34 @@ async function displayCart() {
 
     let totalQty = 0;
     let totalPrice = 0;
+
+    // pour chaque produit du local storage
     for (let product of productsLoadedInLocalStorage) {
-        console.log("product", product)
-        console.log("productId", product.productId)
+        console.log("product", product);
+        console.log("productId", product.productId);
 
-        //essai
-        let id = product.productId
-
-        const data = await fetchArticleFromApi(`http://localhost:3000/api/products/${id}`)
-        /*articleName = data.name
-        price = data.price
-        color = product.color
-        quantity = product.quantity
-        altTxt = data.altTxt
-        imageUrl = data.imageUrl*/
-        console.log("data l289", data)
-        console.log("name from API", data.name)
-        console.log(data.altTxt)
-        //fin essai
-
-        // endroit intgration dans html
-        displayCartElement(product, data)
-
-        //ancienne version
-        // totalQty = totalQty + Number(product.quantity);
-        // totalPrice = totalPrice + (Number(product.quantity) * Number(product.price));
+        let id = product.productId;
+        const data = await fetchArticleFromApi(`http://localhost:3000/api/products/${id}`);
+        console.log("data l289", data);
+        console.log("name from API", data.name);
+        console.log(data.altTxt);
+   
+        // affichage des éléments dans la page html
+        displayCartElement(product, data);
 
         totalQty = totalQty + Number(product.quantity);
         totalPrice = totalPrice + (Number(product.quantity) * Number(data.price));
     }
-    integrateTotalQuantity(totalQty)
-    integrateTotalPrice(totalPrice)
-    registerEvent()
+    integrateTotalQuantity(totalQty);
+    integrateTotalPrice(totalPrice);
+    registerEvent();
 }
-
-
 
 
 // -------------- GESTION DU PANIER
 // Sauvegarde les données dans le panier
 function saveCart(cartContent) {
-    localStorage.setItem("cartProduct", JSON.stringify(cartContent))
+    localStorage.setItem("cartProduct", JSON.stringify(cartContent));
 }
 
 // Récupération des données du panier
@@ -339,31 +272,24 @@ function getFromCart() {
     if (cartContent == null) {
         return []
     }
-    return JSON.parse(cartContent)
+    return JSON.parse(cartContent);
 }
 
-function getFromCartBuggy() {
-    let cartContent = JSON.parse(localStorage.getItem("cartProduct"));
-    return cartContent;
-}
-
-/** suppression produit du panier
- * @param {*} id 
- * @param {*} color 
+/** suppression d'un produit du panier
+ * @param {*} id correspondant à l'identifiant du produit
+ * @param {*} color correspondant à la couleur du produit
  */
 function removeFromCart(id, color) {
     // récupération du panier
-    let cart = getFromCart()
-    //permet de retrouver le produit ayant le même identifiant et la même couleur
-    cart = cart.filter(p => !(p.productId === id && p.color === color))
-    console.log("affiche cart", cart)
+    let cart = getFromCart();
+    //permet d'afficher le tableau dépourvu du produit ayant le même identifiant et la même couleur
+    cart = cart.filter(p => !(p.productId === id && p.color === color));
+    console.log("affiche cart", cart);
     //enregistrement du nouveau panier
-    saveCart(cart)
+    saveCart(cart);
 }
 
-
-/**
- * gestion de l'évènement supprimer
+/** gestion de l'évènement supprimer
  * @param {*} event 
  */
 function manageDeleteEvent(event) {
@@ -376,8 +302,8 @@ function manageDeleteEvent(event) {
         console.log(event.target.closest("article").dataset.id);
 
         //suppression du produit du panier ayant cet identifiant et cette couleur
-        removeFromCart(event.target.closest("article").dataset.id, event.target.closest("article").dataset.color)
-        displayCart()
+        removeFromCart(event.target.closest("article").dataset.id, event.target.closest("article").dataset.color);
+        displayCart();
     }
 }
 
@@ -385,16 +311,16 @@ function manageDeleteEvent(event) {
  * et tous les menus déroulants de quantité du panier
  */
 function registerEvent() {
-    const removeToCartButtons = document.querySelectorAll('.deleteItem')
+    const removeToCartButtons = document.querySelectorAll('.deleteItem');
     for (let removeToCartButton of removeToCartButtons) {
-        removeToCartButton.addEventListener("click", manageDeleteEvent)
+        removeToCartButton.addEventListener("click", manageDeleteEvent);
     }
 
-    let containerDisplayCart = document.getElementById('cart__items')
-    let modifyQuantityButtons = containerDisplayCart.querySelectorAll('input')
+    let containerDisplayCart = document.getElementById('cart__items');
+    let modifyQuantityButtons = containerDisplayCart.querySelectorAll('input');
 
     for (let modifyQuantityButton of modifyQuantityButtons) {
-        modifyQuantityButton.addEventListener("change", manageQuantityChange)
+        modifyQuantityButton.addEventListener("change", manageQuantityChange);
     }
 
 }
@@ -408,14 +334,14 @@ function registerEvent() {
  * @returns 
  */
 function modifyQuantity(newQuantity, id, color) {
-    const cartArray = getFromCart()
+    const cartArray = getFromCart();
     //si index non trouvé, il mettra -1
-    let index = cartArray.findIndex(p => p.productId === id && p.color === color)
+    let index = cartArray.findIndex(p => p.productId === id && p.color === color);
     if (index > -1) {
-        cartArray[index].quantity = newQuantity
-        console.log("nouvelle quantité", newQuantity)
+        cartArray[index].quantity = newQuantity;
+        console.log("nouvelle quantité", newQuantity);
     }
-    return cartArray
+    return cartArray;
 }
 
 /** prise en compte du changement de la quantité
@@ -428,26 +354,25 @@ function modifyQuantity(newQuantity, id, color) {
  */
 function manageQuantityChange(event, id, color) {
     console.log(event);
-    console.log(event.target.value)
+    console.log(event.target.value);
 
     if ((Number(event.target.value) <= 0) || (Number(event.target.value) > 100)) {
-        alert("Veuillez choisir une quantité comprise entre 1 et 100")
-        const cartArray = getFromCart()
-        let index = cartArray.findIndex(p => p.productId === id && p.color === color)
+        alert("Veuillez choisir une quantité comprise entre 1 et 100");
+        const cartArray = getFromCart();
+        let index = cartArray.findIndex(p => p.productId === id && p.color === color);
         if (index > -1) {
             //affichage et prise en compte de l'ancienne quantité
-            event.target.value = cartArray[index].quantity
-            console.log("ancienne quantité", event.target.value)
+            event.target.value = cartArray[index].quantity;
+            console.log("ancienne quantité", event.target.value);
         }
-        saveCart(cartArray)
-        displayCart()
+        saveCart(cartArray);
+        displayCart();
     }
     else {
-        const cartArray = modifyQuantity(Number(event.target.value), event.target.closest("article").dataset.id, event.target.closest("article").dataset.color)
-        saveCart(cartArray)
-        displayCart()
+        const cartArray = modifyQuantity(Number(event.target.value), event.target.closest("article").dataset.id, event.target.closest("article").dataset.color);
+        saveCart(cartArray);
+        displayCart();
     }
-
 }
 
 // ------------ VERIFICATION CHAMPS FORMULAIRE
@@ -458,89 +383,82 @@ function manageQuantityChange(event, id, color) {
  * @returns 
  */
 function firstNameIsValid() {
-    const firstName = document.querySelector("#firstName").value
-    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    let errorMessageFirstName = document.getElementById("firstNameErrorMsg")
-    errorMessageFirstName.textContent = ""
+    const firstName = document.querySelector("#firstName").value;
+    const regex = /^[A-Za-zéèêëç-]+$/;
+    let errorMessageFirstName = document.getElementById("firstNameErrorMsg");
+    errorMessageFirstName.textContent = "";
     if (firstName !== "" && regex.test(firstName)) {
-        return true
+        return true;
     }
-    errorMessageFirstName.textContent = "Veuillez remplir le champ avec un prénom valide (sans chiffre ni ponctuation autre que -)"
-    return false
+    errorMessageFirstName.textContent = "Veuillez remplir le champ avec un prénom valide (sans chiffre ni ponctuation autre que -)";
+    return false;
 }
 
 /** vérification du champ nom de famille
  * si champ vide ou si ne vérifiant pas l expression régulière, affichage message d'erreur
  * si non, aucun affichage
- * @param {*}  
  * @returns 
  */
 function lastNameIsValid() {
-    const lastName = document.querySelector("#lastName").value.trim()
-    const regex = /^[A-Za-z\é\è\ê\-]+$/
-    let errorMessageLastName = document.getElementById("lastNameErrorMsg")
-    errorMessageLastName.textContent = ""
-    if (/*lastName !== "" &&*/ regex.test(lastName)) {
-        return true
+    const lastName = document.querySelector("#lastName").value.trim();
+    const regex = /^[A-Za-zéèêëç-]+$/;
+    let errorMessageLastName = document.getElementById("lastNameErrorMsg");
+    errorMessageLastName.textContent = "";
+    if (regex.test(lastName)) {
+        return true;
     }
-    errorMessageLastName.textContent = "Veuillez remplir le champ avec un nom de famille valide (sans chiffre ni ponctuation autre que -)"
-    return false
+    errorMessageLastName.textContent = "Veuillez remplir le champ avec un nom de famille valide (sans chiffre ni ponctuation autre que -)";
+    return false;
 }
 
 /** vérification du champ adresse
  * si champ vide, affichage message d'erreur
  * si non, aucun affichage
- * @param {*}  
  * @returns 
  */
 function addressIsValid() {
-    const address = document.querySelector("#address").value
-    let addressErrorMsg = document.getElementById("addressErrorMsg")
-    addressErrorMsg.textContent = ""
+    const address = document.querySelector("#address").value;
+    let addressErrorMsg = document.getElementById("addressErrorMsg");
+    addressErrorMsg.textContent = "";
     if (address !== "") {
-        return true
+        return true;
     }
-
-    addressErrorMsg.textContent = "Veuillez remplir le champ avec une adresse valide"
-    return false
-
-
+    addressErrorMsg.textContent = "Veuillez remplir le champ avec une adresse valide";
+    return false;
 }
 
 /** vérification du champ ville
  * si champ vide ou si ne vérifiant pas l expression régulière, affichage message d'erreur
  * si non, aucun affichage
- * @param {*} regex 
  * @returns 
  */
 function cityIsValid() {
-    const city = document.querySelector("#city").value
-    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
-    let cityErrorMsg = document.getElementById("cityErrorMsg")
-    cityErrorMsg.textContent = ""
+    const city = document.querySelector("#city").value;
+    const regex = /^[A-Za-zéèêëç-]+$/;
+    let cityErrorMsg = document.getElementById("cityErrorMsg");
+    cityErrorMsg.textContent = "";
     if (city !== "" && regex.test(city)) {
-        return true
+        return true;
     }
-    cityErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide (sans chiffre ni ponctuation autre que -)"
-    return false
+    cityErrorMsg.textContent = "Veuillez remplir le champ avec un nom de ville valide (sans chiffre ni ponctuation autre que -)";
+    return false;
 }
 
 /** vérification du champ email
  * si champ vide ou si ne vérifiant pas l expression régulière, affichage message d'erreur
- * si non, aucun affichage
- * @param {*} regex 
+ * si non, aucun affichage 
  * @returns 
  */
 function emailIsValid() {
-    const email = document.querySelector("#email").value
-    const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/
-    let emailErrorMsg = document.getElementById("emailErrorMsg")
-    emailErrorMsg.textContent = ""
+    const email = document.querySelector("#email").value;
+    const regex = /^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/;
+    let emailErrorMsg = document.getElementById("emailErrorMsg");
+    emailErrorMsg.textContent = "";
     if (email !== "" && regex.test(email)) {
-        return true
+        return true;
     }
-    emailErrorMsg.textContent = "Veuillez remplir le champ avec une adresse email valide"
-    return false
+    emailErrorMsg.textContent = "Veuillez remplir le champ avec une adresse email valide";
+    return false;
 }
 
 /** vérification de l'ensemble des champs
@@ -551,43 +469,45 @@ function checkInputIsValid() {
     let isValid = true;
 
     if (!firstNameIsValid()) {
-        isValid = false
+        isValid = false;
     }
-
     if (!lastNameIsValid()) {
-        isValid = false
+        isValid = false;
     }
-
     if (!addressIsValid()) {
-        isValid = false
+        isValid = false;
     }
     if (!cityIsValid()) {
-        isValid = false
+        isValid = false;
     }
-
     if (!emailIsValid()) {
-        isValid = false
+        isValid = false;
     }
-    return isValid
+    return isValid;
 }
 
-
-
+/** gestion de l'évènement lié au bouton d'envoi du formulaire
+ * si panier vide, message d'alerte envoyé, pas d'envoi de formulaire et de la commande
+ * si champ du formulaire invalide, pas d'envoi de formulaire et de la commande
+ * sinon envoi du formulaire et de la commande
+ */
 async function manageClicOrderButton(event) {
-    event.preventDefault()
-    const cartArray = getFromCart()
+    event.preventDefault();
+    const cartArray = getFromCart();
     if (cartArray.length === 0) {
-        alert("Votre panier est vide, commande impossible")
-        return
+        alert("Votre panier est vide, commande impossible");
+        return;
     }
     if (!checkInputIsValid()) {
-        return
+        return;
     }
-    await postOrder()
+    await postOrder();
 }
 
+/** ajout d'un évènement au bouton d'envoi de formulaire
+ */
 function registerOrderEvent() {
-    let validateOrderButton = document.getElementById('order')
+    let validateOrderButton = document.getElementById('order');
     validateOrderButton.addEventListener("click", manageClicOrderButton);
 }
 
@@ -595,17 +515,17 @@ function registerOrderEvent() {
  * @returns 
  */
 function getIdsFromLocalStorage() {
-    const cartArray = getFromCart()
-    let products = []
+    const cartArray = getFromCart();
+    let products = [];
     for (let product of cartArray) {
-        products.push(product.productId)
+        products.push(product.productId);
     }
     console.log("articles dans le panier", cartArray)
     console.log("articles dans la commande", products)
-    return products
+    return products;
 }
 
-/** envoi de la requête au back end
+/** définition et envoi de la requête au back end
  */
 async function postOrder() {
     let order = {
@@ -618,40 +538,9 @@ async function postOrder() {
         },
         products: getIdsFromLocalStorage(),
     }
-    console.log(order)
-    //return order
+    console.log(order);
 
-    //Envoi de la requête POST au back-end
-    // fetch("http://localhost:3000/api/products/order", {
-    //     method: "POST",
-    //     body: JSON.stringify(order),
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    // })
-    //     .then((response) => {
-    //         return response.json();
-    //     })
-    //     .then((response) => {
-    //         localStorage.clear();
-    //         window.location.href = `confirmation.html?order=${response.orderId}`;
-    //     })
-    //     .catch((error) => {
-    //         console.log(error);
-    //     })
-
-
-    // try {
-    //     const orderDemo = await new Promise((resolve, reject) => {
-    //         reject({ error: 'server unavaible' });
-    //     })
-    //     console.log(`OrderDemoId: ${data.id}`);
-    // } catch (e) {
-    //     // => Executé si y'a une erreur dans le try {}
-    //     console.log(`Errored: ${e.error}`);
-    // }
-
-    const urlProductsOrder = "http://localhost:3000/api/products/order"
+    const urlProductsOrder = "http://localhost:3000/api/products/order";
 
     try {
         let response = await fetch(urlProductsOrder, {
@@ -664,24 +553,17 @@ async function postOrder() {
 
         if (response.status < 200 || response.status >= 300) {
             console.log(`Server badly replied: ${response.status}`);
-            // => Avertir l'utilisateur
-
+            // Avertir l'utilisateur
             return;
         }
 
         let result = await response.json();
-        // localStorage.clear();
         localStorage.removeItem('cartProduct');
-        // localStorage.setItem('cartProduct', JSON.stringify([]));
         window.location.href = `confirmation.html?order=${result.orderId}`;
     } catch (e) {
         console.log(`Error happened`, e);
     }
 }
 
-//     .catch((error) => {
-//         console.log(error);
-//     })
-
-displayCart()
-registerOrderEvent()
+displayCart();
+registerOrderEvent();

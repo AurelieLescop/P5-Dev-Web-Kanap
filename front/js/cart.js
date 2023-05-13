@@ -1,4 +1,3 @@
-let productId, productColor
 // creation article
 
 /** affichage de l'article
@@ -47,7 +46,7 @@ function createImg(divImg, data /*imageUrl, altTxt, product*/) {
 
     img.setAttribute("src", data.imageUrl)
     img.setAttribute("alt", data.altTxt)
-    
+
     //mis en commentaire console.log(product)
 }
 
@@ -179,7 +178,7 @@ function createDivContentSettingsDelete(divContentSettings) {
  * @param {*} divContentSettingsDelete 
  * @param {*} product 
  */
-function createPDelete(divContentSettingsDelete, product) {
+function createPDelete(divContentSettingsDelete) {
     const pDelete = document.createElement("p")
     const pDeleteContent = document.createTextNode("Supprimer")
     pDelete.appendChild(pDeleteContent)
@@ -287,7 +286,7 @@ async function displayCart() {
     }
 
     // récupération des produits du local storage
-    let productsLoadedInLocalStorage = JSON.parse(localStorage.getItem("cartProduct"));
+    let productsLoadedInLocalStorage = getFromCart();
 
     let totalQty = 0;
     let totalPrice = 0;
@@ -297,8 +296,8 @@ async function displayCart() {
 
         //essai
         let id = product.productId
-        const urlProduct = "http://localhost:3000/api/products/" + id
-        const data = await fetchArticleFromApi(urlProduct)
+
+        const data = await fetchArticleFromApi(`http://localhost:3000/api/products/${id}`)
         /*articleName = data.name
         price = data.price
         color = product.color
@@ -325,7 +324,6 @@ async function displayCart() {
     registerEvent()
 }
 
-displayCart()
 
 
 
@@ -342,6 +340,11 @@ function getFromCart() {
         return []
     }
     return JSON.parse(cartContent)
+}
+
+function getFromCartBuggy() {
+    let cartContent = JSON.parse(localStorage.getItem("cartProduct"));
+    return cartContent;
 }
 
 /** suppression produit du panier
@@ -473,11 +476,11 @@ function firstNameIsValid() {
  * @returns 
  */
 function lastNameIsValid() {
-    const lastName = document.querySelector("#lastName").value
-    const regex = /^[A-Z][A-Za-z\é\è\ê\-]+$/
+    const lastName = document.querySelector("#lastName").value.trim()
+    const regex = /^[A-Za-z\é\è\ê\-]+$/
     let errorMessageLastName = document.getElementById("lastNameErrorMsg")
     errorMessageLastName.textContent = ""
-    if (lastName !== "" && regex.test(lastName)) {
+    if (/*lastName !== "" &&*/ regex.test(lastName)) {
         return true
     }
     errorMessageLastName.textContent = "Veuillez remplir le champ avec un nom de famille valide (sans chiffre ni ponctuation autre que -)"
@@ -569,9 +572,8 @@ function checkInputIsValid() {
 }
 
 
-let validateOrderButton = document.getElementById('order')
 
-validateOrderButton.addEventListener("click", async (event) => {
+async function manageClicOrderButton(event) {
     event.preventDefault()
     const cartArray = getFromCart()
     if (cartArray.length === 0) {
@@ -582,7 +584,12 @@ validateOrderButton.addEventListener("click", async (event) => {
         return
     }
     await postOrder()
-});
+}
+
+function registerOrderEvent() {
+    let validateOrderButton = document.getElementById('order')
+    validateOrderButton.addEventListener("click", manageClicOrderButton);
+}
 
 /** permet de récupérer les identifiants des produits du panier sous forme de tableau
  * @returns 
@@ -634,21 +641,47 @@ async function postOrder() {
     //     })
 
 
-
+    // try {
+    //     const orderDemo = await new Promise((resolve, reject) => {
+    //         reject({ error: 'server unavaible' });
+    //     })
+    //     console.log(`OrderDemoId: ${data.id}`);
+    // } catch (e) {
+    //     // => Executé si y'a une erreur dans le try {}
+    //     console.log(`Errored: ${e.error}`);
+    // }
 
     const urlProductsOrder = "http://localhost:3000/api/products/order"
 
-    let response = await fetch(urlProductsOrder, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(order),
+    try {
+        let response = await fetch(urlProductsOrder, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(order),
+        });
+
+        if (response.status < 200 || response.status >= 300) {
+            console.log(`Server badly replied: ${response.status}`);
+            // => Avertir l'utilisateur
+
+            return;
+        }
+
+        let result = await response.json();
+        // localStorage.clear();
+        localStorage.removeItem('cartProduct');
+        // localStorage.setItem('cartProduct', JSON.stringify([]));
+        window.location.href = `confirmation.html?order=${result.orderId}`;
+    } catch (e) {
+        console.log(`Error happened`, e);
     }
-    );
-    let result = await response.json();
-    localStorage.clear();
-    window.location.href = `confirmation.html?order=${result.orderId}`;
 }
 
+//     .catch((error) => {
+//         console.log(error);
+//     })
 
+displayCart()
+registerOrderEvent()

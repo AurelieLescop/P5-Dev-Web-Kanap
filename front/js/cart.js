@@ -197,22 +197,23 @@ function displayCartElement(product, data) {
 /** affichage total quantité du panier
  * @param {*} totalCartQuantity correspondant à la quantité totale
  */
-function integrateTotalQuantity(totalCartQuantity) {
+function displayTotalQuantity(totalCartQuantity) {
     document.getElementById('totalQuantity').textContent = totalCartQuantity;
 }
 
 /** affichage total prix du panier
  * @param {*} totalCartPrice correspondant au prix total
  */
-function integrateTotalPrice(totalCartPrice) {
+function displayTotalPrice(totalCartPrice) {
     document.getElementById('totalPrice').textContent = totalCartPrice;
 }
 
 /** récupération des données de l'API
- * @param {*} urlProduct correspondant à l'URL de l'API
+ * @param {*} id correspondant à l'id du produit
  * @returns les données relatives au produit
 */
-async function fetchArticleFromApi(urlProduct) {
+async function fetchArticleByIdFromApi(id) {
+    const urlProduct = `http://localhost:3000/api/products/${id}`;
     const res = await fetch(urlProduct);
     const data = await res.json();
     return data;
@@ -229,7 +230,17 @@ async function displayCart() {
     }
 
     // récupération des produits du local storage
-    const productsLoadedInLocalStorage = getFromCart();
+    const productsLoadedInLocalStorage = getCartFromLocalStorage();
+
+    productsLoadedInLocalStorage.sort((a, b) => {
+        if (a.productId > b.productId) {
+            return 1;
+        }
+        if (a.productId < b.productId) {
+            return -1;
+        }
+        return 0;
+    });
 
     let totalQty = 0;
     let totalPrice = 0;
@@ -237,27 +248,27 @@ async function displayCart() {
     // pour chaque produit du local storage
     for (const product of productsLoadedInLocalStorage) {
         const id = product.productId;
-        const data = await fetchArticleFromApi(`http://localhost:3000/api/products/${id}`);
+        const data = await fetchArticleByIdFromApi(id);
 
-        // affichage des éléments dans la page html
+        // affichage de l'élément dans la page html
         displayCartElement(product, data);
 
         totalQty += Number(product.quantity);
         totalPrice += Number(product.quantity) * Number(data.price);
     }
-    integrateTotalQuantity(totalQty);
-    integrateTotalPrice(totalPrice);
+    displayTotalQuantity(totalQty);
+    displayTotalPrice(totalPrice);
     registerEvent();
 }
 
 // -------------- GESTION DU PANIER
 // Sauvegarde les données dans le panier
-function saveCart(cartContent) {
+function saveCartToLocalStorage(cartContent) {
     localStorage.setItem("cartProduct", JSON.stringify(cartContent));
 }
 
 // Récupération des données du panier
-function getFromCart() {
+function getCartFromLocalStorage() {
     const cartContent = localStorage.getItem("cartProduct");
     if (cartContent == null) {
         return [];
@@ -271,11 +282,11 @@ function getFromCart() {
  */
 function removeFromCart(id, color) {
     // récupération du panier
-    let cart = getFromCart();
+    let cart = getCartFromLocalStorage();
     //permet d'afficher le tableau dépourvu du produit ayant le même identifiant et la même couleur
     cart = cart.filter((p) => !(p.productId === id && p.color === color));
     //enregistrement du nouveau panier
-    saveCart(cart);
+    saveCartToLocalStorage(cart);
 }
 
 /** gestion de l'évènement supprimer
@@ -312,7 +323,7 @@ function registerEvent() {
  * @returns
  */
 function modifyQuantity(newQuantity, id, color) {
-    const cartArray = getFromCart();
+    const cartArray = getCartFromLocalStorage();
     //si index non trouvé, il mettra -1
     const index = cartArray.findIndex((p) => p.productId === id && p.color === color);
     if (index > -1) {
@@ -332,17 +343,17 @@ function modifyQuantity(newQuantity, id, color) {
 function manageQuantityChange(event, id, color) {
     if ((Number(event.target.value) <= 0) || (Number(event.target.value) > 100)) {
         alert("Veuillez choisir une quantité comprise entre 1 et 100");
-        const cartArray = getFromCart();
+        const cartArray = getCartFromLocalStorage();
         const index = cartArray.findIndex((p) => p.productId === id && p.color === color);
         if (index > -1) {
             //affichage et prise en compte de l'ancienne quantité
             event.target.value = cartArray[index].quantity;
         }
-        saveCart(cartArray);
+        saveCartToLocalStorage(cartArray);
         displayCart();
     } else {
         const cartArray = modifyQuantity(Number(event.target.value), event.target.closest("article").dataset.id, event.target.closest("article").dataset.color);
-        saveCart(cartArray);
+        saveCartToLocalStorage(cartArray);
         displayCart();
     }
 }
@@ -354,7 +365,7 @@ function manageQuantityChange(event, id, color) {
  * si non, aucun affichage
  * @returns
  */
-function firstNameIsValid() {
+function isFirstNameValid() {
     const firstName = document.querySelector("#firstName").value;
     const regex = /^[A-Za-zéèêëç-]+$/;
     const errorMessageFirstName = document.getElementById("firstNameErrorMsg");
@@ -371,7 +382,7 @@ function firstNameIsValid() {
  * si non, aucun affichage
  * @returns
  */
-function lastNameIsValid() {
+function isLastNameValid() {
     const lastName = document.querySelector("#lastName").value.trim();
     const regex = /^[A-Za-zéèêëç-]+$/;
     const errorMessageLastName = document.getElementById("lastNameErrorMsg");
@@ -388,7 +399,7 @@ function lastNameIsValid() {
  * si non, aucun affichage
  * @returns
  */
-function addressIsValid() {
+function isAddressValid() {
     const address = document.querySelector("#address").value;
     const addressErrorMsg = document.getElementById("addressErrorMsg");
     addressErrorMsg.textContent = "";
@@ -404,7 +415,7 @@ function addressIsValid() {
  * si non, aucun affichage
  * @returns
  */
-function cityIsValid() {
+function isCityValid() {
     const city = document.querySelector("#city").value;
     const regex = /^[A-Za-zéèêëç-]+$/;
     const cityErrorMsg = document.getElementById("cityErrorMsg");
@@ -421,7 +432,7 @@ function cityIsValid() {
  * si non, aucun affichage
  * @returns
  */
-function emailIsValid() {
+function isEmailValid() {
     const email = document.querySelector("#email").value;
     const regex = /^[\w.=-]+@[\w.-]+\.[\w]{2,3}$/;
     const emailErrorMsg = document.getElementById("emailErrorMsg");
@@ -437,22 +448,22 @@ function emailIsValid() {
  * si tous les champs sont valides, renvoit true
  * @returns boolean
  */
-function checkInputIsValid() {
+function isInputValid() {
     let isValid = true;
 
-    if (!firstNameIsValid()) {
+    if (!isFirstNameValid()) {
         isValid = false;
     }
-    if (!lastNameIsValid()) {
+    if (!isLastNameValid()) {
         isValid = false;
     }
-    if (!addressIsValid()) {
+    if (!isAddressValid()) {
         isValid = false;
     }
-    if (!cityIsValid()) {
+    if (!isCityValid()) {
         isValid = false;
     }
-    if (!emailIsValid()) {
+    if (!isEmailValid()) {
         isValid = false;
     }
     return isValid;
@@ -465,12 +476,12 @@ function checkInputIsValid() {
  */
 async function manageClicOrderButton(event) {
     event.preventDefault();
-    const cartArray = getFromCart();
+    const cartArray = getCartFromLocalStorage();
     if (cartArray.length === 0) {
         alert("Votre panier est vide, commande impossible");
         return;
     }
-    if (!checkInputIsValid()) {
+    if (!isInputValid()) {
         return;
     }
     await postOrder();
@@ -486,8 +497,8 @@ function registerOrderEvent() {
 /** permet de récupérer les identifiants des produits du panier sous forme de tableau
  * @returns
  */
-function getIdsFromLocalStorage() {
-    const cartArray = getFromCart();
+function getIdsFromCart() {
+    const cartArray = getCartFromLocalStorage();
     const products = [];
     for (const product of cartArray) {
         products.push(product.productId);
@@ -506,7 +517,7 @@ async function postOrder() {
             city: document.querySelector("#city").value,
             email: document.querySelector("#email").value,
         },
-        products: getIdsFromLocalStorage(),
+        products: getIdsFromCart(),
     };
 
     const urlProductsOrder = "http://localhost:3000/api/products/order";

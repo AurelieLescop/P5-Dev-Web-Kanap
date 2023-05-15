@@ -172,7 +172,7 @@ function addToCart(product) {
     return;
   }
   // si le produit existe dans le panier mais que l'ajout de cette quantité a pour conséquence une quantité totale > 100, on envoit une alerte
-  if (Number(foundProduct.quantity + product.quantity) >= 100) {
+  if (Number(foundProduct.quantity + product.quantity) > 100) {
     alert("Vous ne pouvez pas commander plus de 100 canapés identiques");
     return;
   }
